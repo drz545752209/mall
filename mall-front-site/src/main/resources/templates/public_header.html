@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>公用头部</title>
+<link href="/css/header.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div th:fragment="header">
+
+		<div id="header_div1">
+
+			官方网站：<a href="" style="margin-right: 50px">联系我们</a>
+			<th:text th:if="${session.username}!=null">欢迎： [[${session.username}]]></th:text>
+			<a th:if="${session.username}!=null" href="/signout"
+				style="margin-right: 50px">注销</a> <a
+				th:if="${session.username}==null" href="/login.html"
+				style="margin-left: 50px;">[登录]</a> <a
+				th:if="${session.username}==null" href="/register.html">[免费注册]</a>
+
+			<a href="/shopcar">[我的购物车]</a> <a href="/login.html">[我的订单]</a> <a
+				href="">[设为首页]</a> <a href="">[加入收藏]</a>
+		</div>
+
+		<div style="text-align: center;">
+			<img alt="图片加载失败" src="/img/logo.gif"> <img alt="图片加载失败"
+				src="/img/banner.gif">
+		</div>
+
+		<!-- Nav tabs -->
+		<div id="header_id2">
+			<ul class="nav nav-tabs" role="tablist" style="margin-left: 200px;">
+				<li role="presentation"><a class="header_a" href="/index">首页</a></li>
+				<li role="presentation"><a class="header_a" href="/index/1">数码相机</a></li>
+				<li role="presentation"><a class="header_a" href="/index/2">平板电脑</a></li>
+				<li role="presentation"><a class="header_a" href="/index/3">笔记本电脑</a></li>
+				<li role="presentation"><a class="header_a" href="/index/4">智能手表</a></li>
+				<li role="presentation"><a class="header_a" href="/index/5">智能冰箱</a></li>
+				<li role="presentation"><a class="header_a" href="/index/6">智能空调</a></li>
+				<li role="presentation"><a class="header_a" href="/index/7">智能电视</a></li>
+				<li role="presentation"><a class="header_a" href="/index/8">鼠标</a></li>
+				<li role="presentation"><a class="header_a" href="/index/1">显示器</a></li>
+				<li role="presentation"><a class="header_a" href="/index/2">键盘</a></li>
+				<li role="presentation"><a class="header_a" href="/index/3">主机</a></li>
+				<li role="presentation"><a class="header_a" href="/index/4">显卡</a></li>
+				<li role="presentation"><a class="header_a" href="/index/5">主板</a></li>
+			</ul>
+		</div>
+
+
+	</div>
+
+
+</body>
+</html>

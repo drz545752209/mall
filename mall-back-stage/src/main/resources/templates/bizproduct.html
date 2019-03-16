@@ -1,0 +1,173 @@
+<!DOCTYPE>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>商品管理</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/product.js"></script>
+
+</head>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- 添加商品模态框（Modal） -->
+<div class="modal fade" id="insert_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="insertModelLabel">添加商品</h4>
+            </div>
+            <div class="modal-body">
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <label>商品名</label><input type="text" class="form-control" name="productName" />
+                    </div>
+                    <div class="form-group">
+                        <label>店铺名</label><input type="text" class="form-control" name="storeName" />
+                    </div>
+                    <div class="form-group">
+                       <div>
+                           <table>
+                               <tr th:each="productImg:${productImgPaths}">
+                                   <img th:src="productImg"></img>
+                               </tr>
+                           </table>
+                           <label>商品图片</label>	<input class="filePrew" type="file" size="3"
+                                                         id="productImgs"  onchange="toAddImgs('productImgs','/product/upFile')" multiple />
+                       </div>
+                    </div>
+                    <div class="form-group">
+                        <label>商品类型</label><input type="text" class="form-control" name="type" />
+                    </div>
+                    <div class="form-group">
+                        <label>商品描述</label><input type="text" class="form-control" name="description" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">添加商品</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 修改商品模态框（Modal） -->
+<div class="modal fade" id="modify_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="modifyModalLabel">修改商品</h4>
+            </div>
+            <div class="modal-body">
+                <form class="navbar-form navbar-left" role="search" th:action="@{'/product/save'}">
+                    <div class="form-group">
+                        <label>商品名</label><input type="text" class="form-control" id="saveProductName" th:name="productName"/>
+                    </div>
+                    <div class="form-group">
+                        <label>店铺名</label><input type="text" class="form-control" id="saveStoreName" th:name="storeName"/>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <table>
+                                <tr th:each="productImg:${productImgPaths}">
+                                    <img th:src="productImg"></img>
+                                </tr>
+                            </table>
+                            <label>商品图片</label>	<input class="filePrew" type="file" size="3"
+                                                          name="productImgs"  onchange="toAddImgs('productImgs','/product/upFile')" multiple />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>商品类型</label><input type="text" class="form-control" id="saveType" th:name="type"/>
+                    </div>
+                    <div class="form-group">
+                        <label>商品描述</label><input type="text" class="form-control" id="saveDescription" th:name="description"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" >修改商品信息</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <button type="button" class="btn btn-default btn-primary" th:onclick="'upShelf();'">上架</button>
+            <button type="button" class="btn btn-default btn-primary" th:onclick="'downShelf();'">下架</button>
+            <button type="button" class="btn btn-default btn-danger" th:onclick="'batchDelete();'">删除</button>
+            <button type="button" class="btn btn-default btn-danger" th:onclick="'create();'">创建</button>
+            <div class="dropdown">
+            <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
+                    data-toggle="dropdown">
+                商品类型
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" th:each="productType:${productTypeList}">
+                <li role="presentation">
+                    <a role="menuitem" tabindex="-1" th:href="@{'/product/productList?'+${productType.get('type')}}" th:text="${productType.get('type')}"></a>
+                </li>
+            </ul>
+            </div>
+            <div class="dropdown">
+                <button type="button" class="btn dropdown-toggle" id="dropdownMenu2"
+                        data-toggle="dropdown">
+                    上下架
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                    <li role="presentation">
+                        <a role="menuitem" tabindex="-1" th:href="@{'/product/productList/filterByShow?isShow=0'}">过滤上架</a>
+                        <a role="menuitem" tabindex="-1" th:href="@{'/product/productList/filterByShow?isShow=1'}">过滤下架</a>
+                    </li>
+                </ul>
+            </div>
+
+            <table class="table table-bordered" id="product-table">
+                <thead>
+                <tr>
+                    <th>
+                        <div class="checkbox">
+                            <input type="checkbox" id="select-all" onclick="checkOrCancelAll()">
+                        </div>
+                    </th>
+                    <th>商品图片</th>
+                    <th>商品名称</th>
+                    <th>商品类型</th>
+                    <th>商品价格</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product: ${productList}">
+                    <td>
+                        <div class="checkbox">
+                            <input type="checkbox" th:id="${product.id}" name="product-name" >
+                        </div>
+                    </td>
+                    <td th:background="${product.img}"></td>
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.type}"></td>
+                    <td th:text="${product.price}"></td>
+                    <td>
+                        <button type="button" class="btn btn-default btn-warning" th:onclick="'save('+${product.id}+')'">修改</button>
+                        <button type="button" class="btn btn-default btn-danger" th:onclick="'del('${product.id}')'">删除</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</html>

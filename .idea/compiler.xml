@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="mall-back-stage" />
+        <module name="mallbackstageapi" />
+        <module name="mallfrontsite" />
+        <module name="mallfrontsiteapi" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="mall" target="1.8" />
+      <module name="mall-back-stage" target="1.8" />
+      <module name="mallbackstageapi" target="1.8" />
+      <module name="mallfrontsite" target="1.8" />
+      <module name="mallfrontsiteapi" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

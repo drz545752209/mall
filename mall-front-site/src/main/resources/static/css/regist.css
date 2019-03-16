@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+#userInfo{
+	margin-top:50px;
+	font: 20px 微软雅黑;
+	color: #c26b0a;
+	text-align:center;
+	border-bottom: 2px solid #ffcc66;
+}

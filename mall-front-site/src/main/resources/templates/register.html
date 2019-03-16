@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>注册页</title>
+<!-- Bootstrap -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<!-- 自定义css -->
+<link href="/css/regist.css" rel="stylesheet">
+<link href="/css/header.css" rel="stylesheet">
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery,所以必须放在前边) -->
+<script th:src="@{/webjars/jquery/3.3.1-1/jquery.min.js} "></script>
+
+<!-- 前端校验 -->
+<script>
+$(function() {
+  //监听焦点移除时执行func
+  $("#username").blur(function () {
+      //邮箱正则
+      var reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+      //合法
+      if (reg.test($("#username").val())) {
+          //继续发ajax,后端校验用户名是否已被使用
+          var jsonData = {username: $("#username").val()};  //封装ajax发送的json数据
+          $.ajax({
+              url: "/check_username",
+              type: "get",
+              data: jsonData,    //get请求时相当于"?"后边带参数
+              success: function (result) {
+                  //若校验结果为false则用户名已被使用
+                  if (result == "false") {
+                      $("#user_validate").text("用户名已被使用").css("color", "red");
+                      //禁用提交按钮
+                      $("#btn").attr("disabled", true);
+                  } else {  //否则可用
+                      $("#user_validate").text("用户名可用").css("color", "blue");
+                  }
+              }
+          });
+
+
+      } else { //不合法
+          $("#user_validate").text("请输入正确的邮箱地址").css("color", "red");
+          //禁用提交按钮
+          $("#btn").attr("disabled", true);
+      }
+  });
+
+  //若确认密码一致
+  $("#confirm_passwd").blur(function () {
+      if ($("#password").val() == $("#confirm_passwd").val()) {
+          //清除不一致提示
+          $("#confirm_passwd_validate").text("");
+          //若用户名为空或空格则使按钮不可用
+          if ($.trim($("#username").val()) == "") {
+              $("#user_validate").text("用户名不能为空").css("color", "red");
+              $("#btn").attr("disabled", true);
+          }
+          //若用户名也可用则使按钮可用,否则不使按钮可用
+          if ($("#user_validate").text() == "用户名可用" && $("#passwd_validate").text() == "") {
+              $("#btn").attr("disabled", false);
+          }
+      } else {//密码不一致
+          $("#confirm_passwd_validate").text("输入密码不一致").css("color", "red");
+          //禁用提交按钮
+          $("#btn").attr("disabled", true);
+      }
+  });
+
+  //再次检测密码是否一致(防止校验正确后再次修改密码)
+  $("#password").blur(function () {
+      //密码要求的6~16位数的正则表达式
+      var reg = /^[a-zA-Z0-9]{6,16}$/;
+      //若密码不符合要求的6~16位数
+      if (!reg.test($("#password").val())) {
+          $("#passwd_validate").text("请输入6~16位数密码").css("color", "red");
+          //禁用提交按钮
+          $("#btn").attr("disabled", true);
+      } else {
+          //清除不一致提示
+          $("#passwd_validate").text("");
+      }
+
+      //若还没输入确认密码不检测
+      if ($("#confirm_passwd").val() != "") {
+          if ($("#password").val() != $("#confirm_passwd").val()) {
+              $("#confirm_passwd_validate").text("输入密码不一致").css("color", "red");
+              //禁用提交按钮
+              $("#btn").attr("disabled", true);
+              //因为确认密码后再解除按钮禁用，所以此处不需要
+          } else {
+              //清除不一致提示
+              $("#confirm_passwd_validate").text("");
+              //若用户名为空或空格则使按钮不可用
+              if ($.trim($("#username").val()) == "") {
+                  $("#user_validate").text("用户名不能为空").css("color", "red");
+                  $("#btn").attr("disabled", true);
+              }
+              //若用户名也可用则使按钮可用,否则不使按钮可用
+              if ($("#user_validate").text() == "用户名可用" && $("#passwd_validate").text() == "") {
+                  $("#btn").attr("disabled", false);
+              }
+          }
+      }
+  });
+
+});
+</script>
+</head>
+
+<body>
+
+    <!-- 引入公用头部 -->
+    <div th:replace="public_header :: header"></div>
+
+<div id="userInfo" >个人信息</div>
+
+	<div class="form-horizontal" style="text-align: center;">
+		<form class="form-signin"  th:action="@{/register}" method="post">
+		  	<div class="form-group" style="margin: 5px">
+				<label for="inputEmail3" class="col-sm-3 control-label" style="text-align: center;">用户名</label>
+				<div class="col-sm-12">
+					<input type="text"
+						class="form-control" id="username" name="username" placeholder="请输入邮箱" >
+					<p id="user_validate" ></p>
+				</div>
+			 </div>
+
+			<div class="form-group" style="margin: 5px">
+				<label for="inputPassword3" class="col-sm-3 control-label" style="text-align: center;">密码</label>
+				<div class="col-sm-12">
+					<input type="password"
+						class="form-control" name="password" id="password"
+						placeholder="请输入密码" >
+					<p id="passwd_validate" ></p>
+				</div>
+			</div>
+
+			<div class="form-group" style="margin: 5px">
+				<label for="inputPassword3" class="col-sm-4 control-label" style="text-align: center;">确认密码</label>
+				<div class="col-sm-12">
+					<input type="password"
+						class="form-control" name="confirm_passwd" id="confirm_passwd"
+						placeholder="请再次输入密码" >
+					<p id="confirm_passwd_validate"></p>
+				</div>
+			</div>
+
+			<div class="form-group" style="margin: 5px">
+                <label for="inputPassword3" class="col-sm-4 control-label" style="text-align: center;">验证码</label>
+                <div class="col-sm-12">
+                    <!--添验证码的文本-->
+                    <input type="text" name="verificationCode"  placeholder="验证码" class="form-control">
+                    <!--验证码图片-->
+                    <img alt="点击更换验证码" title="点击更换验证码" onclick = "this.src='/defaultKaptcha?d='+new Date()*1"
+                        src="/defaultKaptcha" />
+                    <p th:if="${msg!=null}" style="color: red;">[[${msg}]]</p>
+                </div>
+            </div>
+
+			<div class="form-group col-sm-6" style="margin-left: 70px">
+				<button id="btn" class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+			</div>
+		</form>
+	</div>
+
+    <!-- 引入公用尾部 -->
+    <div th:replace="public_footer::#public_footer"></div>
+
+
+
+</body>
+</html>

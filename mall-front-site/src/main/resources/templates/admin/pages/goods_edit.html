@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Shop Admin</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Add custom CSS here -->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+    <!-- Page Specific CSS -->
+    <link rel="stylesheet" href="/css/morris-0.4.3.min.css">
+  </head>
+
+  <body>
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <div th:replace="/admin/pages/blank-page :: sidebar"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+
+                    <!--需要区分是员工修改还是添加；,不能用th:method="post"!!!!-->
+                    <form th:action="@{/admin/editGoods}" method="post">
+                        <!--
+                            put和delete方式请求的方法:
+                            1、SpringMVC中配置HiddenHttpMethodFilter;（SpringBoot自动配置好的）
+                            2、页面创建一个post表单
+                            3、创建一个input项，name="_method";value=""就是我们指定的表单请求方式
+                        -->
+
+                        <!--需要区分是员工修改还是添加,emp=null说明是添加否则修改-->
+                            <!--指定put请求方式-->
+                        <input type="hidden" name="_method" value="put" th:if="${shopInfo!=null}">
+
+                        <!--自动注入容器中对象的id值,覆盖保存时需要id-->
+                        <input type="hidden" name="id" th:value="${shopInfo.id}" th:if="${shopInfo!=null}">
+
+                        <div class="form-group">
+                            <label>商品名称</label>
+                            <!--用value属性回显数据,用${emp!=null}?来区分是添加员工还是编辑员工信息-->
+                            <input name="lastName" type="text" class="form-control" placeholder="商品名称" th:value="${shopInfo!=null}?${shopInfo.spName}">
+                        </div>
+                        <div class="form-group">
+                            <label>商品信息</label>
+                            <input name="email" type="text" class="form-control" placeholder="商品信息" th:value="${shopInfo!=null}?${shopInfo.spInfo}" >
+                        </div>
+                        <div class="form-group">
+                            <label>商品分类</label>
+                            <!--提交的是分类的id-->
+                            <select class="form-control" name="department.id">
+                                <!--text:下拉列表item中显示的文本，value:选中后的值-->
+                                <option th:each="shopType:${shopTypes}" th:text="${shopType.typeName}" th:value="${shopType.id}"
+                                    th:selected="${shopInfo!=null}?${shopType.id==shopInfo.spType}"
+                                ></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>oldPrice</label>
+                            <input name="oldPrice" type="text" class="form-control" placeholder="原价" th:value="${shopInfo!=null}?${shopInfo.oldPrice}" >
+                        </div>
+                        <div class="form-group">
+                            <label>newPrice</label>
+                            <input name="newPrice" type="text" class="form-control" placeholder="折后价" th:value="${shopInfo!=null}?${shopInfo.newPrice}" >
+                        </div>
+                        <div class="form-group">
+                            <label>图片路径</label>
+                            <input name="imgPath" type="text" class="form-control" placeholder="图片路径" th:value="${shopInfo!=null}?${shopInfo.spImg}" >
+                        </div>
+                        <button type="submit" class="btn btn-primary" th:text="${shopInfo==null?'添加':'修改'}">添加</button>
+                    </form>
+                </main>
+            </div>
+    <!-- JavaScript -->
+    <script src="/js/jquery-1.10.2.js"></script>
+    <script src="/js/bootstrap.js"></script>
+
+    <!-- Page Specific Plugins -->    <script src="js/raphael-min.js"></script>
+    <script src="/js/morris-0.4.3.min.js"></script>
+    <script src="/js/morris/chart-data-morris.js"></script>
+    <script src="/js/tablesorter/jquery.tablesorter.js"></script>
+    <script src="/js/tablesorter/tables.js"></script>
+
+  </body>
+</html>

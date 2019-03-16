@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Shop Admin</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <!-- Add custom CSS here -->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+    <!-- Page Specific CSS -->
+    <link rel="stylesheet" href="/css/morris-0.4.3.min.css">
+  </head>
+
+  <body>
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <div th:replace="/admin/pages/blank-page :: sidebar"></div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#shopAddModal">
+                      添加员工
+                    </button>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                            <tr>
+                                <th>商品名称</th>
+                                <th>商品信息</th>
+                                <th>oldPrice</th>
+                                <th>newPrice</th>
+                                <th>图片路径</th>
+                                <th>商品分类id</th>
+                                <th>operation</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="shopInfo:${shopInfos}">
+                                <td th:text="${shopInfo.spName}"></td>
+                                <td>[[${shopInfo.spInfo}]]</td>
+                                <td th:text="${shopInfo.oldPrice}"></td>
+                                <td th:text="${shopInfo.newPrice}"></td>
+                                <td th:text="${shopInfo.spImg}"></td>
+                                <td th:text="${shopInfo.spType}"></td>
+                                <td>
+                                    <a type="button" class="btn btn-primary" th:href="@{/admin/editGoods(shopInfoId)}+'='+${shopInfo.id}" >编辑</a>
+                                    <!--type="submit"提交表单按钮,通过js控制提交<main>外的表单-->
+                                    <a th:href="@{/admin/delGoods(shopInfoId)}+'='+${shopInfo.id}" class="btn btn-danger deleteBtn">删除</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
+
+    <!--引入模态框-->
+    <div th:fragment="addgoods_mtk" class="modal fade" id="shopAddModal" tabindex="-1" role="dialog"
+        		aria-labelledby="myModalLabel">
+        		<div class="modal-dialog" role="document">
+        			<div class="modal-content">
+        				<div class="modal-header">
+        					<button type="button" class="close" data-dismiss="modal"
+        						aria-label="Close">
+        						<span aria-hidden="true">&times;</span>
+        					</button>
+        					<h4 class="modal-title" id="myModalLabel">新增商品</h4>
+        				</div>
+        				<div class="modal-body">
+
+        					<!-- bootstrap全局css样式的水平表单,
+        						 SpringMVC提交的表单提交时会自动封装成对象,要求的表单的name与JavaBean的属性名一样 -->
+        					<form class="form-horizontal" method="post" action="/admin/addGoods" id="shop_add_form" enctype="multipart/form-data">
+        						<div class="form-group">
+        							<label class="col-sm-2 control-label">shopName</label>
+        							<div class="col-sm-10">
+        								<input type="text" name="shopName" class="form-control"
+        									id="shopName" placeholder="商品名称">
+        									<!-- 增加输入栏的底部输入提示 -->
+        									<span class="help-block"></span>
+        							</div>
+        						</div>
+        						<!-- placeholder：示例 -->
+        						<div class="form-group">
+        							<label class="col-sm-2 control-label">shopDesc</label>
+        							<div class="col-sm-10">
+        								<input type="text" name="shopDesc" class="form-control"
+        									id="shopDesc" placeholder="商品描述">
+        									<!-- 增加输入栏的底部输入提示 -->
+        									<span class="help-block"></span>
+        							</div>
+        						</div>
+        						<div class="form-group">
+                                    <label class="col-sm-2 control-label">shopNum</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" name="shopNum" class="form-control"
+                                            id="shopNum" placeholder="商品库存">
+                                        <!-- 增加输入栏的底部输入提示 -->
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+        						<div class="form-group">
+        							<label class="col-sm-2 control-label">shopCategory</label>
+        							<div class="col-sm-4">
+        								<!-- 把dId属性值封装到对象中到数据库查询 -->
+        								<select class="form-control" name="shopcategory" id="shopcategory">
+        								    <option th:each="shopType:${shopTypes}" th:value="${shopType.id}" >[[${shopType.typeName}]]</option>
+        								</select>
+        							</div>
+        						</div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">oldPrice</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" name="oldPrice" class="form-control"
+                                            id="oldPrice" placeholder="原价">
+                                        <!-- 增加输入栏的底部输入提示 -->
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <label class="col-sm-2 control-label">newPrice</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" name="newPrice" class="form-control"
+                                            id="newPrice" placeholder="折后价">
+                                        <!-- 增加输入栏的底部输入提示 -->
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+        							<label class="col-sm-2 control-label">thumbnail</label>
+        							<input id="lefile" name="imgFile" type="file" style="display:none">
+                                    <div class="input-append">
+                                    	<input id="photoCover" class="input-large" type="text" style="height:30px;" placeholder="缩略图...">
+                                    	<a class="btn" onclick="$('input[id=lefile]').click();">Browse</a>
+                                    	<!-- 增加输入栏的底部输入提示 -->
+                                        <span class="help-block"></span>
+                                    </div>
+        						</div>
+
+                                 <div class="modal-footer">
+                                    <a type="button" href="/admin/main" class="btn btn-default" data-dismiss="modal">取消</a>
+                                    <button type="submit" class="btn btn-primary" id="emp_save_btn">确定</button>
+        				        </div>
+        					</form>
+        				</div>
+
+        			</div>
+        		</div>
+        	</div>
+     </div>
+    <!-- JavaScript -->
+    <script src="/js/jquery-1.10.2.js"></script>
+    <script src="/js/bootstrap.js"></script>
+
+    <!-- Page Specific Plugins -->    <script src="js/raphael-min.js"></script>
+    <script src="/js/morris-0.4.3.min.js"></script>
+    <script src="/js/morris/chart-data-morris.js"></script>
+    <script src="/js/tablesorter/jquery.tablesorter.js"></script>
+    <script src="/js/tablesorter/tables.js"></script>
+
+    <script type="text/javascript">
+        $('input[id=lefile]').change(function() {
+        $('#photoCover').val($(this).val());
+        });
+    </script>
+
+  </body>
+</html>

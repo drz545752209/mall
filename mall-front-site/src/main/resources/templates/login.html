@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>购物商城-登录页面</title>
+		<!-- login.css作用于登录的CSS -->
+		<link rel="stylesheet" type="text/css" href="/css/login.css"/>
+
+	 	<script type="text/javascript" src="/js/jquery.min.js"></script>
+		<!-- 自定义样式 -->
+		<link href="/css/header.css" rel="stylesheet">
+		<!-- Bootstrap -->
+		<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+
+<body>
+
+    <!-- 引入公用头部 -->
+    <div th:replace="public_header :: header"></div>
+
+
+    <form name="loginform" method="post" action="/user/login" id="loginform" >
+		<br />
+		<div class="login_main" style="background: url(/img/login_bg.jpg) no-repeat center 0;">
+			<div class="login_panel">
+				<!--登录框开始-->
+				<div class="right_panel">
+					<div class="login_frame_border">
+						<div class="login_frame">
+							<div class="login_title">
+								<font color="red"></font>还不是商城用户？&nbsp;&nbsp;<a href="/register">立即注册</a>
+							</div>
+							<br>
+
+							<p th:if="${msg!=null}" style="color: red;text-align: center;">
+							    [[${msg}]]
+							</p>
+
+
+							<div class="login_frist clearfix" id="user_div_name">
+								<label>登录名</label>
+								<span class="login_input">
+									<input name="username" placeholder="请输入邮箱地址"
+										type="text" maxlength="40" id="loginName" class="tip"/>
+								</span>
+							</div>
+							<div class="clearfix" id="password_div">
+								<label>密&nbsp;&nbsp;码</label>
+								<span class="login_input" >
+									<input name="password" placeholder="请输入6-16位密码" class="focus"
+										type="password" maxlength="20" id="password" />
+								</span>
+							</div>
+
+							<div class="login_btn" id="submit_signin_div">
+								<button id="btnSignCheck"
+								class="btn btn-lg btn-primary btn-block"
+
+								type="submit" style="width: 80px; height: 40px; float: left;">登录</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!--登录框结束-->
+
+
+    <!-- 引入公用尾部 -->
+    <div th:replace="public_footer::#public_footer"></div>
+
+
+<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+<script src="/js/jquery.min.js" type="text/javascript" />
+
+   <script type="text/javascript">
+   			if (parent.window.location != window.location){
+   				parent.window.location = window.location;
+   			}
+
+   			//在页面完成加载时调用
+   			window.onload = function(){
+   				 document.getElementById("loginName").focus();
+   				document.onkeydown = function(){
+   					// firefox没有window.event对象
+   					var event = arguments[0] ? arguments[0] : window.event;
+   					if (event.keyCode === 13){
+   						onLogin();
+   					}
+   				};
+   			};
+   			var onLogin = function(){
+   				//验证用户名和密码是否输入
+   				var loginname = document.getElementById("loginName").value;
+   				if(loginname == null || loginname == "" || loginname.length == 0){
+   					alert("请输入用户名!");
+   					document.getElementById("loginName").focus;
+   					return false;
+   				}
+   				var password = document.getElementById("password").value;
+   				if(password == null || password == "" || password.length == 0){
+   					alert("请输入密码!");
+   					document.getElementById("password").focus;
+   					return false;
+   				}
+   				document.getElementById("loginform").submit();
+   			};
+    </script>
+
+</body>
+</html>

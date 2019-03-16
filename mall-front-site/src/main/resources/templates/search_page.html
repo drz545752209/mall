@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>登录页</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 自定义样式 -->
+    <link href="/css/header.css" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- 引入公用头部 -->
+    <div th:replace="public_header :: header"></div>
+
+    <!-- middle part -->
+     <div style="positon: relative; width: 960px;margin: 0px auto;">
+         <!-- 左边物品类型列表 -->
+         <div id="booksort" style="float:left;width:180px;">
+             <div class="list-group">
+               <p  class="list-group-item active" style="margin-top: 55px;height: 55px;">
+                 物品分类
+               </p>
+               <a href="/index/1" class="list-group-item">护肤</a>
+               <a href="/index/2" class="list-group-item">彩妆</a>
+               <a href="/index/3" class="list-group-item">香氛</a>
+               <a href="/index/4" class="list-group-item">身体护理</a>
+               <a href="/index/5" class="list-group-item">礼盒套装</a>
+               <a href="/index/6" class="list-group-item">母婴专区</a>
+               <a href="/index/7" class="list-group-item">男士专区</a>
+               <a href="/index/8" class="list-group-item">粉底</a>
+               <a href="/index/1" class="list-group-item">女性</a>
+               <a href="/index/2" class="list-group-item">睫毛膏</a>
+               <a href="/index/3" class="list-group-item">唇彩</a>
+               <a href="/index/4" class="list-group-item">衣服</a>
+               <a href="/index/5" class="list-group-item">食品保健</a>
+               <a href="/index/6" class="list-group-item">瘦身</a>
+               <a href="/index/7" class="list-group-item">美容</a>
+               <a href="/index/8" class="list-group-item">情人节专场</a>
+               <a href="/index/1" class="list-group-item">开学庆典</a>
+               <a href="/index/2" class="list-group-item">儿童玩具</a>
+             </div>
+         </div>
+
+
+         <!-- 右边对应物品列表 -->
+         <div style="float:left;width:750px;text-align:center;">
+
+            <!--分类搜索栏-->
+             <div style="margin: 10px;">
+                 <form class="form-inline" action="/search">
+                   <div class="form-group">
+                     <div class="input-group">
+                         <div class="input-group-addon">
+                          物品分类：<select  name="typecode" id="typecode" onchange="reloadIndex(this.value)" style="height: 22px;">
+                              <option th:each="shopType:${shopTypes}" th:value="${shopType.id}">[[${shopType.typeName}]]</option>
+                          </select>
+                          </div>
+                         <input type="text" class="form-control" name="keyword" id="keyword" placeholder="请输入商品关键字...">
+                     </div>
+                   </div>
+                   <button type="submit" class="btn btn-primary">搜索</button>
+                 </form>
+            </div>
+
+
+             <!-- 显示所有商品 -->
+             <div id="tabs" style="Width:750px;background-color:white;">
+
+                <!--显示当前分类-->
+                <div class="list-group">
+                   <p  class="list-group-item active" style="background-color: orange;margin-top:1px;height: 55px;font-size: 30px;line-height:35px;">
+                     护肤
+                   </p>
+                </div>
+                 <div class="sales-queue" id="tabs-1" style="background-color:white;margin-top:-25px;">
+                     <ul class="goods-queue3">
+
+                         <li id="selbgc11" th:each="shopInfo:${pageInfo.list}" style="height:200px;margin: 14px;">
+                             <dl class="item-des">
+                                 <dt><a th:href="@{/shopdetail(id)}+'='+${shopInfo.id}" th:title="${shopInfo.spInfo}" target="_self">
+                                    <img class="dd_img" th:src="'/item_images/' + ${shopInfo.spImg}" width="132" height="96" /></a>
+                                 </dt>
+
+                                 <dd style="width: 150px;padding-right: 18px;">
+                                    <s>￥:[[${shopInfo.oldPrice}]]</s>
+                                    <strong>￥:[[${shopInfo.newPrice}]]</strong>
+                                 </dd>
+
+                                <dd>
+                                    <h2 >
+                                        <a href="item.do?id=1" th:title="${shopInfo.spName}"
+                                         target="_self" style="width: 150px;height: 36px;margin: 5px;">
+                                         [[${shopInfo.spName}]]</a>
+                                    </h2>
+                                </dd>
+                             </dl>
+                         </li>
+                      </ul>
+                  </div>
+
+                <!-- 显示分页信息 -->
+                    <div class="row" style="text-align: right;margin-left: 260px;margin-top: 10px;">
+                        <!-- 分页文字信息 -->
+                        <div id="page_info_area" style="margin-right: 20px;">
+                            当前第[[${pageInfo.pageNum}]]页，总共[[${pageInfo.pages}]]页,共有[[${pageInfo.total}]]条记录
+                        </div>
+
+
+                        <!-- 分页标签 -->
+                         <div class="pagebottom" id="pager" style="clear:both;">
+                            <nav aria-label="Page navigation">
+                              <ul class="pagination">
+                                <li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
+                                  <a th:href="@{/search(typecode)}+'='+${typeId}+'&'+'keyword='+ ${keyword}+'&pageNum'+'=1'">
+                                    <span aria-hidden="true">首页</span>
+                                  </a>
+                                </li>
+
+                                <li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
+                                  <a th:href="@{/search(typecode)}+'='+${typeId}+'&'+'keyword='+${keyword}+'&pageNum'+'='+ ${pageInfo.pageNum-1}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                  </a>
+                                </li>
+
+                                <li th:each="navigatepageNum:${pageInfo.navigatepageNums}"
+                                    th:class="${navigatepageNum==pageInfo.pageNum?'active':'page-item'}">
+                                    <!-- /index?pageNum=${页码标号} -->
+                                    <a th:href="@{/search(typecode)}+'='+${typeId}+'&'+'keyword='+${keyword}+'&pageNum'+'='+ ${navigatepageNum}">[[${navigatepageNum}]]</a>
+                                </li>
+
+                                <li th:class="${pageInfo.pageNum==pageInfo.pages?'disabled':'page-item'}">
+                                  <a th:href="@{/search(typecode)}+'='+${typeId}+'&'+'keyword='+${keyword}+'&pageNum'+'='+ ${pageInfo.pageNum+1}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                  </a>
+                                </li>
+
+                                <li th:class="${pageInfo.pageNum==pageInfo.pages?'page-item disabled':'page-item'}">
+                                  <a th:href="@{/search(typecode)}+'='+${typeId}+'&'+'keyword='+${keyword}+'&pageNum'+'='+ ${pageInfo.pages}">
+                                    <span aria-hidden="true">末页</span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </nav>
+                        </div>
+
+                    </div>
+                </div><!---- 分页栏 end----->
+         </div><!---- middle end----->
+
+
+
+    <!-- 引入公用尾部 -->
+    <div  th:replace="public_footer :: #public_footer"></div>
+
+
+</body>
+</html>
+
