@@ -27,21 +27,35 @@ function getCheckBoxId() {
 
 function batchDelete() {
     var idStr=getCheckBoxId();
-    $.post("/product/batchDelete",{"idStr":idStr});
+    $.post("/product/batchDelete",{"idStr":idStr})
+        .success(function () {
+            window.location.href='http://localhost:8080/product/productList';
+        });
 }
 
 function del(id) {
     $.post("/product/delete",{"deleteId":id})
+        .success(
+            function () {
+                window.location.href='http://localhost:8080/product/productList';
+            }
+        )
 }
 
 function downShelf() {
     var idStr=getCheckBoxId();
-    $.post("/product/downShelf",{"idStr":idStr});
+    $.post("/product/downShelf",{"idStr":idStr})
+        .success(function () {
+            window.location.href='http://localhost:8080/product/productList';
+        });
 }
 
 function upShelf() {
     var  idStr=getCheckBoxId();
-    $.post("/product/upShelf",{"idStr":idStr});
+    $.post("/product/upShelf",{"idStr":idStr})
+        .success(function () {
+            window.location.href='http://localhost:8080/product/productList';
+        });
 }
 
 function  create() {
@@ -50,13 +64,16 @@ function  create() {
 
 function save(id) {
     $.get("/product/getProductForSave",{"saveId":id},function (data) {
+        document.getElementById("saveProductId").value=data.id;
         document.getElementById("saveProductName").value=data.name;
         document.getElementById("saveStoreName").value=data.storeName;
         document.getElementById("saveType").value=data.type;
+        document.getElementById("savePrice").value=data.price;
         document.getElementById("saveDescription").value=data.description;
         $('#modify_modal').modal('show');
     })
 }
+
 
 
 function checkFileExt(filename) {
@@ -105,7 +122,7 @@ function toAddImgs(id,url) {
         success : function(data) {
             alert("sucess");
             for(var i in data){
-                alert(data[i])
+                alert(data[i]);
                 var path=data[i];
             }
         },
@@ -116,3 +133,18 @@ function toAddImgs(id,url) {
         }
     });
 }
+
+$(document).ready(
+    function () {
+        $("#mod_form").submit(
+            function () {
+                alert("修改成功");
+            }
+        );
+        $("#create_form").submit(
+            function () {
+                alert("添加成功");
+            }
+        );
+    }
+);

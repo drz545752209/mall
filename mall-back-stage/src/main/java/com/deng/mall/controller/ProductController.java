@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 import com.deng.mall.domain.Product;
-import com.deng.mall.service.impl.ProductServiceImpl;
+import com.deng.mall.service.ProductService;
 import com.deng.mall.utils.StrUntils;
 import com.deng.mall.utils.UpfileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "product")
 public class ProductController {
     @Autowired
-    ProductServiceImpl productServiceImpl;
+    ProductService productService;
 
     @RequestMapping(value = "upFile", method = RequestMethod.POST)
     @ResponseBody
@@ -36,21 +36,15 @@ public class ProductController {
 
     @RequestMapping(value = "/productList")
     public ModelAndView getProductList(@RequestParam(value = "type", required = false) String type,
-                                       @RequestParam(value = "isShow", required = false) String isShow,
-                                       @RequestParam(value = "pageNum", required = false, defaultValue = "0L") Long pageNum,
+                                       @RequestParam(value = "isShow", required = false, defaultValue = "0") String isShow,
+                                       @RequestParam(value = "pageNum", required = false, defaultValue = "0") Long pageNum,
                                        @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize
     ) {
         List<Product> productList;
         List<String> productTypeList;
 
-        if (type != null && !"".equals(type)) {
-            productList = productServiceImpl.getProductByType(type,pageNum, pageSize);
-        } else if (isShow != null && !"".equals(isShow)) {
-            productList = productServiceImpl.getProductListByIsShow(isShow,pageNum, pageSize);
-        } else {
-            productList = productServiceImpl.getAllProduct(pageNum, pageSize);
-        }
-        productTypeList = productServiceImpl.getProductTypeList();
+        productList = productService.getProductByType(isShow, type, pageNum, pageSize);
+        productTypeList = productService.getProductTypeList();
         ModelAndView mv = new ModelAndView();
         mv.setViewName("bizproduct.html");
 
@@ -63,9 +57,8 @@ public class ProductController {
     @RequestMapping("/getProductForSave")
     public @ResponseBody
     Product getProductForSave(String saveId) {
-        ModelAndView mv = new ModelAndView();
         Product product;
-        product = productServiceImpl.getProductById(saveId);
+        product = productService.getProductById(saveId);
 
         return product;
     }
@@ -74,39 +67,43 @@ public class ProductController {
     @RequestMapping(value = "/batchDelete")
     public String batchDelete(String idStr) {
         List<Integer> ids = StrUntils.getIds(idStr);
-        productServiceImpl.batchDeleteProduct(ids);
+        productService.batchDeleteProduct(ids);
         return "bizproduct.html";
     }
 
     @RequestMapping(value = "/delete")
     public String delete(String deleteId) {
-        productServiceImpl.deleteProduct(deleteId);
-        return "bizproduct.html";
-    }
-
-    @RequestMapping(value = "/create")
-    public String create(String idStr) {
+        productService.deleteProduct(deleteId);
         return "bizproduct.html";
     }
 
     @RequestMapping(value = "/downShelf")
     public String downShelf(String idStr) {
         List<Integer> ids = StrUntils.getIds(idStr);
-        productServiceImpl.batchDownShelf(ids);
+        productService.batchDownShelf(ids);
         return "bizproduct.html";
     }
 
     @RequestMapping(value = "/upShelf")
     public String upShelf(String idStr) {
         List<Integer> ids = StrUntils.getIds(idStr);
-        productServiceImpl.batchUpShelf(ids);
+        productService.batchUpShelf(ids);
         return "bizproduct.html";
     }
 
-    @RequestMapping(value = "/save")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(Product product) {
-        return null;
+        productService.save(product);
+        return "redirect:/product/productList";
     }
+
+
+    @RequestMapping(value = "/create")
+    public String create(Product product) {
+        productService.create(product);
+        return "redirect:/product/productList";
+    }
+
 
 
 }

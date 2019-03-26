@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>order_manager</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/stock.js"></script>
+</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <table class="table table-bordered" id="product-table">
+                <thead>
+                <tr>
+                    <th>商品名</th>
+                    <th>库存数</th>
+                    <th>入库日期</th>
+                    <th>出库日期</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="stock: ${stockList}">
+                    <td th:text="${stock.id}" hidden="true" id="stock_id"></td>
+                    <td th:text="${stock.name}"></td>
+                    <td><input th:text="${stock.count}" id="stock_count"/></td>
+                    <td><input th:text="${stock.inDate}" id="stock_inDate"/></td>
+                    <td><input th:text="${stock.outDate}" id="stock_outDate"/></td>
+                    <td>
+                        <button type="button" class="btn btn-default btn-warning" id="mod_stock">修改</button>
+                        <button type="button" class="btn btn-default btn-danger" id="reset_stock">清空</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

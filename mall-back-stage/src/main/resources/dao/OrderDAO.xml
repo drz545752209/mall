@@ -1,118 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.deng.mall.dao.OrderDAO">
-  <cache type="org.mybatis.caches.redis.RedisCache" />
-  <resultMap id="BaseResultMap" type="com.deng.mall.domain.Order">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="store_id" jdbcType="INTEGER" property="storeId" />
-    <result column="detail_id" jdbcType="INTEGER" property="detailId" />
-    <result column="operator" jdbcType="VARCHAR" property="operator" />
-    <result column="operate_date" jdbcType="TIMESTAMP" property="operateDate" />
-  </resultMap>
-  <resultMap id="boOrder" type="com.deng.mall.domain.BoOrder">
-    <id column="orderId" jdbcType="INTEGER"/>
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.deng.mall.domain.Order">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="store_id" jdbcType="INTEGER" property="storeId"/>
+        <result column="detail_id" jdbcType="INTEGER" property="detailId"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="operate_date" jdbcType="TIMESTAMP" property="operateDate"/>
+    </resultMap>
+
+    <resultMap id="boOrderMap" type="com.deng.mall.domain.BoOrder">
+        <id column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="sum_consume" jdbcType="BIGINT" property="sumConsume"/>
+        <result column="count_consume" jdbcType="BIGINT" property="countConsume"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="order_status" jdbcType="VARCHAR" property="status"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="operator_date" jdbcType="TIMESTAMP" property="date"/>
+        <result column="product_id" jdbcType="INTEGER" property="productId"/>
+    </resultMap>
+
+    <sql id="orderBoList">
+	`order`.id AS order_id,
+     order_detail.sum_consume AS sum_consume,
+     order_detail.count_consume AS count_consume,
+     `user`.`name` AS user_name,
+      order_detail.`status` AS order_status,
+     `order`.operator AS operator,
+     `order`.operate_date AS operator_date,
+     order_detail.product_id AS product_id
+   </sql>
+
+
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     id, user_id, store_id, detail_id, `operator`, operate_date
   </sql>
-  <select id="selectByExample" parameterType="com.deng.mall.domain.OrderExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-    <if test="limit != null">
-      <if test="offset != null">
+    <select id="selectByExample" parameterType="com.deng.mall.domain.OrderExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from `order`
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            `order` by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        `order`
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectOrderBo"   resultMap="boOrderMap">
+       select
+       <include refid="orderBoList"/>
+        FROM
+        `order`
+        LEFT JOIN
+        order_detail ON `order`.detail_id=order_detail.id
+        LEFT JOIN
+        `user` ON `user`.id=`order`.user_id
         limit ${offset}, ${limit}
-      </if>
-      <if test="offset == null">
-        limit ${limit}
-      </if>
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from order
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.deng.mall.domain.OrderExample">
-    delete from order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.deng.mall.domain.Order">
+    <delete id="deleteByExample" parameterType="com.deng.mall.domain.OrderExample">
+        delete from order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.deng.mall.domain.Order">
     insert into order (id, user_id, store_id, 
       detail_id, `operator`, operate_date
       )
@@ -120,115 +157,115 @@
       #{detailId,jdbcType=INTEGER}, #{operator,jdbcType=VARCHAR}, #{operateDate,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.deng.mall.domain.Order">
-    insert into order
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="storeId != null">
-        store_id,
-      </if>
-      <if test="detailId != null">
-        detail_id,
-      </if>
-      <if test="operator != null">
-        `operator`,
-      </if>
-      <if test="operateDate != null">
-        operate_date,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="storeId != null">
-        #{storeId,jdbcType=INTEGER},
-      </if>
-      <if test="detailId != null">
-        #{detailId,jdbcType=INTEGER},
-      </if>
-      <if test="operator != null">
-        #{operator,jdbcType=VARCHAR},
-      </if>
-      <if test="operateDate != null">
-        #{operateDate,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.deng.mall.domain.OrderExample" resultType="java.lang.Long">
-    select count(*) from order
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update order
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.userId != null">
+    <insert id="insertSelective" parameterType="com.deng.mall.domain.Order">
+        insert into order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="detailId != null">
+                detail_id,
+            </if>
+            <if test="operator != null">
+                `operator`,
+            </if>
+            <if test="operateDate != null">
+                operate_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="detailId != null">
+                #{detailId,jdbcType=INTEGER},
+            </if>
+            <if test="operator != null">
+                #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="operateDate != null">
+                #{operateDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.deng.mall.domain.OrderExample" resultType="java.lang.Long">
+        select count(*) from order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update order
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=INTEGER},
+            </if>
+            <if test="record.storeId != null">
+                store_id = #{record.storeId,jdbcType=INTEGER},
+            </if>
+            <if test="record.detailId != null">
+                detail_id = #{record.detailId,jdbcType=INTEGER},
+            </if>
+            <if test="record.operator != null">
+                `operator` = #{record.operator,jdbcType=VARCHAR},
+            </if>
+            <if test="record.operateDate != null">
+                operate_date = #{record.operateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update order
+        set id = #{record.id,jdbcType=INTEGER},
         user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.storeId != null">
         store_id = #{record.storeId,jdbcType=INTEGER},
-      </if>
-      <if test="record.detailId != null">
         detail_id = #{record.detailId,jdbcType=INTEGER},
-      </if>
-      <if test="record.operator != null">
         `operator` = #{record.operator,jdbcType=VARCHAR},
-      </if>
-      <if test="record.operateDate != null">
-        operate_date = #{record.operateDate,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update order
-    set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      store_id = #{record.storeId,jdbcType=INTEGER},
-      detail_id = #{record.detailId,jdbcType=INTEGER},
-      `operator` = #{record.operator,jdbcType=VARCHAR},
-      operate_date = #{record.operateDate,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.deng.mall.domain.Order">
-    update order
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="storeId != null">
-        store_id = #{storeId,jdbcType=INTEGER},
-      </if>
-      <if test="detailId != null">
-        detail_id = #{detailId,jdbcType=INTEGER},
-      </if>
-      <if test="operator != null">
-        `operator` = #{operator,jdbcType=VARCHAR},
-      </if>
-      <if test="operateDate != null">
-        operate_date = #{operateDate,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.deng.mall.domain.Order">
+        operate_date = #{record.operateDate,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.deng.mall.domain.Order">
+        update order
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="detailId != null">
+                detail_id = #{detailId,jdbcType=INTEGER},
+            </if>
+            <if test="operator != null">
+                `operator` = #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="operateDate != null">
+                operate_date = #{operateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.deng.mall.domain.Order">
     update order
     set user_id = #{userId,jdbcType=INTEGER},
       store_id = #{storeId,jdbcType=INTEGER},
@@ -237,4 +274,6 @@
       operate_date = #{operateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
 </mapper>

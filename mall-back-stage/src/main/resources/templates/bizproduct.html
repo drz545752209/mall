@@ -24,12 +24,12 @@
                 <h4 class="modal-title" id="insertModelLabel">添加商品</h4>
             </div>
             <div class="modal-body">
-                <form class="navbar-form navbar-left" role="search">
+                <form class="navbar-form navbar-left" role="search" id="create_form">
                     <div class="form-group">
-                        <label>商品名</label><input type="text" class="form-control" name="productName" />
+                        <label>商品名</label><input type="text" class="form-control" th:name="name" />
                     </div>
                     <div class="form-group">
-                        <label>店铺名</label><input type="text" class="form-control" name="storeName" />
+                        <label>店铺名</label><input type="text" class="form-control" th:name="storeName" />
                     </div>
                     <div class="form-group">
                        <div>
@@ -43,16 +43,20 @@
                        </div>
                     </div>
                     <div class="form-group">
-                        <label>商品类型</label><input type="text" class="form-control" name="type" />
+                        <label>商品类型</label><input type="text" class="form-control" th:name="type" />
                     </div>
                     <div class="form-group">
-                        <label>商品描述</label><input type="text" class="form-control" name="description" />
+                        <label>商品价格</label><input type="text" class="form-control"  th:name="price"/>
                     </div>
+                    <div class="form-group">
+                        <label>商品描述</label><input type="text" class="form-control" th:name="description" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">添加商品</button>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">添加商品</button>
+                <button type="button" class="btn btn-primary">重置</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -67,9 +71,10 @@
                 <h4 class="modal-title" id="modifyModalLabel">修改商品</h4>
             </div>
             <div class="modal-body">
-                <form class="navbar-form navbar-left" role="search" th:action="@{'/product/save'}">
+                <form class="navbar-form navbar-left" role="search" action="/product/save" id="mod_form" method="post">
+                    <input type="text" id="saveProductId" th:name="id" hidden="true">
                     <div class="form-group">
-                        <label>商品名</label><input type="text" class="form-control" id="saveProductName" th:name="productName"/>
+                        <label>商品名</label><input type="text" class="form-control" id="saveProductName" th:name="name"/>
                     </div>
                     <div class="form-group">
                         <label>店铺名</label><input type="text" class="form-control" id="saveStoreName" th:name="storeName"/>
@@ -89,13 +94,17 @@
                         <label>商品类型</label><input type="text" class="form-control" id="saveType" th:name="type"/>
                     </div>
                     <div class="form-group">
+                        <label>商品价格</label><input type="text" class="form-control" id="savePrice" th:name="price"/>
+                    </div>
+                    <div class="form-group">
                         <label>商品描述</label><input type="text" class="form-control" id="saveDescription" th:name="description"/>
                     </div>
+                    <button type="submit" class="btn btn-primary">修改商品信息</button>
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">恢复</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" >修改商品信息</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -128,8 +137,8 @@
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
                     <li role="presentation">
-                        <a role="menuitem" tabindex="-1" th:href="@{'/product/productList/filterByShow?isShow=0'}">过滤上架</a>
-                        <a role="menuitem" tabindex="-1" th:href="@{'/product/productList/filterByShow?isShow=1'}">过滤下架</a>
+                        <a role="menuitem" tabindex="-1" th:href="@{'/product/productList?isShow=0'}">过滤上架</a>
+                        <a role="menuitem" tabindex="-1" th:href="@{'/product/productList?isShow=1'}">过滤下架</a>
                     </li>
                 </ul>
             </div>

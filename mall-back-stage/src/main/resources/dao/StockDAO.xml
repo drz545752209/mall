@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.deng.mall.dao.StockDAO">
-  <cache type="org.mybatis.caches.redis.RedisCache" />
   <resultMap id="BaseResultMap" type="com.deng.mall.domain.Stock">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="product_id" jdbcType="INTEGER" property="productId" />
@@ -9,6 +8,15 @@
     <result column="in_date" jdbcType="TIMESTAMP" property="inDate" />
     <result column="out_date" jdbcType="TIMESTAMP" property="outDate" />
   </resultMap>
+
+  <resultMap id="BoStockMap" type="com.deng.mall.domain.BoStock">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="count" jdbcType="BIGINT" property="count" />
+    <result column="in_date" jdbcType="TIMESTAMP" property="inDate" />
+    <result column="out_date" jdbcType="TIMESTAMP" property="outDate" />
+  </resultMap>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -70,6 +78,25 @@
   <sql id="Base_Column_List">
     id, product_id, `count`, in_date, out_date
   </sql>
+
+  <sql id="StockBo_List">
+    stock.id as id
+    ,stock.count as `count`
+    ,product.`name` as  product_name
+    ,stock.in_date as in_date
+    ,stock.out_date as out_date
+  </sql>
+
+  <select id="selectStockList" resultMap="BoStockMap">
+    select
+    <include refid="StockBo_list"/>
+    from stock
+    left join
+    product
+    on
+    stock.product_id=product.id
+  </select>
+
   <select id="selectByExample" parameterType="com.deng.mall.domain.StockExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

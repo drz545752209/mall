@@ -7,17 +7,23 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mall-back-stage" />
+        <module name="mall-common" />
+        <module name="mall-logistics" />
         <module name="mallbackstageapi" />
         <module name="mallfrontsite" />
         <module name="mallfrontsiteapi" />
+        <module name="malllogistics" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="mall" target="1.8" />
       <module name="mall-back-stage" target="1.8" />
+      <module name="mall-common" target="1.8" />
+      <module name="mall-logistics" target="1.8" />
       <module name="mallbackstageapi" target="1.8" />
       <module name="mallfrontsite" target="1.8" />
       <module name="mallfrontsiteapi" target="1.8" />
+      <module name="malllogistics" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

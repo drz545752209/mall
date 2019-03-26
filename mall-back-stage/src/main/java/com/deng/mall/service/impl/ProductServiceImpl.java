@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -18,25 +19,22 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     ProductDAO productDAO;
 
-    public List<Product> getAllProduct(long pageNum,int pageSize) {
+    public List<Product> getProductByType(String isShow,String type,long pageNum,int pageSize) {
         List<Product> productList;
         ProductExample productExample = new ProductExample();
         ProductExample.Criteria criteria = productExample.createCriteria();
+        if (!StringUtils.isEmpty(type)){
+            criteria.andTypeEqualTo(type);
+        }
         criteria.andIsDelEqualTo(false);
+        if ("1".equals(isShow)){
+            criteria.andIsShowEqualTo(true);
+        }else {
+            criteria.andIsShowEqualTo(false);
+        }
         productExample.or(criteria);
         productExample.setOffset(pageNum*pageSize);
         productExample.setLimit(pageSize);
-        productList = productDAO.selectByExample(productExample);
-        return productList;
-    }
-
-    public List<Product> getProductByType(String type,long pageNum,int pageSize) {
-        List<Product> productList;
-        ProductExample productExample = new ProductExample();
-        ProductExample.Criteria criteria = productExample.createCriteria();
-        criteria.andTypeEqualTo(type);
-        criteria.andIsDelEqualTo(false);
-        productExample.or(criteria);
         productList = productDAO.selectByExample(productExample);
         return productList;
     }
@@ -59,19 +57,6 @@ public class ProductServiceImpl implements ProductService{
         return productList;
     }
 
-    public List<Product> getProductListByIsShow(String isShow,long pageNum,int pageSize){
-        List<Product> productList;
-        ProductExample productExample = new ProductExample();
-        ProductExample.Criteria criteria = productExample.createCriteria();
-        if ("1".equals(isShow)){
-            criteria.andIsShowEqualTo(true);
-        }else {
-            criteria.andIsShowEqualTo(false);
-        }
-        productExample.or(criteria);
-        productList=productDAO.selectByExample(productExample);
-        return productList;
-    }
 
 
     @Transactional
@@ -82,7 +67,7 @@ public class ProductServiceImpl implements ProductService{
                 product.setIsDel(true);
                 productDAO.updateByPrimaryKey(product);
             }
-            logger.info("batchDelete products ids:[]", ids.toString());
+            logger.info("batchDelete products ids:[%s]", ids.toString());
         }catch (Exception e){
             logger.error("batchDelete failed , roll back!!");
         }
@@ -99,35 +84,42 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Transactional
-    public void batchUpShelf(List<Integer> ids) {
+    public Boolean batchUpShelf(List<Integer> ids) {
         try {
             List<Product> productList = getProductListById(ids);
             for (Product product : productList) {
                 product.setIsShow(true);
                 productDAO.updateByPrimaryKey(product);
             }
-            logger.info("batchUpShelf products ids:[]", ids.toString());
+            logger.info("batchUpShelf products ids:[%s]", ids.toString());
         } catch (Exception e) {
             logger.error("batchUpShelf failed , roll back!!");
+            return false;
         }
+        return true;
     }
 
     @Transactional
-    public void batchDownShelf(List<Integer> ids) {
+    public Boolean batchDownShelf(List<Integer> ids) {
         try {
             List<Product> productList = getProductListById(ids);
             for (Product product : productList) {
                 product.setIsShow(false);
                 productDAO.updateByPrimaryKey(product);
             }
-            logger.info("batchDownShelf products ids:[]", ids.toString());
+            logger.info("batchDownShelf products ids:[%s]", ids.toString());
         } catch (Exception e) {
             logger.error("batchDownShelf failed , roll back!!");
+            return false;
         }
+        return true;
     }
 
     public  void save(Product product){
-        productDAO.updateByPrimaryKey(product);
+        productDAO.updateByPrimaryKeySelective(product);
     }
 
+    public void create(Product record){
+        productDAO.insertSelective(record);
+    }
 }

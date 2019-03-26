@@ -10,6 +10,7 @@
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/order.js"></script>
 </head>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
@@ -19,6 +20,7 @@
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
+                    <th>全选</th>
                     <th>订单编号</th>
                     <th>交易产品</th>
                     <th>交易金额</th>
@@ -34,19 +36,21 @@
                 <tr th:each="order: ${orderList}">
                     <td>
                         <div class="checkbox">
-                            <input type="checkbox" th:id="${order.id}" name="order-name" >
+                            <input type="checkbox" th:id="${order.orderId}" name="order-name" >
                         </div>
                     </td>
-                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.orderId}"></td>
                     <td th:text="${order.productName}"></td>
                     <td th:text="${order.sumConsume}"></td>
                     <td th:text="${order.countConsume}"></td>
                     <td th:text="${order.userName}"></td>
                     <td th:text="${order.status}"></td>
                     <td th:text="${order.operator}"></td>
-                    <td th:text="${order.operateDate}"></td>
-                    <button type="button" class="btn btn-default btn-warning" th:onclick="'sendGoods('+${order.id}+')'">发货</button>
-                    <button type="button" class="btn btn-default btn-danger" th:onclick="'backGoods('+${order.id}+')'">退货</button>
+                    <td th:text="${order.date}"></td>
+                    <td>
+                        <button th:id="${order.orderId}" th:name="sendGoods" type="button" class="btn btn-default btn-warning">发货</button>
+                        <button th:id="${order.orderId}" th:name="backGoods" type="button" class="btn btn-default btn-danger">退货</button>
+                    </td>
                 </tr>
                 </tbody>
             </table>

@@ -4,9 +4,11 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/mall.iml" filepath="$PROJECT_DIR$/mall.iml" />
       <module fileurl="file://$PROJECT_DIR$/mall-back-stage/mall-back-stage.iml" filepath="$PROJECT_DIR$/mall-back-stage/mall-back-stage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-common/mall-common.iml" filepath="$PROJECT_DIR$/mall-common/mall-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/mall-back-stage-api/mallbackstageapi.iml" filepath="$PROJECT_DIR$/mall-back-stage-api/mallbackstageapi.iml" />
       <module fileurl="file://$PROJECT_DIR$/mall-front-site/mallfrontsite.iml" filepath="$PROJECT_DIR$/mall-front-site/mallfrontsite.iml" />
       <module fileurl="file://$PROJECT_DIR$/mall-front-site-api/mallfrontsiteapi.iml" filepath="$PROJECT_DIR$/mall-front-site-api/mallfrontsiteapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mall-logistics/malllogistics.iml" filepath="$PROJECT_DIR$/mall-logistics/malllogistics.iml" />
     </modules>
   </component>
 </project>

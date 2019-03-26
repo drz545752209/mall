@@ -40,7 +40,7 @@ public class RedisUtils implements Cache {
 
     @Override
     public String getId() {
-        return null;
+        return id;
     }
 
     @Override

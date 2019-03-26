@@ -1,7 +1,8 @@
 package com.deng.mall.utils;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class StrUntils {
@@ -13,5 +14,22 @@ public class StrUntils {
         }
         return ids;
     }
+
+    /**
+     * @param strDate
+     * */
+    public static Date str2Date(String strDate) {
+        String str = strDate;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        java.util.Date d = null;
+        try {
+            d = format.parse(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Date date = new java.sql.Date(d.getTime());
+        return date;
+    }
+
 
 }
