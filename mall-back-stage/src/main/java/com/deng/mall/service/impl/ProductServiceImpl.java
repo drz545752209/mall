@@ -1,8 +1,9 @@
 package com.deng.mall.service.impl;
 
+import com.deng.mall.dao.BizDAO;
 import com.deng.mall.dao.ProductDAO;
-import com.deng.mall.domain.Product;
-import com.deng.mall.domain.ProductExample;
+import com.deng.mall.dao.StoreDAO;
+import com.deng.mall.domain.*;
 import com.deng.mall.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service("productService")
@@ -18,11 +21,40 @@ public class ProductServiceImpl implements ProductService{
     final static Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
     @Autowired
     ProductDAO productDAO;
+    @Autowired
+    BizDAO bizDAO;
+    @Autowired
+    StoreDAO storeDAO;
 
-    public List<Product> getProductByType(String isShow,String type,long pageNum,int pageSize) {
+    private String getStoreNameByBiz(String bizName){
+        //获取bizid
+        BizExample bizExample=new BizExample();
+        BizExample.Criteria bizExampleCriteria=bizExample.createCriteria();
+        bizExampleCriteria.andNameEqualTo(bizName);
+        List<Biz> bizs=bizDAO.selectByExample(bizExample);
+        Integer bizId=bizs.get(0).getId();
+        //获取
+        StoreExample storeExample=new StoreExample();
+        StoreExample.Criteria storeExampleCriteria=storeExample.createCriteria();
+        storeExampleCriteria.andBizIdEqualTo(bizId);
+        List<Store> stores=storeDAO.selectByExample(storeExample);
+        String storeName=stores.get(0).getName();
+
+        return storeName;
+    }
+
+    public List<Product> getProductByType(String isShow, String type, long pageNum, int pageSize, HttpServletRequest request) {
         List<Product> productList;
         ProductExample productExample = new ProductExample();
         ProductExample.Criteria criteria = productExample.createCriteria();
+
+        if (request!=null){
+            HttpSession session=request.getSession();
+            String bizName= (String) session.getAttribute("loginName");
+            String storeName = getStoreNameByBiz(bizName);
+            criteria.andStoreNameEqualTo(storeName);
+        }
+
         if (!StringUtils.isEmpty(type)){
             criteria.andTypeEqualTo(type);
         }
@@ -32,7 +64,7 @@ public class ProductServiceImpl implements ProductService{
         }else {
             criteria.andIsShowEqualTo(false);
         }
-        productExample.or(criteria);
+
         productExample.setOffset(pageNum*pageSize);
         productExample.setLimit(pageSize);
         productList = productDAO.selectByExample(productExample);

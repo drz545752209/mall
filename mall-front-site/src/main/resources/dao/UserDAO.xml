@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hlju.mall.dao.UserDAO">
-  <resultMap id="BaseResultMap" type="com.hlju.mall.com.hlju.mall.domain.User">
+  <resultMap id="BaseResultMap" type="com.hlju.mall.domain.User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="pwd" jdbcType="VARCHAR" property="pwd" />
@@ -70,7 +70,7 @@
   <sql id="Base_Column_List">
     id, `name`, pwd, credit, contant_way, address
   </sql>
-  <select id="selectByExample" parameterType="com.hlju.mall.com.hlju.mall.domain.UserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hlju.mall.domain.UserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -102,13 +102,13 @@
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hlju.mall.com.hlju.mall.domain.UserExample">
+  <delete id="deleteByExample" parameterType="com.hlju.mall.domain.UserExample">
     delete from user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hlju.mall.com.hlju.mall.domain.User">
+  <insert id="insert" parameterType="com.hlju.mall.domain.User">
     insert into user (id, `name`, pwd, 
       credit, contant_way, address
       )
@@ -116,7 +116,7 @@
       #{credit,jdbcType=INTEGER}, #{contantWay,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.hlju.mall.com.hlju.mall.domain.User">
+  <insert id="insertSelective" parameterType="com.hlju.mall.domain.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -159,7 +159,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hlju.mall.com.hlju.mall.domain.UserExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.hlju.mall.domain.UserExample" resultType="java.lang.Long">
     select count(*) from user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -203,7 +203,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hlju.mall.com.hlju.mall.domain.User">
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlju.mall.domain.User">
     update user
     <set>
       <if test="name != null">
@@ -224,7 +224,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hlju.mall.com.hlju.mall.domain.User">
+  <update id="updateByPrimaryKey" parameterType="com.hlju.mall.domain.User">
     update user
     set `name` = #{name,jdbcType=VARCHAR},
       pwd = #{pwd,jdbcType=VARCHAR},

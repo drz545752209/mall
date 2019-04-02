@@ -11,7 +11,6 @@ import java.util.List;
  * ProductDAO继承基类
  */
 @Mapper
-@Repository
 public interface ProductDAO extends MyBatisBaseDao<Product, Integer, ProductExample> {
     List<String> getTypeList();
 }

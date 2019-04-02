@@ -13,5 +13,6 @@ import java.util.List;
  */
 @Mapper
 public interface StockDAO extends MyBatisBaseDao<Stock, Integer, StockExample> {
-    List<BoStock> selectStockList(@Param("limit") Integer limit, @Param("offset") Long offset);
+    List<BoStock> selectStockList(@Param("limit") Integer limit, @Param("offset") Long offset,
+                                  @Param("stockIds")List<Integer> stockIds);
 }

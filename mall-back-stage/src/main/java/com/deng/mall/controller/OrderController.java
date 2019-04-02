@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -17,12 +18,13 @@ public class OrderController {
     OrderService orderService;
 
     @RequestMapping(value = "orderList")
-    public ModelAndView getOrderList(@RequestParam(required = false, defaultValue = "0") Long offset,
-                                     @RequestParam(required = false, defaultValue = "10") Integer limit
+    public ModelAndView getOrderList(@RequestParam(required = false, defaultValue = "1") Long offset,
+                                     @RequestParam(required = false, defaultValue = "10") Integer limit,
+                                     HttpServletRequest request
     ) {
         List<BoOrder> orderList;
         ModelAndView mav = new ModelAndView();
-        orderList = orderService.getBoOrderList(limit, offset);
+        orderList = orderService.getBoOrderList(limit, offset-1,request);
         mav.setViewName("bizorder.html");
         mav.addObject("orderList", orderList);
         return mav;
@@ -30,12 +32,13 @@ public class OrderController {
 
     @RequestMapping(value = "sendGoods")
     public ModelAndView sendGoods(Integer orderId,
-                                  @RequestParam(required = false, defaultValue = "0") Long offset,
-                                  @RequestParam(required = false, defaultValue = "10") Integer limit){
+                                  @RequestParam(required = false, defaultValue = "1") Long offset,
+                                  @RequestParam(required = false, defaultValue = "10") Integer limit,
+                                  HttpServletRequest request){
         List<BoOrder> orderList;
         ModelAndView mav = new ModelAndView();
 
-        orderList = orderService.getBoOrderList(limit, offset);
+        orderList = orderService.getBoOrderList(limit, offset-1,request);
         orderService.sendGoods(orderId);
         mav.setViewName("bizorder.html");
         mav.addObject("orderList", orderList);

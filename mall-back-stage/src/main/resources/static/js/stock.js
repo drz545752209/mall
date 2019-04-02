@@ -2,10 +2,13 @@ $(document).ready(
     function () {
         $("#mod_stock").click(
             function () {
-                var id=$("#stock_id").attr('text');
-                var count=$("#stock_count").attr('text');
-                var stockInDate=$("#stock_inDate").attr('text');
-                var stockOutDate=$("#stock_outDate").attr('text');
+                var id=$(this).parent().parent().children("td").get(0).innerHTML;
+                var count=$(this).parent().parent().children().get(2).firstChild.value;
+                var stockInDate=$(this).parent().parent().children().get(3).firstChild.value;
+                var stockOutDate=$(this).parent().parent().children().get(4).firstChild.value;
+                if (!isNaN(count)) {
+                    alert("count must is numberType");
+                }
                 if (count==null){
                     alert("count not can null");
                 } else if (stockInDate==null) {
@@ -13,7 +16,7 @@ $(document).ready(
                 }else if (stockOutDate==null) {
                     alert("stockOutDate not can null");
                 }
-                $.post("/save",{"id":id,"count":count,"stockInDate":stockInDate,"stockOutDate":stockOutDate})
+                $.post("/stock/save",{"id":id,"count":count,"stockInDate":stockInDate,"stockOutDate":stockOutDate})
                     .success(
                         function () {
                             alert("修改成功");

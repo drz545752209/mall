@@ -6,13 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component("userLoginInterceptor")
 public class UserLoginInterceptor implements HandlerInterceptor{
-	protected static final Logger logger = Logger.getLogger(UserLoginInterceptor.class);
+	protected static final Logger logger = LoggerFactory.getLogger(UserLoginInterceptor.class);
 
 	
 	public boolean preHandle(HttpServletRequest request,HttpServletResponse httpServletResponse,Object handler) {

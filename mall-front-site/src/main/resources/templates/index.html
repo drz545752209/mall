@@ -102,33 +102,36 @@ function search(){
 						style="background-color: orange; margin-top: 1px; height: 55px; font-size: 30px; line-height: 35px;">
 						热门推荐</p>
 					<select>
-					   <option th:each="productType:${productTypeList}" th:text=${productType.name}></option>
+					   <option th:each="productType:${productTypeList}" th:text="${productType}"></option>
 					</select>
 				</div>
 				<div class="sales-queue" id="tabs-1"
 					style="background-color: white; margin-top: -25px;">
 					<ul class="goods-queue3">
 
-						<li id="selbgc11" th:each="shopInfo:${pageInfo.list}"
+						<li id="selbgc11" th:each="product:${productList}"
 							style="height: 200px; margin: 14px;">
 							<dl class="item-des">
 								<dt>
-									<a th:href="@{/shopdetail(id)}+'='+${shopInfo.id}"
-										th:title="${shopInfo.details}" target="_self"> <img
-										class="dd_img" th:src="'/item_images/' + ${shopInfo.imgUrl}"
+									<a th:href="@{/shopdetail(id=${product.id})}"
+										th:title="${product.description}" target="_self"> <img
+										class="dd_img" th:src="'/item_images/' + ${product.img}"
 										width="132" height="96" /></a>
 								</dt>
 
 								<dd style="width: 150px; padding-right: 18px;">
-									<s>￥:[[${shopInfo.oldPrice}]]</s> <strong>￥:[[${shopInfo.newPrice}]]</strong>
+									<s>￥:[[${product.price}]]</s>
+									<strong th:if="${promotionDiscountMap[__${product.id}__]} ne '0'">
+										￥:[[ ${product.price}*${promotionDiscountMap[__${product.id}__]}*0.1 ]]
+									</strong>
 								</dd>
 
 								<dd>
 									<h2>
-										<a th:href="@{/shopdetail(id)}+'='+${shopInfo.id}"
-											th:title="${shopInfo.spName}" target="_self"
+										<a th:href="@{/shopdetail(id=${product.id})}"
+											th:title="${product.description}" target="_self"
 											style="width: 150px; height: 36px; margin: 5px;">
-											[[${shopInfo.name}]]</a>
+											[[${product.name}]]</a>
 									</h2>
 								</dd>
 							</dl>
@@ -155,31 +158,31 @@ function search(){
 								</a>
 								</li>
 
-								<li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
-									<a th:href="@{/index(pageNum)}+'='+${pageInfo.pageNum-1}"
-									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-								</a>
-								</li>
+                                <li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
+                                    <a th:unless="${pageInfo.isFirst}"
+                                       th:href="@{/index(pageNum)}+'='+${pageInfo.pageNum-1}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
 
-								<li th:each="navigatepageNum:${pageInfo.navigatepageNums}"
-									th:class="${navigatepageNum==pageInfo.pageNum?'active':'page-item'}">
-									/index?pageNum=${页码标号} <a
-									th:href="@{/index(pageNum)}+'='+${navigatepageNum}">[[${navigatepageNum}]]</a>
-								</li>
+                                <li th:each="navigatepageNum:${pageInfo.navigatepageNums}"
+                                    th:class="${navigatepageNum==pageInfo.pageNum?'active':'page-item'}">
+                                    <a th:href="@{/index(pageNum)}+'='+${navigatepageNum}">[[${navigatepageNum}]]</a>
+                                </li>
 
-								<li
-									th:class="${pageInfo.pageNum==pageInfo.pages?'disabled':'page-item'}">
-									<a th:href="@{/index(pageNum)}+'='+${pageInfo.pageNum+1}"
-									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-								</a>
-								</li>
+                                <li th:class="${pageInfo.pageNum==pageInfo.pages?'disabled':'page-item'}">
+                                    <a th:unless="${pageInfo.isLast}"
+                                       th:href="@{/index(pageNum)}+'='+${pageInfo.pageNum+1}"
+                                       aria-label="Next"><span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
 
-								<li
-									th:class="${pageInfo.pageNum==pageInfo.pages?'page-item disabled':'page-item'}">
-									<a th:href="@{/index(pageNum)}+'='+${pageInfo.pages}"> <span
-										aria-hidden="true">末页</span>
-								</a>
-								</li>
+                                <li th:class="${pageInfo.pageNum==pageInfo.pages?'page-item disabled':'page-item'}">
+                                    <a th:href="@{/index(pageNum)}+'='+${pageInfo.pages}">
+                                        <span aria-hidden="true">末页</span>
+                                    </a>
+                                </li>
 							</ul>
 						</nav>
 					</div>

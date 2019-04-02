@@ -1,6 +1,5 @@
 package com.hlju.mall.interceptor;
 
-import java.util.Arrays;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;

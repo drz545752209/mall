@@ -28,12 +28,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="stock: ${stockList}">
+                <tr th:each="stock: ${boStockList}">
                     <td th:text="${stock.id}" hidden="true" id="stock_id"></td>
-                    <td th:text="${stock.name}"></td>
-                    <td><input th:text="${stock.count}" id="stock_count"/></td>
-                    <td><input th:text="${stock.inDate}" id="stock_inDate"/></td>
-                    <td><input th:text="${stock.outDate}" id="stock_outDate"/></td>
+                    <td th:text="${stock.productName}"></td>
+                    <td><input th:value="${stock.count}"/></td>
+                    <td><input th:value="${stock.inDate}" /></td>
+                    <td><input th:value="${stock.outDate}"/></td>
                     <td>
                         <button type="button" class="btn btn-default btn-warning" id="mod_stock">修改</button>
                         <button type="button" class="btn btn-default btn-danger" id="reset_stock">清空</button>

@@ -3,8 +3,10 @@ package com.deng.mall.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
+import com.deng.mall.dao.BizDAO;
 import com.deng.mall.dao.OrderDAO;
 import com.deng.mall.dao.OrderDetailDAO;
+import com.deng.mall.dao.StoreDAO;
 import com.deng.mall.domain.*;
 import com.deng.mall.mq.SendMsg;
 import com.deng.mall.service.OrderService;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,14 +32,38 @@ public class OrderServiceImpl implements OrderService {
     OrderDetailDAO orderDetailDAO;
     @Autowired
     DefaultMQProducer defaultMQProducer;
+    @Autowired
+    BizDAO bizDAO;
+    @Autowired
+    StoreDAO storeDAO;
 
     final static Logger LOGGER= LoggerFactory.getLogger(OrderServiceImpl.class);
 
 
-    public List<BoOrder> getBoOrderList(Integer limit, Long offset) {
+    private Integer getStoreIdByBiz(String bizName){
+        //获取bizid
+        BizExample bizExample=new BizExample();
+        BizExample.Criteria bizExampleCriteria=bizExample.createCriteria();
+        bizExampleCriteria.andNameEqualTo(bizName);
+        List<Biz> bizs=bizDAO.selectByExample(bizExample);
+        Integer bizId=bizs.get(0).getId();
+        //获取
+        StoreExample storeExample=new StoreExample();
+        StoreExample.Criteria storeExampleCriteria=storeExample.createCriteria();
+        storeExampleCriteria.andBizIdEqualTo(bizId);
+        List<Store> stores=storeDAO.selectByExample(storeExample);
+        Integer storeId=stores.get(0).getId();
+
+        return storeId;
+    }
+
+    public List<BoOrder> getBoOrderList(Integer pageSize, Long pageNum, HttpServletRequest request) {
         List<BoOrder> boOrderList;
         Product product;
-        boOrderList = orderDAO.selectOrderBo(limit, offset);
+        HttpSession session=request.getSession();
+        String bizName= (String) session.getAttribute("loginName");
+        Integer storeId=getStoreIdByBiz(bizName);
+        boOrderList = orderDAO.selectOrderBo(pageSize, pageNum*pageSize,storeId);
         for (BoOrder boOrder : boOrderList) {
             product = productService.getProductById(boOrder.getProductId().toString());
             boOrder.setProductName(product.getName());

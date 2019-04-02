@@ -13,5 +13,5 @@ import java.util.List;
  */
 @Mapper
 public interface OrderDAO extends MyBatisBaseDao<Order, Integer, OrderExample> {
-    List<BoOrder> selectOrderBo(@Param("limit") Integer limit, @Param("offset") Long offset);
+    List<BoOrder> selectOrderBo(@Param("limit") Integer limit, @Param("offset") Long offset,@Param("storeId")Integer storeId);
 }

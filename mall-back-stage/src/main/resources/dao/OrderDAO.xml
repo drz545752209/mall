@@ -136,6 +136,7 @@
         order_detail ON `order`.detail_id=order_detail.id
         LEFT JOIN
         `user` ON `user`.id=`order`.user_id
+        where store_id=${storeId}
         limit ${offset}, ${limit}
     </select>
 

@@ -3,6 +3,7 @@ package com.hlju.mall.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.hlju.mall.domain.User;
 import com.hlju.mall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.hlju.mall.domain.User;
-
 @Controller
-public class AuthController {
+@RequestMapping("user")
+public class UserController {
 
 	@Autowired
 	UserService userService;

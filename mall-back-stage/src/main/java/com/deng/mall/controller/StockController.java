@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -17,20 +18,21 @@ public class StockController {
     StockService stockService;
 
     @RequestMapping("/stockList")
-    public ModelAndView getStockList(@RequestParam(required = false, defaultValue = "0") Long offset,
-                                     @RequestParam(required = false, defaultValue = "10") Integer limit) {
+    public ModelAndView getStockList(@RequestParam(required = false, defaultValue = "1") Long offset,
+                                     @RequestParam(required = false, defaultValue = "10") Integer limit,
+                                     HttpServletRequest request) {
 
-            List<BoStock> boStockList= stockService.getStockList(limit,offset);
-            ModelAndView modelAndView=new ModelAndView();
-            modelAndView.setViewName("bizstock.html");
-            modelAndView.addObject("boStockList",boStockList);
+        List<BoStock> boStockList = stockService.getStockList(limit, offset-1,request);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("boStockList", boStockList);
+        modelAndView.setViewName("bizstock.html");
 
-            return modelAndView;
+        return modelAndView;
     }
 
     @RequestMapping("/save")
     public String saveStock(      @RequestParam(value = "id")Integer id,
-                                  @RequestParam(value = "count")Long count,
+                                  @RequestParam(value = "count")String count,
                                   @RequestParam(value = "stockInDate")String stockInDate,
                                   @RequestParam(value = "stockOutDate")String stockOutDate
                                   )

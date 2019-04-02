@@ -20,7 +20,7 @@ public class StrUntils {
      * */
     public static Date str2Date(String strDate) {
         String str = strDate;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date d = null;
         try {
             d = format.parse(str);

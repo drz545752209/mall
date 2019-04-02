@@ -2,11 +2,12 @@ package com.deng.mall.service;
 
 import com.deng.mall.domain.Product;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface ProductService {
 
-     List<Product> getProductByType(String isShow,String type, long pageNum, int pageSize);
+     List<Product> getProductByType(String isShow, String type, long pageNum, int pageSize, HttpServletRequest request);
 
      Product getProductById(String id);
 

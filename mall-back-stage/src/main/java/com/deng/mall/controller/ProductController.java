@@ -37,13 +37,14 @@ public class ProductController {
     @RequestMapping(value = "/productList")
     public ModelAndView getProductList(@RequestParam(value = "type", required = false) String type,
                                        @RequestParam(value = "isShow", required = false, defaultValue = "0") String isShow,
-                                       @RequestParam(value = "pageNum", required = false, defaultValue = "0") Long pageNum,
-                                       @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize
+                                       @RequestParam(value = "pageNum", required = false, defaultValue = "1") Long pageNum,
+                                       @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize,
+                                       HttpServletRequest request
     ) {
         List<Product> productList;
         List<String> productTypeList;
 
-        productList = productService.getProductByType(isShow, type, pageNum, pageSize);
+        productList = productService.getProductByType(isShow, type, pageNum-1, pageSize,request);
         productTypeList = productService.getProductTypeList();
         ModelAndView mv = new ModelAndView();
         mv.setViewName("bizproduct.html");

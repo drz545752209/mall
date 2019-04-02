@@ -21,14 +21,14 @@ import java.util.List;
 @WebAppConfiguration
 public class OrderServiceImplTest {
     @Autowired
-    OrderService orderService;
+//    OrderService orderService;
 
     @Test
     public void testBoOrderList() {
-        List<BoOrder> boOrderList=orderService.getBoOrderList(2,0L);
-       for (BoOrder boOrder:boOrderList){
-           System.out.println(boOrder.getOperator());
-       }
+//        List<BoOrder> boOrderList=orderService.getBoOrderList(2,0L);
+//       for (BoOrder boOrder:boOrderList){
+//           System.out.println(boOrder.getOperator());
+//       }
     }
 
     @Test

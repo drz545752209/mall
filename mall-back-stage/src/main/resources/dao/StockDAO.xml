@@ -89,12 +89,17 @@
 
   <select id="selectStockList" resultMap="BoStockMap">
     select
-    <include refid="StockBo_list"/>
+    <include refid="StockBo_List"/>
     from stock
     left join
     product
     on
     stock.product_id=product.id
+    where stock.product_id in
+    <foreach collection="stockIds" item="stockId" open="(" separator="," close=")">
+      #{stockId}
+    </foreach>
+    limit ${offset}, ${limit}
   </select>
 
   <select id="selectByExample" parameterType="com.deng.mall.domain.StockExample" resultMap="BaseResultMap">

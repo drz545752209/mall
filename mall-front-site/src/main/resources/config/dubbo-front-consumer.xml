@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 消费方应用名 -->
+    <dubbo:application name="front-consumer"  />
+
+    <!-- 引用Service服务-->
+    <dubbo:reference id="productService"  interface="com.deng.mall.service.ProductService"
+                     check="false" version="1.0" url="127.0.0.1:30001" protocol="dubbo" timeout="15000"/>
+    <dubbo:reference id="promotionService" interface="com.deng.mall.service.PromotionService"
+                     check="false" version="1.0" url="127.0.0.1:30001" protocol="dubbo" timeout="15000"/>
+
+</beans>
