@@ -1,4 +1,4 @@
-package com.deng.mall.utils;
+package com.deng.common.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

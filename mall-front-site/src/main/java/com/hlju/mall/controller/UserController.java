@@ -62,7 +62,7 @@ public class UserController {
 		ModelAndView mav = new ModelAndView();
 		if (isValidate) {
 			HttpSession session = res.getSession();
-			session.setAttribute("loginName", user.getName());
+			session.setAttribute("userName", user.getName());
 			mav.setViewName("redirect:/index");
 		} else {
 			mav.setViewName("/login");

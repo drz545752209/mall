@@ -13,5 +13,6 @@
                      check="false" version="1.0" url="127.0.0.1:30001" protocol="dubbo" timeout="15000"/>
     <dubbo:reference id="promotionService" interface="com.deng.mall.service.PromotionService"
                      check="false" version="1.0" url="127.0.0.1:30001" protocol="dubbo" timeout="15000"/>
-
+    <dubbo:reference id="stockService" interface="com.deng.mall.service.StockService"
+                     check="false" version="1.0" url="127.0.0.1:30001" protocol="dubbo" timeout="15000"/>
 </beans>

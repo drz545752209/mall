@@ -132,44 +132,45 @@
 			</ul>
 
 			<!-- 购物车不为空 -->
-            <div th:if="${shopCarList!=null}" th:each="shopCar:${shopCarList}" class="shoppingcart_promotions_01">
+            <div th:if="${shopcarList!=null}" th:each="shopCar:${shopcarList}" class="shoppingcart_promotions_01">
                 <ul class="shoppingcart_list">
                     <li class="row01"><input type="checkbox" name="box"
                         value="36" onclick="checkboxFun(this.value)" /></li>
                     <li class="row00"><a name="productpic"
-                        th:href="@{/shopdetail(id)}+'='+${shopCar.shopInfoId}"
-                        title="${shopCar.shopInfo }">
+                        th:href="@{/shopdetail(id)}+'='+${shopCar.productId}"
+                        title="${shopCar.productDesc }">
                         <img
-                            th:src="@{/item_images/}+${shopCar.shopImg}" width="60xp"
+                            th:src="${shopCar.img}" width="60xp"
                             height="60xp">
                     </a></li>
                     <li class="row11">
                         <p>
                             <span class="name"> <a name="product"
-                                th:href="@{/shopdetail(id)}+'='+${shopCar.shopInfoId}"
-                                th:title="${shopCar.shopInfo}">[[${shopCar.shopInfo}]] </a>
+                                th:href="@{/shopdetail(id)}+'='+${shopCar.productId}"
+                                th:title="${shopCar.productDesc}">[[${shopCar.productDesc}]] </a>
                             </span>
                         </p>
                     </li>
                     <li class="row22">[[${shopCar.newPrice}]]</li>
-                    <li class="row33"><span>￥[[${shopCar.oldPrice}]]</span>&nbsp;&nbsp;(0.7折)</li>
+                    <li class="row33"><span>￥[[${shopCar.oldPrice}]]</span>&nbsp;&nbsp;([[${shopCar.newPrice/shopCar.oldPrice}]]折)</li>
                     <li class="row44"><span>￥[[${shopCar.newPrice}]]</span></li>
                     <li class="row55" style="width: 92px;height: 75px;">
-                        <input type="text"  name="number" th:value="${shopCar.number}" >
-                        <a th:href="@{/addToShopcar(shopId)}+'='+${shopCar.shopInfoId}+'&count=1'" id="add"
+                        <input type="text"  name="number" th:value="${shopCar.buyNum}" >
+                        <a th:href="@{/addToShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=1'" id="add"
                             title="数量加一" class="add" name="add">+</a>
-                        <a th:href="@{/delFromShopcar(shopInfoId)}+'='+${shopCar.shopInfoId}+'&count=1'"
-                            title="数量减一" class="cut" name="cut" th:if="${shopCar.number}>1">-</a>
+                        <a th:href="@{/addToShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=-1'"
+                            title="数量减一" class="cut" name="cut" th:if="${shopCar.buyNum}>1">-</a>
                     </li>
                     <li class="row66" style="width: 84px;height:75px;">
                         <a name="movetofavorite" href="javascript:void(0);" title="此商品将移至“我的收藏”并从购物车中删除"
                             id="move_20376113">移入收藏</a>
-                        <a name="delete" th:href="@{/delFromShopcar(shopInfoId)}+'='+${shopCar.shopInfoId}">删除</a></li>
+                        <a name="delete" th:href="@{/delFromShopcar(shopId)}+'='+${shopCar.productId}">删除</a>
+					</li>
                 </ul>
             </div>
 
             <!-- 购物车为空的话 -->
-			<table th:if="${shopCarList==null}" align="center">
+			<table th:if="${shopcarList==null}" align="center">
 				<tr>
 					<td><img alt="" src="/img/cart_icon.gif" /></td>
 					<td><span style="font-size: 14px; font-weight: bold;">
@@ -181,7 +182,7 @@
 
 
 			<div align="right" id="div_total"
-				style="display: block; clear: both;">
+				style="display: block; clear: both;" th:if="${shopcarList!=null}">
 				<p style="font-size: 14px; font-weight: bold; line-height: 31px;">
 					数量总计： <span id="shopNum" style="color: red; font-size: 16px; font-weight: bold;">[[${shopNum}]]</span>&nbsp;&nbsp;(件)
 				</p>

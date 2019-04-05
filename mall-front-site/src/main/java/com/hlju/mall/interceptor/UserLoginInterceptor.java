@@ -18,7 +18,7 @@ public class UserLoginInterceptor implements HandlerInterceptor{
 	
 	public boolean preHandle(HttpServletRequest request,HttpServletResponse httpServletResponse,Object handler) {
 		HttpSession httpSession=request.getSession();
-		String loginName=(String) httpSession.getAttribute("loginName");
+		String loginName=(String) httpSession.getAttribute("userName");
 		if(loginName==null||"".equals(loginName)) {
 			logger.info("用户未登录");
 			try {

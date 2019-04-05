@@ -19,7 +19,7 @@ public class PromotionServiceImpl  implements PromotionService {
     PromotionDAO promotionDAO;
 
     @Override
-    public List<Promotion> getPromotionByProductId(List<Product> products) {
+    public List<Promotion> getPromotionByProductIds(List<Product> products) {
         List<Integer> productIds=new ArrayList<>();
         for (Product product:products){
             productIds.add(product.getId());
@@ -31,6 +31,15 @@ public class PromotionServiceImpl  implements PromotionService {
         List<Promotion> promotions=promotionDAO.selectByExample(promotionExample);
 
         return promotions;
+    }
+
+    @Override
+    public Promotion getPromotionByProductId(Product product) {
+        if (product!=null){
+            Promotion promotion=promotionDAO.selectByPrimaryKey(product.getId());
+            return promotion;
+        }
+        return null;
     }
 
     @Override

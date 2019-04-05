@@ -1,5 +1,6 @@
 package com.deng.mall.utils;
 
+import com.deng.common.utils.SerializeUtil;
 import org.apache.ibatis.cache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

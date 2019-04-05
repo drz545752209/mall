@@ -35,7 +35,7 @@ public class ShopController {
 		List<String> productTypeList=productService.getProductTypeList();
 
 
-		List<Promotion> promotions =promotionService.getPromotionByProductId(productList);
+		List<Promotion> promotions =promotionService.getPromotionByProductIds(productList);
 		HashMap<Integer,Integer> promotionDiscountMap=promotionService.getPromotionDiscount(promotions,productList);
 
 		//分页

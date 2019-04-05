@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>状态页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="" rel="shortcut icon" type="image/x-icon" />
+    <!-- main.css是购物商城主样式 -->
+    <link rel=stylesheet type=text/css href="/css/index.css" />
+    <link rel=stylesheet type=text/css href="/css/header.css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- 引入公用头部 -->
+<div th:replace="public_header :: header"></div>
+
+<div style="positon: relative; width: 960px; margin: 0px auto;">
+
+    <!-- 左边物品类型列表 -->
+    <div id="booksort" style="float: left; width: 180px;">
+        <div class="list-group">
+            <p class="list-group-item active"
+               style="margin-top: 55px; height: 55px;">物品分类</p>
+            <a href="/index/1" class="list-group-item">数码相机</a> <a href="/index/2"
+                                                                   class="list-group-item">平板电脑</a> <a href="/index/3"
+                                                                                                       class="list-group-item">笔记本电脑</a>
+            <a href="/index/4"
+               class="list-group-item">智能手表</a> <a href="/index/5"
+                                                   class="list-group-item">智能冰箱</a> <a href="/index/6"
+                                                                                       class="list-group-item">智能空调</a>
+            <a href="/index/7"
+               class="list-group-item">智能电视</a> <a href="/index/8"
+                                                   class="list-group-item">鼠标</a> <a href="/index/1"
+                                                                                     class="list-group-item">显示器</a> <a
+                href="/index/2"
+                class="list-group-item">键盘</a> <a href="/index/3"
+                                                  class="list-group-item">主机</a> <a href="/index/4"
+                                                                                    class="list-group-item">显卡</a> <a
+                href="/index/5"
+                class="list-group-item">主板</a> <a href="/index/6"
+                                                  class="list-group-item">游戏机</a> <a href="/index/7"
+                                                                                     class="list-group-item">智能音箱</a> <a
+                href="/index/8"
+                class="list-group-item"></a>
+        </div>
+    </div>
+
+    <!-- 右边对应物品列表 -->
+    <div style="float: left; width: 750px; text-align: center;">
+
+    <div id="sucessDiv" th:if="${status}">
+    <input type="text" value="操作成功" />
+        <a th:href="@{/index}">继续购物</a>
+        <a th:href="@{/scanShopcar}">查看购物车</a>
+    </div>
+    <div id="faildDiv" th:unless="${status}">
+        <input type="text" value="操作失败" />
+        <a th:href="@{/shopdetail(id=${productId})}">返回</a>
+    </div>
+
+    </div>
+</div>
+
+<!-- 引入公用尾部 -->
+<div th:replace="public_footer :: #public_footer"></div>
+</body>
+</html>

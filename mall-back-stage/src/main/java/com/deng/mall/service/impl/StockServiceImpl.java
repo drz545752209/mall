@@ -74,6 +74,23 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
+    public Stock getStockByProductId(Product product) {
+        if (product!=null){
+            StockExample stockExample=new StockExample();
+            StockExample.Criteria criteria=stockExample.createCriteria();
+            criteria.andProductIdEqualTo(product.getId());
+            List<Stock> stocks=stockDAO.selectByExample(stockExample);
+            if (stocks.size()!=0){
+                return stocks.get(0);
+            }else {
+                return null;
+            }
+
+        }
+        return null;
+    }
+
+    @Override
     public void saveStock(Integer id,String count, String inDate, String outDate) {
         Stock stock=new Stock();
         stock.setId(id);
