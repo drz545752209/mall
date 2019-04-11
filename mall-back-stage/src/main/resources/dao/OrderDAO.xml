@@ -141,17 +141,17 @@
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from order
+    delete from `order`
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <delete id="deleteByExample" parameterType="com.deng.mall.domain.OrderExample">
-        delete from order
+        delete from `order`
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
     <insert id="insert" parameterType="com.deng.mall.domain.Order">
-    insert into order (id, user_id, store_id, 
+    insert into `order` (id, user_id, store_id,
       detail_id, `operator`, operate_date
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, 
@@ -159,7 +159,7 @@
       )
   </insert>
     <insert id="insertSelective" parameterType="com.deng.mall.domain.Order">
-        insert into order
+        insert into `order`
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -202,13 +202,13 @@
         </trim>
     </insert>
     <select id="countByExample" parameterType="com.deng.mall.domain.OrderExample" resultType="java.lang.Long">
-        select count(*) from order
+        select count(*) from `order`
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
-        update order
+        update `order`
         <set>
             <if test="record.id != null">
                 id = #{record.id,jdbcType=INTEGER},
@@ -234,7 +234,7 @@
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
-        update order
+        update `order`
         set id = #{record.id,jdbcType=INTEGER},
         user_id = #{record.userId,jdbcType=INTEGER},
         store_id = #{record.storeId,jdbcType=INTEGER},
@@ -246,7 +246,7 @@
         </if>
     </update>
     <update id="updateByPrimaryKeySelective" parameterType="com.deng.mall.domain.Order">
-        update order
+        update `order`
         <set>
             <if test="userId != null">
                 user_id = #{userId,jdbcType=INTEGER},
@@ -267,7 +267,7 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.deng.mall.domain.Order">
-    update order
+    update `order`
     set user_id = #{userId,jdbcType=INTEGER},
       store_id = #{storeId,jdbcType=INTEGER},
       detail_id = #{detailId,jdbcType=INTEGER},
