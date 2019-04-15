@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>购物商城-评论</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="" rel="shortcut icon" type="image/x-icon" />
+    <!-- main.css是购物商城主样式 -->
+    <link rel=stylesheet type=text/css href="/css/index.css" />
+    <link rel=stylesheet type=text/css href="/css/header.css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* 向左的箭头 */
+        .glyphicon{
+            cursor: pointer;
+        }
+        .dot-left {
+            font-size: 0;
+            line-height: 0;
+            border-width: 5px;
+            border-color: #f37a0e;
+            border-left-width: 0;
+            border-style: dashed;
+            border-right-style: solid;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            display: inline-block;
+        }
+        /* 文字提示框 */
+        .tip{
+            background: #f37a0e;
+            padding: 0 5px;
+            display: inline-block;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        $(function(){
+            var tip_text = '',$parent = {};
+            $(".glyphicon").bind({
+                mouseout: function () {
+                    $parent.children('.extra').remove();
+                    //返回父节点同级元素节点
+                    var score = $parent.siblings('.score').html();
+                    if(score){//有星星选中时
+                        $parent.children(":lt("+ parseInt(score) +")").removeClass('glyphicon-star-empty').addClass('glyphicon-star');//PS:此处应该加上parseInt进行整型转换，否则会没有效果
+                        $parent.children(":gt("+ eval(parseInt(score)-1) + ")").removeClass('glyphicon-star').addClass('glyphicon-star-empty');//PS:此处要记得加eval，进行js计算，不然会报“jquery.min.js:2 Uncaught Error: Syntax error, unrecognized expression: NaN)”的错误
+                    }
+                },
+                mouseover: function () {
+                    $parent = $(this).parent();//把父节点存放起来,这里存储<td>标签同级节点
+                    var score = $parent.siblings('.score').html();
+                    $parent.append('<span class="extra dot-left"></span><span class="extra tip"></span>');//添加提示框
+                    tip_text = indexText($(this).index());//得到相应的文字提示
+                    $(this).siblings('.tip').html(tip_text);//显示文字提示
+                    if(score){//当有星星选中时，为了解决鼠标移到选中星星的的前面星星时的小bug，此时会出现前面星星鼠标滑动时，星星颜色不变化现象
+                        $(this).nextAll().not('.extra').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+                    }
+                },
+                click: function(){
+                    var score = $(this).index() + 1;
+                    $parent.siblings('.score').html(score+'(' + tip_text + ')');
+                    $parent.siblings('.score').children().val(score+'(' + tip_text + ')');
+                }
+            });
+
+            $('.btn-success').click(function(){
+                var allScore = '';
+                var storeScore = '';
+                var logisticsScore = '';
+                $('.score').each(function(){
+                    var text = $(this).html();
+                    var desc = $('#commentDesc').val();
+                    if(text == ''||desc==''){
+                        alert('请完成每项的评分后再提交!');
+                        throw "请完成每项的评分后再提交!";//向浏览器抛出异常，终止程序运行，用了return false试了下，还是会继续执行下面的弹窗，这里用throw刚好恰到好处,如果想继续用return false则可以改成if...else...进行判断处理也可以。
+                    }
+                    if (allScore == ''){
+                        storeScore=parseInt(text);
+                    } else {
+                        logisticsScore=parseInt(text);
+                    }
+                    allScore += $(this).siblings(":first").html() + ':' + text + '\n';
+                });
+                var productId=$('#productId').val();
+                var json="{storeScore:"+storeScore+","
+                    +"logisticsScore:"+logisticsScore+","+"prductId:"+productId+ "}";
+                $.post("/addComment",json);
+            })
+        });
+
+        //封装文字提示函数
+        function indexText(i){
+            switch(i){
+                case 0:
+                    return '非常不满意';
+                case 1:
+                    return '不满意';
+                case 2:
+                    return '一般';
+                case 3:
+                    return '满意';
+                case 4:
+                    return '非常满意';
+            }
+        }
+
+    </script>
+</head>
+<body>
+<!-- 引入公用头部 -->
+<div th:replace="public_header :: header"></div>
+
+<div class="container">
+    <form action="/addComment" id="commentForm">
+    <table class="table table-bordered table-hover table-striped table-condensed">
+        <tr>
+           <div>
+               <p>评价描述:</p>
+               <input id="commentDesc" type="text" style="width: 100%; height: 100px"/>
+           </div>
+        </tr>
+        <tr>
+            <th width="33%">评价项目</th>
+            <th width="33%">星星</th>
+            <th width="33%">分数</th>
+        </tr>
+        <tr class="tr">
+            <td>卖家服务</td>
+            <td>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+            </td>
+            <td class="score"></td>
+        </tr>
+        <tr class="tr">
+            <td>物流服务</td>
+            <td>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+            </td>
+            <td class="score"></td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: center;">
+                <input type="hidden" th:value="${productId}" id="productId">
+                <button type="button" class="btn btn-success">提交</button>
+                <button type="button" class="btn btn-info" onclick="javascript:location.reload();">重选</button>
+            </td>
+        </tr>
+    </table>
+    </form>
+</div>
+
+
+<!---- middle end----->
+<!-- 引入公用尾部 -->
+<div  th:replace="public_footer :: #public_footer"></div>
+
+
+</body>
+</html>

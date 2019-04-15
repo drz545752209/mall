@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ImportResource;
 import redis.clients.jedis.JedisPool;
 
 @SpringBootApplication
-@ImportResource({"classpath:/config/dubbo-front-consumer.xml"})
+@ImportResource({"classpath:/config/dubbo-front-consumer.xml","classpath:/config/dubbo-front-provider.xml"})
 @Import({JedisUtils.class, JedisPool.class})
 public class DigitalMallApplication {
 

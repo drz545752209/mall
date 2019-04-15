@@ -13,8 +13,9 @@ public interface ShopcarService {
 
        boolean delShopcarFromRedis(Integer productId,HttpServletRequest req);
 
+       boolean saveShopcarFromRedis(Integer productId, Integer buyNum, HttpServletRequest req);
+
        List<Shopcar> getShopcarList(HttpServletRequest req);
 
        HashMap<String,Object> computeSum(List<Shopcar> shopcars);
-
 }

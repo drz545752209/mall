@@ -24,4 +24,8 @@
                    version="1.0" registry="N/A"/>
     <bean  class="com.deng.mall.service.impl.PromotionServiceImpl" />
 
+    <dubbo:service interface="com.deng.mall.service.OrderService" ref="orderService"
+                   version="1.0" registry="N/A"/>
+    <bean  class="com.deng.mall.service.impl.OrderServiceImpl" />
+
 </beans>

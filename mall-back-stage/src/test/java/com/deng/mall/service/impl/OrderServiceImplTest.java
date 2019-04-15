@@ -25,10 +25,17 @@ public class OrderServiceImplTest {
 
     @Test
     public void testBoOrderList() {
-//        List<BoOrder> boOrderList=orderService.getBoOrderList(2,0L);
-//       for (BoOrder boOrder:boOrderList){
+//        List<UserBoOrder> boOrderList=orderService.getBoOrderList(2,0L);
+//       for (UserBoOrder boOrder:boOrderList){
 //           System.out.println(boOrder.getOperator());
 //       }
+    }
+
+    @Test
+    public void test(){
+        for (int i=0;i<2;i++){
+            System.out.println(i);
+        }
     }
 
     @Test

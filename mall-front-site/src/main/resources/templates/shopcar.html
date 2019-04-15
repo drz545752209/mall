@@ -84,17 +84,24 @@
 		var orderInfo = document.getElementById("orderInfo");
 
 		var num = 0;
+
 		//在Js中foreach并不会遍历每个元素,而是遍历Key,即所有属性
 		for (var i = 0; i < boxs.length; i++) {
 			//全选事件点击，其他复选框和全选框状态相同
 			var box = boxs[i];
 			if (box.checked) {
 				num++;
+				var productId=$(":input[name='box']").val();
+				var buyNum=$(":input[name='number']").val();
+				var newPrice=$("#newPrice").val();
+				var var1;
+                var1 ="{productId:"+productId+","
+                    +"buyNum:"+buyNum+","+"newPrice:"+newPrice+ "}";
 				if (orderInfo.value == null || orderInfo.value == "") {
-					orderInfo.value = box.value;
-				} else {
-					//判断是否已经存在
-					orderInfo.value = orderInfo.value + "," + box.value;
+                    orderInfo.value = var1;
+				}
+				else {
+                    orderInfo.value = orderInfo.value + "," + var1;
 				}
 			}
 		}
@@ -102,7 +109,7 @@
 		if (num == 0) {
 			alert("请选择需要购买的商品");
 		} else {
-			//document.getElementById("form").submit();
+			document.getElementById("form").submit();
 		}
 
 	}
@@ -135,7 +142,7 @@
             <div th:if="${shopcarList!=null}" th:each="shopCar:${shopcarList}" class="shoppingcart_promotions_01">
                 <ul class="shoppingcart_list">
                     <li class="row01"><input type="checkbox" name="box"
-                        value="36" onclick="checkboxFun(this.value)" /></li>
+                        th:value="${shopCar.productId}" onclick="checkboxFun(this.value)" /></li>
                     <li class="row00"><a name="productpic"
                         th:href="@{/shopdetail(id)}+'='+${shopCar.productId}"
                         title="${shopCar.productDesc }">
@@ -154,11 +161,14 @@
                     <li class="row22">[[${shopCar.newPrice}]]</li>
                     <li class="row33"><span>￥[[${shopCar.oldPrice}]]</span>&nbsp;&nbsp;([[${shopCar.newPrice/shopCar.oldPrice}]]折)</li>
                     <li class="row44"><span>￥[[${shopCar.newPrice}]]</span></li>
+
+					<input type="hidden" th:value="${shopCar.newPrice}" id="newPrice" />
+
                     <li class="row55" style="width: 92px;height: 75px;">
                         <input type="text"  name="number" th:value="${shopCar.buyNum}" >
-                        <a th:href="@{/addToShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=1'" id="add"
+                        <a th:href="@{//saveShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=1'" id="add"
                             title="数量加一" class="add" name="add">+</a>
-                        <a th:href="@{/addToShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=-1'"
+                        <a th:href="@{//saveShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=-1'"
                             title="数量减一" class="cut" name="cut" th:if="${shopCar.buyNum}>1">-</a>
                     </li>
                     <li class="row66" style="width: 84px;height:75px;">
@@ -192,12 +202,13 @@
 					</span>&nbsp;&nbsp;(折后价)
 				</p>
 				<p>
-				<form action="/ShoppingMallProject/order.action?step=1"
+				<form action="/commitOrder"
                     method="post" id="form">
                     <td><a href="./" name="goon" class="goon"><img alt=""
                             src="img/shop.jpg" /></a></td>
                     <!-- 通过隐藏输入框 将订单相关信息传递至后台 -->
-                    <input type="hidden" name="orderInfo" id="orderInfo" />
+                    <input type="hidden" name="orderInfo" id="orderInfo"/>
+
                     <td>
                         <button id="commitOrder"
                             style="background-image: url(/img/balance.jpg); width: 140px; height: 35px"

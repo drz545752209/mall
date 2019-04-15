@@ -63,8 +63,8 @@ public class UserServiceImpl implements UserService {
 	public List<User> selectUserNameByExamle(User record) {
 		UserExample uExample = new UserExample();
 		UserExample.Criteria criteria = uExample.createCriteria();
-		String userName = StringUtils.isNotEmpty(record.getName()) ? null : record.getName();
-		if (!userName.isEmpty()) {
+		String userName = StringUtils.isNotEmpty(record.getName()) ?  record.getName():null;
+		if (userName!=null&&!userName.isEmpty()) {
 			criteria.andNameEqualTo(userName);
 			return userDao.selectByExample(uExample);
 		}

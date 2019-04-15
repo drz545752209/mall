@@ -21,6 +21,17 @@
         <result column="product_id" jdbcType="INTEGER" property="productId"/>
     </resultMap>
 
+    <resultMap id="userBoOrderMap" type="com.deng.mall.domain.UserBoOrder">
+        <id column="order_id" jdbcType="INTEGER" property="id"/>
+        <result column="product_id" jdbcType="INTEGER" property="productId"/>
+        <result column="product_img" jdbcType="VARCHAR" property="productImg"/>
+        <result column="product_description" jdbcType="VARCHAR" property="productDescription"/>
+        <result column="buy_num" jdbcType="BIGINT" property="buyNum"/>
+        <result column="total_price" jdbcType="BIGINT" property="totalPrice"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="store_name" jdbcType="VARCHAR" property="storeName"/>
+    </resultMap>
+
     <sql id="orderBoList">
 	`order`.id AS order_id,
      order_detail.sum_consume AS sum_consume,
@@ -127,9 +138,9 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="selectOrderBo"   resultMap="boOrderMap">
-       select
-       <include refid="orderBoList"/>
+    <select id="selectOrderBo" resultMap="boOrderMap">
+        select
+        <include refid="orderBoList"/>
         FROM
         `order`
         LEFT JOIN
@@ -138,6 +149,37 @@
         `user` ON `user`.id=`order`.user_id
         where store_id=${storeId}
         limit ${offset}, ${limit}
+    </select>
+
+    <select id="selectUserBoOrder" resultMap="userBoOrderMap">
+           SELECT
+             `order`.id AS 'order_id',
+             pd.product_id AS 'product_id',
+             pd.product_img AS 'product_img',
+             pd.product_description AS 'product_description',
+             pd.buy_num AS 'buy_num',
+             pd.total_price AS 'total_price',
+             pd.`status` AS 'status',
+             store.`name` AS 'store_name'
+         FROM
+             `order`
+         LEFT JOIN (
+             SELECT
+                 product.id AS 'product_id',
+                 product.img AS 'product_img',
+                 product.description AS 'product_description',
+                 order_detail.id AS 'order_detail_id',
+                 order_detail.`status` AS 'status',
+                 order_detail.count_consume AS 'buy_num',
+                 order_detail.sum_consume AS 'total_price'
+             FROM
+                 order_detail
+             LEFT JOIN product ON order_detail.product_id = product.id
+         ) pd ON `order`.detail_id = pd.order_detail_id
+         LEFT JOIN store ON `order`.store_id = store.id
+         WHERE
+             `order`.user_id = ${userId}
+         limit ${offset}, ${limit}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 用dubbo协议,端口-->
+    <dubbo:protocol name="dubbo" port="30002" />
+
+    <!-- 提供接口,接口实现类 -->
+    <dubbo:service interface="com.hlju.mall.service.UserService" ref="userService"
+                   version="1.0" registry="N/A"/>
+    <bean  class="com.hlju.mall.service.impl.UserServiceImpl" />
+
+
+</beans>

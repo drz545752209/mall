@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>购物商城-我的订单</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="" rel="shortcut icon" type="image/x-icon" />
+    <!-- main.css是购物商城主样式 -->
+    <link rel=stylesheet type=text/css href="/css/index.css" />
+    <link rel=stylesheet type=text/css href="/css/header.css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <script type="text/javascript">
+    </script>
+</head>
+<body>
+<!-- 引入公用头部 -->
+<div th:replace="public_header :: header"></div>
+
+<!-- middle part -->
+<div style="positon: relative; width: 960px; margin: 0px auto;">
+    <div class="shoppingcart_wrapper" id="shoppingcart">
+        <p style="text-align: left;">
+				<span id="shoppingcart_dd"
+                      style="font-size: 13px; line-height: 28px;">当前位置&nbsp;&gt;&gt;&nbsp;我的订单
+				</span>
+        </p>
+        <ul class="shoppingcart_subject" id="ui_shoppingcart_title">
+            <li class="row1">商品名称</li>
+            <li class="row2">商家</li>
+            <li class="row3">购买单价</li>
+            <li class="row4">购买数量</li>
+            <li class="row5">状态</li>
+            <li class="row6">操作</li>
+        </ul>
+
+        <!-- 订单不为空 -->
+        <div th:if="${orderList!=null}" th:each="order:${orderList}" class="shoppingcart_promotions_01">
+            <ul class="shoppingcart_list">
+                <li class="row00"><a name="productpic"
+                                     th:href="@{/orderdetail(shopId)}+'='+${order.productId}"
+                                     title="${order.productDesc }">
+                    <img
+                            th:src="${order.productImg}" width="60xp"
+                            height="60xp">
+                </a></li>
+                <li class="row11">
+                    <p>
+                            <span class="name"> <a name="product"
+                                                   th:href="@{/orderdetail(id)}+'='+${order.productId}"
+                                                   th:title="${order.productDescription}">[[${order.productDescription}]] </a>
+                            </span>
+                    </p>
+                </li>
+                <li class="row22" style="width: 120px;height: 75px;">
+                    <div id="storeName">[[${order.storeName}]]</div>
+                </li>
+                <li class="row33" style="width: 120px;height: 75px;">
+                    <div id="price">[[${order.totalPrice}]]</div>
+                </li>
+                <li class="row44" style="width: 200px;height: 75px;">
+                    <div id="number">[[${order.buyNum}]]</div>
+                </li>
+                <li class="row55" style="width: 84px;height: 75px;">
+                    <div id="status">[[${order.status}]]</div>
+                </li>
+                <li class="row66" style="width: 84px;height:75px;">
+                    <a name="comment" th:href="@{/comment(productId)}+'='+${order.productId}" title="评价此商品"
+                       id="comment">去评价</a>
+                    <a name="delete" th:href="@{/cancelShopping(orderId)}+'='+${order.id}">退款</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 订单为空 -->
+        <table th:if="${orderList==null}" align="center">
+            <tr>
+                <td><img alt="" src="/img/cart_icon.gif" /></td>
+                <td><span style="font-size: 14px; font-weight: bold;">
+							还没有购买的商品哦，<a href="index.do">我要去看看&gt;&gt;</a>
+					</span></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!---- middle end----->
+<!-- 引入公用尾部 -->
+<div  th:replace="public_footer :: #public_footer"></div>
+
+
+</body>
+</html>

@@ -101,4 +101,23 @@ public class ShopcarServiceImpl implements ShopcarService {
         }
         return true;
     }
+
+    @Override
+    public boolean saveShopcarFromRedis(Integer productId, Integer buyNum, HttpServletRequest req) {
+        Cookie[] cookies=req.getCookies();
+        for (Cookie cookie:cookies){
+            String cookieKey=cookie.getName();
+            String cookieValue=cookie.getValue();
+            if (cookieKey!=null&&cookieKey.startsWith("mallShopcar")){
+                Shopcar shopcar=(Shopcar) JedisUtils.get(cookieValue,true);
+                if (shopcar.getProductId()==productId){
+                    Integer var1=shopcar.getBuyNum()+buyNum;
+                    shopcar.setBuyNum(var1);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
