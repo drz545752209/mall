@@ -28,4 +28,8 @@
                    version="1.0" registry="N/A"/>
     <bean  class="com.deng.mall.service.impl.OrderServiceImpl" />
 
+    <dubbo:service interface="com.deng.mall.service.BizService" ref="bizService"
+                   version="1.0" registry="N/A"/>
+    <bean  class="com.deng.mall.service.impl.BizServiceImpl" />
+
 </beans>

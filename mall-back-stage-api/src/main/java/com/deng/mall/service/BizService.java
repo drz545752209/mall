@@ -20,4 +20,6 @@ public interface BizService {
 
     boolean hasCookie(HttpServletRequest request, HttpServletResponse resp, boolean isValidate, Biz biz);
 
+    boolean updateBizScore(Integer storeId,Integer score);
+
 }

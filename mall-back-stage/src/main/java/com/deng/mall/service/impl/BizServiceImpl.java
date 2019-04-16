@@ -2,11 +2,16 @@ package com.deng.mall.service.impl;
 
 import com.deng.common.utils.Encryption;
 import com.deng.mall.dao.BizDAO;
+import com.deng.mall.dao.StoreDAO;
 import com.deng.mall.domain.Biz;
 import com.deng.mall.domain.BizExample;
+import com.deng.mall.domain.Store;
+import com.deng.mall.domain.StoreExample;
 import com.deng.mall.service.BizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
@@ -19,6 +24,8 @@ import java.util.List;
 public class BizServiceImpl implements BizService {
     @Autowired
     BizDAO bizDAO;
+    @Autowired
+    StoreDAO storeDAO;
 
     @Override
     public int insertSelective(Biz record) {
@@ -85,6 +92,44 @@ public class BizServiceImpl implements BizService {
             resp.addCookie(cookie);
         }
         return false;
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public boolean updateBizScore(Integer storeId, Integer score) {
+        Store store=storeDAO.selectByPrimaryKey(storeId);
+        Integer curScore=store.getScore();
+        Long salesVolume=store.getSalesVolume();
+        long updateScore=(curScore*salesVolume+score)/(salesVolume+1);
+        store.setScore((int)updateScore);
+
+        StoreExample storeExample=new StoreExample();
+        StoreExample.Criteria storeExampleCriteria=storeExample.createCriteria();
+        storeExampleCriteria.andIdEqualTo(storeId);
+        storeDAO.updateByExampleSelective(store,storeExample);
+
+        StoreExample selectBizExample=new StoreExample();
+        StoreExample.Criteria selectBizCriteria=storeExample.createCriteria();
+        selectBizCriteria.andBizIdEqualTo(store.getBizId());
+        List<Store> bizStores=storeDAO.selectByExample(selectBizExample);
+        Integer bizStoreSum=bizStores.size();
+        Integer bizStoreScoreSum=0;
+        for (Store var:bizStores){
+            bizStoreScoreSum+=var.getScore();
+        }
+
+        BizExample bizExample=new BizExample();
+        BizExample.Criteria bizExampleCriteria=bizExample.createCriteria();
+        bizExampleCriteria.andIdEqualTo(store.getBizId());
+        List<Biz> bizs=bizDAO.selectByExample(bizExample);
+        Biz biz=bizs.get(0);
+
+        Integer curBizScore=biz.getBizScore();
+        Integer updateBizScore=bizStoreScoreSum/bizStoreSum;
+        biz.setBizScore(updateBizScore);
+        bizDAO.updateByExampleSelective(biz,bizExample);
+
+        return true;
     }
 
 }

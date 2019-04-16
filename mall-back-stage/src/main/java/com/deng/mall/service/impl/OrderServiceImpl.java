@@ -132,7 +132,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public boolean createOrder(String shopInfo,String userName) {
-        List<HashMap> productIds=StrUntils.json2Map(shopInfo);
+        List<HashMap> productIds=StrUntils.json2MapList(shopInfo);
 
         for (HashMap resultMap:productIds){
             try{
@@ -176,6 +176,12 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return true;
+    }
+
+    @Override
+    public Integer getStoreIdByOrderId(Integer orderId) {
+        Order order=orderDAO.selectByPrimaryKey(orderId);
+        return order.getStoreId();
     }
 
 

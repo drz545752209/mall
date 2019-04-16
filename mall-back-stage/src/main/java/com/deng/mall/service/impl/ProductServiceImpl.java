@@ -154,4 +154,13 @@ public class ProductServiceImpl implements ProductService{
     public void create(Product record){
         productDAO.insertSelective(record);
     }
+
+    @Override
+    public boolean updateComment(Integer productId,String comment) {
+        Product product=productDAO.selectByPrimaryKey(productId);
+        product.setComment(comment);
+        productDAO.updateByPrimaryKeySelective(product);
+
+        return true;
+    }
 }

@@ -66,7 +66,7 @@
                     <div id="status">[[${order.status}]]</div>
                 </li>
                 <li class="row66" style="width: 84px;height:75px;">
-                    <a name="comment" th:href="@{/comment(productId)}+'='+${order.productId}" title="评价此商品"
+                    <a name="comment" th:href="@{/comment(productId=${order.productId},orderId=${order.id})}" title="评价此商品"
                        id="comment">去评价</a>
                     <a name="delete" th:href="@{/cancelShopping(orderId)}+'='+${order.id}">退款</a>
                 </li>

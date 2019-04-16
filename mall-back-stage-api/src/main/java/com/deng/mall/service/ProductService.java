@@ -26,4 +26,6 @@ public interface ProductService {
      void save(Product product);
 
      void create(Product product);
+
+     boolean updateComment(Integer productId,String comment);
 }

@@ -11,10 +11,12 @@ import com.deng.mall.service.ProductService;
 import com.deng.mall.service.PromotionService;
 import com.deng.mall.service.StockService;
 import com.hlju.mall.domain.Shopcar;
+import com.hlju.mall.service.CommentService;
 import com.hlju.mall.service.ShopcarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +40,8 @@ public class UserOperaController {
     ShopcarService shopcarService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    CommentService commentService;
 
     @RequestMapping("/shopdetail")
     public ModelAndView toProductDetail(@RequestParam(name = "id")Integer productId){
@@ -151,7 +155,7 @@ public class UserOperaController {
         String userName= (String) session.getAttribute("userName");
 
         //HttpServletRequest没有序列化，不支持dubbo
-        List<UserBoOrder> userBoOrders=orderService.getQueryOrder(pageSize,pageNum-1,"dyzs");
+        List<UserBoOrder> userBoOrders=orderService.getQueryOrder(pageSize,pageNum-1,userName);
 
         PageFucker pageInfo=new PageFucker(pageSize,pageNum,userBoOrders.size());
         pageInfo.computePage();
@@ -165,21 +169,26 @@ public class UserOperaController {
 
     @RequestMapping("/toComment")
     public ModelAndView toComment(
-            @RequestParam(name = "productId")Integer productId
+            @RequestParam(name = "productId")Integer productId,
+            @RequestParam(name = "orderId")Integer orderId
     ){
         ModelAndView mav=new ModelAndView();
         mav.setViewName("comment");
         mav.addObject("productId",productId);
+        mav.addObject("orderId",orderId);
 
         return mav;
     }
 
     @RequestMapping("/addComment")
-    public ModelAndView addComment(String json){
-        ModelAndView mav=new ModelAndView();
+    public ModelAndView addComment(
+            String sendResult) {
+        ModelAndView mav = new ModelAndView();
+        boolean status=commentService.addComment(sendResult);
+        mav.setViewName("status");
+        mav.addObject("status",status);
 
-
-       return null;
+        return mav;
     }
 
 

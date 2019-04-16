@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StrUntils {
     public static List<Integer> getIds(String idStr){
@@ -41,7 +42,7 @@ public class StrUntils {
      * @param jsonStr
      * @return
      */
-    public static List<HashMap> json2Map(String jsonStr){
+    public static List<HashMap> json2MapList(String jsonStr){
         if (StringUtils.isEmpty(jsonStr)){
             return null;
         }
@@ -52,5 +53,14 @@ public class StrUntils {
         return  result;
     }
 
+    public static Map json2Map(String jsonStr){
+        if (StringUtils.isEmpty(jsonStr)){
+            return null;
+        }
+
+        Map result = (Map)JSON.parse(jsonStr);
+
+        return result;
+    }
 
 }

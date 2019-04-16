@@ -70,9 +70,10 @@
                 var allScore = '';
                 var storeScore = '';
                 var logisticsScore = '';
+                var desc = '';
                 $('.score').each(function(){
                     var text = $(this).html();
-                    var desc = $('#commentDesc').val();
+                    desc = $('#commentDesc').val();
                     if(text == ''||desc==''){
                         alert('请完成每项的评分后再提交!');
                         throw "请完成每项的评分后再提交!";//向浏览器抛出异常，终止程序运行，用了return false试了下，还是会继续执行下面的弹窗，这里用throw刚好恰到好处,如果想继续用return false则可以改成if...else...进行判断处理也可以。
@@ -85,9 +86,13 @@
                     allScore += $(this).siblings(":first").html() + ':' + text + '\n';
                 });
                 var productId=$('#productId').val();
-                var json="{storeScore:"+storeScore+","
-                    +"logisticsScore:"+logisticsScore+","+"prductId:"+productId+ "}";
-                $.post("/addComment",json);
+                var orderId=$('#orderId').val();
+                var json="{\"storeScore\":\""+storeScore+"\","
+                    +"\"logisticsScore\":\""+logisticsScore+"\","+"\"productId\":\""+productId+"\","+"\"commentDesc\":\""+desc
+                    +"\","+"\"orderId\":\""+orderId+
+                    "\"}";
+                document.getElementById("sendResult").value=json;
+                document.getElementById("commentForm").submit();
             })
         });
 
@@ -114,7 +119,6 @@
 <div th:replace="public_header :: header"></div>
 
 <div class="container">
-    <form action="/addComment" id="commentForm">
     <table class="table table-bordered table-hover table-striped table-condensed">
         <tr>
            <div>
@@ -151,12 +155,15 @@
         </tr>
         <tr>
             <td colspan="3" style="text-align: center;">
-                <input type="hidden" th:value="${productId}" id="productId">
+                <input type="hidden" th:value="${productId}" id="productId"/>
+                <input type="hidden" th:value="${orderId}" id="orderId"/>
                 <button type="button" class="btn btn-success">提交</button>
                 <button type="button" class="btn btn-info" onclick="javascript:location.reload();">重选</button>
             </td>
         </tr>
     </table>
+    <form action="/addComment" id="commentForm">
+        <input type="hidden" id="sendResult" name="sendResult"/>
     </form>
 </div>
 

@@ -17,4 +17,9 @@
                      check="false" version="1.0" url="127.0.0.1:30001" protocol="dubbo" timeout="15000"/>
     <dubbo:reference id="orderService" interface="com.deng.mall.service.OrderService"
                      check="false" version="1.0" url="127.0.0.1:30001" protocol="dubbo" timeout="15000"/>
+    <dubbo:reference id="bizService" interface="com.deng.mall.service.BizService"
+                     check="false" version="1.0" url="127.0.0.1:30001" protocol="dubbo" timeout="15000"/>
+
+    <dubbo:reference id="logisticsService" interface="com.deng.logistics.service.LogisticsService"
+                     check="false" version="1.0" url="127.0.0.1:30003" protocol="dubbo" timeout="15000"/>
 </beans>
