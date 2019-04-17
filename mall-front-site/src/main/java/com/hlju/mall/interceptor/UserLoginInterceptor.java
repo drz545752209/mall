@@ -22,7 +22,7 @@ public class UserLoginInterceptor implements HandlerInterceptor{
 		if(loginName==null||"".equals(loginName)) {
 			logger.info("用户未登录");
 			try {
-				httpServletResponse.sendRedirect("/login");
+				httpServletResponse.sendRedirect("/user/login");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

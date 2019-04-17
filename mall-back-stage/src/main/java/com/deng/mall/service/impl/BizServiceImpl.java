@@ -17,7 +17,6 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Service("bizService")
@@ -98,10 +97,10 @@ public class BizServiceImpl implements BizService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public boolean updateBizScore(Integer storeId, Integer score) {
         Store store=storeDAO.selectByPrimaryKey(storeId);
-        Integer curScore=store.getScore();
+        Double curScore=store.getScore();
         Long salesVolume=store.getSalesVolume();
-        long updateScore=(curScore*salesVolume+score)/(salesVolume+1);
-        store.setScore((int)updateScore);
+        Double updateScore=(curScore*salesVolume+score)/(salesVolume+1);
+        store.setScore(updateScore);
 
         StoreExample storeExample=new StoreExample();
         StoreExample.Criteria storeExampleCriteria=storeExample.createCriteria();
@@ -113,7 +112,7 @@ public class BizServiceImpl implements BizService {
         selectBizCriteria.andBizIdEqualTo(store.getBizId());
         List<Store> bizStores=storeDAO.selectByExample(selectBizExample);
         Integer bizStoreSum=bizStores.size();
-        Integer bizStoreScoreSum=0;
+        Double bizStoreScoreSum=0.0;
         for (Store var:bizStores){
             bizStoreScoreSum+=var.getScore();
         }
@@ -124,8 +123,8 @@ public class BizServiceImpl implements BizService {
         List<Biz> bizs=bizDAO.selectByExample(bizExample);
         Biz biz=bizs.get(0);
 
-        Integer curBizScore=biz.getBizScore();
-        Integer updateBizScore=bizStoreScoreSum/bizStoreSum;
+        Double curBizScore=biz.getBizScore();
+        Double updateBizScore=bizStoreScoreSum/bizStoreSum;
         biz.setBizScore(updateBizScore);
         bizDAO.updateByExampleSelective(biz,bizExample);
 

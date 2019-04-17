@@ -5,13 +5,13 @@ import com.deng.logistics.service.LogisticsService;
 import com.deng.mall.service.BizService;
 import com.deng.mall.service.OrderService;
 import com.deng.mall.service.ProductService;
+import com.hlju.mall.dao.CommentDAO;
+import com.hlju.mall.domain.Comment;
 import com.hlju.mall.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service("commentService")
@@ -24,6 +24,8 @@ public class CommentServiceImpl implements CommentService {
     ProductService productService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    CommentDAO commentDAO;
 
     @Override
     @Transactional
@@ -36,11 +38,20 @@ public class CommentServiceImpl implements CommentService {
         Integer storeId=orderService.getStoreIdByOrderId(orderId);
         String comment= resultMap.get("commentDesc").toString();
 
+        Comment commentObj=new Comment();
+        commentObj.setComment(comment);
+        commentObj.setOrderId(orderId);
+        commentObj.setProductId(productId);
+        commentObj.setStoreId(storeId);
+
+
         boolean var1=logisticsService.updateLogisticeScore(orderId,logisticsScore);
         boolean var2=bizService.updateBizScore(storeId,storeScore);
         boolean var3=productService.updateComment(productId,comment);
+        boolean var4=commentDAO.insertSelective(commentObj)==0 ? false:true;
 
-        if (var1&&var2&&var3){
+
+        if (var1&&var2&&var3&var4){
             return true;
         }
 

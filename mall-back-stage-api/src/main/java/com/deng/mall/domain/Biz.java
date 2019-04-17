@@ -16,7 +16,7 @@ public class Biz implements Serializable {
     /**
      * 商户评分
      */
-    private Integer bizScore;
+    private Double bizScore;
 
     /**
      * 联系方式
@@ -54,11 +54,11 @@ public class Biz implements Serializable {
         this.pwd = pwd;
     }
 
-    public Integer getBizScore() {
+    public Double getBizScore() {
         return bizScore;
     }
 
-    public void setBizScore(Integer bizScore) {
+    public void setBizScore(Double bizScore) {
         this.bizScore = bizScore;
     }
 

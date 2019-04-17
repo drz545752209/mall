@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="biz_id" jdbcType="INTEGER" property="bizId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
     <result column="sales_volume" jdbcType="BIGINT" property="salesVolume" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -111,7 +111,7 @@
     insert into store (id, biz_id, `name`, 
       score, sales_volume)
     values (#{id,jdbcType=INTEGER}, #{bizId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{score,jdbcType=INTEGER}, #{salesVolume,jdbcType=BIGINT})
+      #{score,jdbcType=DOUBLE}, #{salesVolume,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.deng.mall.domain.Store">
     insert into store
@@ -143,7 +143,7 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="score != null">
-        #{score,jdbcType=INTEGER},
+        #{score,jdbcType=DOUBLE},
       </if>
       <if test="salesVolume != null">
         #{salesVolume,jdbcType=BIGINT},
@@ -169,7 +169,7 @@
         `name` = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.score != null">
-        score = #{record.score,jdbcType=INTEGER},
+        score = #{record.score,jdbcType=DOUBLE},
       </if>
       <if test="record.salesVolume != null">
         sales_volume = #{record.salesVolume,jdbcType=BIGINT},
@@ -184,7 +184,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       biz_id = #{record.bizId,jdbcType=INTEGER},
       `name` = #{record.name,jdbcType=VARCHAR},
-      score = #{record.score,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=DOUBLE},
       sales_volume = #{record.salesVolume,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -200,7 +200,7 @@
         `name` = #{name,jdbcType=VARCHAR},
       </if>
       <if test="score != null">
-        score = #{score,jdbcType=INTEGER},
+        score = #{score,jdbcType=DOUBLE},
       </if>
       <if test="salesVolume != null">
         sales_volume = #{salesVolume,jdbcType=BIGINT},
@@ -212,7 +212,7 @@
     update store
     set biz_id = #{bizId,jdbcType=INTEGER},
       `name` = #{name,jdbcType=VARCHAR},
-      score = #{score,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
       sales_volume = #{salesVolume,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

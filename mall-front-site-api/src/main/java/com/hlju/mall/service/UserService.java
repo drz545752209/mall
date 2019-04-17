@@ -18,4 +18,5 @@ public interface UserService {
 
     List<User> selectUserListByIds(List<Integer> ids);
 
+    boolean saveUserMsg(User user,String userName);
 }

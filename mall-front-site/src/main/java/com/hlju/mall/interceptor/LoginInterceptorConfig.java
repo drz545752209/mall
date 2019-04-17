@@ -23,12 +23,10 @@ public class LoginInterceptorConfig implements ApplicationContextAware,WebMvcCon
 	}
 	
 	public void addInterceptors(InterceptorRegistry registry) {
-//		String [] excludeStr= {"/login", "/login.html", "/register", "/register.html","/user/login"
-//				,"/css/login.css","/css/header.css","/js/jquery.min.js","/img/*.gif","/img/*.jpg"
-//				};
-//		registry.addInterceptor(userLoginInterceptor)
-//		                        .addPathPatterns("/**")
-//		                        .excludePathPatterns(Arrays.asList(excludeStr));
+		String[] filterPath={"/commitOrder","/queryOrder","/toComment","/addComment","/user/saveUserMsg"
+		};
+		registry.addInterceptor(userLoginInterceptor)
+		                        .addPathPatterns(filterPath);
 	}
 
 }

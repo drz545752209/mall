@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.deng.mall.dao.BizDAO">
-  <resultMap id="BaseResultMap" type="com.deng.mall.domain.Biz">
+<mapper namespace="com.hlju.mall.dao.CommentDAO">
+  <resultMap id="BaseResultMap" type="com.hlju.mall.domain.Comment">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
-    <result column="biz_score" jdbcType="DOUBLE" property="bizScore" />
-    <result column="contant_way" jdbcType="VARCHAR" property="contantWay" />
-    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="store_id" jdbcType="INTEGER" property="storeId" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, `name`, pwd, biz_score, contant_way, `location`
+    id, product_id, order_id, store_id, `comment`
   </sql>
-  <select id="selectByExample" parameterType="com.deng.mall.domain.BizExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.hlju.mall.domain.CommentExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from biz
+    from comment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -95,96 +94,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from biz
+    from comment
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from biz
+    delete from comment
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.deng.mall.domain.BizExample">
-    delete from biz
+  <delete id="deleteByExample" parameterType="com.hlju.mall.domain.CommentExample">
+    delete from comment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.deng.mall.domain.Biz">
-    insert into biz (id, `name`, pwd, 
-      biz_score, contant_way, `location`
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
-      #{bizScore,jdbcType=DOUBLE}, #{contantWay,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.hlju.mall.domain.Comment">
+    insert into comment (id, product_id, order_id, 
+      store_id, `comment`)
+    values (#{id,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, 
+      #{storeId,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.deng.mall.domain.Biz">
-    insert into biz
+  <insert id="insertSelective" parameterType="com.hlju.mall.domain.Comment">
+    insert into comment
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="name != null">
-        `name`,
+      <if test="productId != null">
+        product_id,
       </if>
-      <if test="pwd != null">
-        pwd,
+      <if test="orderId != null">
+        order_id,
       </if>
-      <if test="bizScore != null">
-        biz_score,
+      <if test="storeId != null">
+        store_id,
       </if>
-      <if test="contantWay != null">
-        contant_way,
-      </if>
-      <if test="location != null">
-        `location`,
+      <if test="comment != null">
+        `comment`,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
       </if>
-      <if test="pwd != null">
-        #{pwd,jdbcType=VARCHAR},
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
       </if>
-      <if test="bizScore != null">
-        #{bizScore,jdbcType=DOUBLE},
+      <if test="storeId != null">
+        #{storeId,jdbcType=INTEGER},
       </if>
-      <if test="contantWay != null">
-        #{contantWay,jdbcType=VARCHAR},
-      </if>
-      <if test="location != null">
-        #{location,jdbcType=VARCHAR},
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.deng.mall.domain.BizExample" resultType="java.lang.Long">
-    select count(*) from biz
+  <select id="countByExample" parameterType="com.hlju.mall.domain.CommentExample" resultType="java.lang.Long">
+    select count(*) from comment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update biz
+    update comment
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        `name` = #{record.name,jdbcType=VARCHAR},
+      <if test="record.productId != null">
+        product_id = #{record.productId,jdbcType=INTEGER},
       </if>
-      <if test="record.pwd != null">
-        pwd = #{record.pwd,jdbcType=VARCHAR},
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=INTEGER},
       </if>
-      <if test="record.bizScore != null">
-        biz_score = #{record.bizScore,jdbcType=DOUBLE},
+      <if test="record.storeId != null">
+        store_id = #{record.storeId,jdbcType=INTEGER},
       </if>
-      <if test="record.contantWay != null">
-        contant_way = #{record.contantWay,jdbcType=VARCHAR},
-      </if>
-      <if test="record.location != null">
-        `location` = #{record.location,jdbcType=VARCHAR},
+      <if test="record.comment != null">
+        `comment` = #{record.comment,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -192,45 +180,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update biz
+    update comment
     set id = #{record.id,jdbcType=INTEGER},
-      `name` = #{record.name,jdbcType=VARCHAR},
-      pwd = #{record.pwd,jdbcType=VARCHAR},
-      biz_score = #{record.bizScore,jdbcType=DOUBLE},
-      contant_way = #{record.contantWay,jdbcType=VARCHAR},
-      `location` = #{record.location,jdbcType=VARCHAR}
+      product_id = #{record.productId,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=INTEGER},
+      store_id = #{record.storeId,jdbcType=INTEGER},
+      `comment` = #{record.comment,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.deng.mall.domain.Biz">
-    update biz
+  <update id="updateByPrimaryKeySelective" parameterType="com.hlju.mall.domain.Comment">
+    update comment
     <set>
-      <if test="name != null">
-        `name` = #{name,jdbcType=VARCHAR},
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
       </if>
-      <if test="pwd != null">
-        pwd = #{pwd,jdbcType=VARCHAR},
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
       </if>
-      <if test="bizScore != null">
-        biz_score = #{bizScore,jdbcType=DOUBLE},
+      <if test="storeId != null">
+        store_id = #{storeId,jdbcType=INTEGER},
       </if>
-      <if test="contantWay != null">
-        contant_way = #{contantWay,jdbcType=VARCHAR},
-      </if>
-      <if test="location != null">
-        `location` = #{location,jdbcType=VARCHAR},
+      <if test="comment != null">
+        `comment` = #{comment,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.deng.mall.domain.Biz">
-    update biz
-    set `name` = #{name,jdbcType=VARCHAR},
-      pwd = #{pwd,jdbcType=VARCHAR},
-      biz_score = #{bizScore,jdbcType=DOUBLE},
-      contant_way = #{contantWay,jdbcType=VARCHAR},
-      `location` = #{location,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.hlju.mall.domain.Comment">
+    update comment
+    set product_id = #{productId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER},
+      store_id = #{storeId,jdbcType=INTEGER},
+      `comment` = #{comment,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

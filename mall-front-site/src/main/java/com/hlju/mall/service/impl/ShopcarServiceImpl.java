@@ -23,8 +23,8 @@ public class ShopcarServiceImpl implements ShopcarService {
         String uuidStr = UUID.randomUUID().toString();
         String cookieKey=String.format("mallShopcar%s",uuidStr);
         Cookie cookie=new Cookie(cookieKey,uuidStr);
-        resp.addCookie(cookie);
         cookie.setMaxAge(3600*24*7);
+        resp.addCookie(cookie);
 
         Product product=productService.getProductById(productId.toString());
 

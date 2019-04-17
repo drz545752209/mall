@@ -82,5 +82,17 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 
+	@Override
+	public boolean saveUserMsg(User user,String userName) {
+		UserExample userExample=new UserExample();
+		UserExample.Criteria userExampleCriteria=userExample.createCriteria();
+		userExampleCriteria.andNameEqualTo(userName);
+		int var=userDao.updateByExample(user,userExample);
+		if (var==1){
+			return true;
+		}
+		return false;
+	}
+
 
 }

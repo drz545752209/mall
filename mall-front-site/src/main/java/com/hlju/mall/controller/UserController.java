@@ -70,4 +70,15 @@ public class UserController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/saveUserMsg")
+	public ModelAndView saveUserMsg(User user,HttpServletRequest req){
+    	HttpSession session=req.getSession();
+    	String userName= (String) session.getAttribute("userName");
+    	boolean status=userService.saveUserMsg(user,userName);
+    	ModelAndView mav=new ModelAndView();
+    	mav.setViewName("status");
+    	mav.addObject("status",status);
+    	return mav;
+	}
+
 }
