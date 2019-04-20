@@ -102,7 +102,7 @@ function search(){
 						style="background-color: orange; margin-top: 1px; height: 55px; font-size: 30px; line-height: 35px;">
 						热门推荐</p>
 					<select>
-					   <option th:each="productType:${productTypeList}" th:text="${productType}"></option>
+					   <option th:each="productType:${productTypeList}" th:text="${productType.get('type')}"></option>
 					</select>
 				</div>
 				<div class="sales-queue" id="tabs-1"
@@ -121,7 +121,7 @@ function search(){
 
 								<dd style="width: 150px; padding-right: 18px;">
 									<s>￥:[[${product.price}]]</s>
-									<strong th:if="${promotionDiscountMap[__${product.id}__]} ne '0'">
+									<strong th:if="${promotionDiscountMap[__${product.id}__]} ne '10'">
 										￥:[[ ${product.price}*${promotionDiscountMap[__${product.id}__]}*0.1 ]]
 									</strong>
 								</dd>

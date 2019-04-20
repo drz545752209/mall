@@ -46,7 +46,7 @@ public class PromotionServiceImpl  implements PromotionService {
     public HashMap<Integer,Integer> getPromotionDiscount(List<Promotion> promotions,List<Product> products){
         HashMap<Integer,Integer> promotionMap=new HashMap<>();
         for (Product product:products){
-            promotionMap.put(product.getId(),0);
+            promotionMap.put(product.getId(),10);
         }
         for (Promotion promotion:promotions){
             promotionMap.put(promotion.getProductId(),promotion.getDicount());

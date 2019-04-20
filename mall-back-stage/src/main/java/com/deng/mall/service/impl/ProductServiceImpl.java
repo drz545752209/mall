@@ -1,8 +1,6 @@
 package com.deng.mall.service.impl;
 
-import com.deng.mall.dao.BizDAO;
-import com.deng.mall.dao.ProductDAO;
-import com.deng.mall.dao.StoreDAO;
+import com.deng.mall.dao.*;
 import com.deng.mall.domain.*;
 import com.deng.mall.service.ProductService;
 import org.slf4j.Logger;
@@ -14,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 @Service("productService")
@@ -25,6 +24,10 @@ public class ProductServiceImpl implements ProductService{
     BizDAO bizDAO;
     @Autowired
     StoreDAO storeDAO;
+    @Autowired
+    PromotionDAO promotionDAO;
+    @Autowired
+    StockDAO stockDAO;
 
     private String getStoreNameByBiz(String bizName){
         //获取bizid
@@ -161,8 +164,22 @@ public class ProductServiceImpl implements ProductService{
         productDAO.updateByPrimaryKeySelective(product);
     }
 
+    @Transactional
     public void create(Product record){
+        Integer productId;
+        if (productDAO.getMaxId()==null){
+            productId=1;
+        }else {
+            productId=productDAO.getMaxId().intValue()+1;
+        }
         productDAO.insertSelective(record);
+        Promotion promotion=new Promotion();
+        promotion.setProductId(productId);
+        promotionDAO.insertSelective(promotion);
+        Stock stock=new Stock();
+        stock.setProductId(productId);
+        stock.setInDate(new Date());
+        stockDAO.insertSelective(stock);
     }
 
     @Override

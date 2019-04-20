@@ -14,7 +14,7 @@ public interface PromotionService {
     /**
      * @param promotions
      * @param products
-     * @return  打折商品value为折扣，不打折的返回0
+     * @return  打折商品value为折扣，不打折的返回10
      */
     HashMap<Integer,Integer> getPromotionDiscount(List<Promotion> promotions,List<Product> products);
 }

@@ -151,8 +151,11 @@ public class OrderServiceImpl implements OrderService {
             List<Store> stores=storeDAO.selectByExample(storeExample);
             Integer storeId=stores.get(0).getId();
 
+            User user=new User();
+            user.setName(userName);
+            Integer userId=userService.selectUserNameByExamle(user).get(0).getId();
             Order order=new Order();
-            order.setUserId(product.getId());
+            order.setUserId(userId);
             order.setStoreId(storeId);
 
             OrderDetailExample orderDetailExample=new OrderDetailExample();

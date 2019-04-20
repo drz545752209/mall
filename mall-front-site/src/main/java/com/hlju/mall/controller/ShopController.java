@@ -33,10 +33,12 @@ public class ShopController {
 		ModelAndView mav=new ModelAndView();
 		List<Product> productList=productService.getProductByType("1",typeName,pageNum-1,pageSize,null);
 		List<String> productTypeList=productService.getProductTypeList();
+		HashMap<Integer,Integer> promotionDiscountMap=null;
 
-
-		List<Promotion> promotions =promotionService.getPromotionByProductIds(productList);
-		HashMap<Integer,Integer> promotionDiscountMap=promotionService.getPromotionDiscount(promotions,productList);
+		if (productList.size()>0){
+			List<Promotion> promotions =promotionService.getPromotionByProductIds(productList);
+			promotionDiscountMap=promotionService.getPromotionDiscount(promotions,productList);
+		}
 
 		//分页
 		PageFucker pageInfo=new PageFucker(pageSize,pageNum,productList.size());

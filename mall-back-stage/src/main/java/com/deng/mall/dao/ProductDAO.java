@@ -13,4 +13,5 @@ import java.util.List;
 @Mapper
 public interface ProductDAO extends MyBatisBaseDao<Product, Integer, ProductExample> {
     List<String> getTypeList();
+    Long getMaxId();
 }
