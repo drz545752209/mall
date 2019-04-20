@@ -59,7 +59,7 @@
                 <li class="row33" style="width: 120px;height: 75px;">
                     <div id="price">[[${order.totalPrice}]]</div>
                 </li>
-                <li class="row44" style="width: 200px;height: 75px;">
+                <li class="row44" style="width: 160px;height: 75px;">
                     <div id="number">[[${order.buyNum}]]</div>
                 </li>
                 <li class="row55" style="width: 84px;height: 75px;">
@@ -82,6 +82,56 @@
 					</span></td>
             </tr>
         </table>
+
+
+        <!-- 显示分页信息 -->
+        <div class="row"
+             style="text-align: right; margin-left: 260px; margin-top: 10px;">
+
+            <!-- 分页标签 -->
+            <div class="pagebottom" id="pager" style="clear: both;">
+                <!-- 分页文字信息 -->
+                <div id="page_info_area" style="margin-right: 20px;">
+                    当前第[[${pageInfo.pageNum}]]页，总共[[${pageInfo.pages}]]页,共有[[${pageInfo.total}]]条记录
+                </div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
+                            <a th:href="@{/queryOrder(pageNum)}+'=1'"> <span
+                                    aria-hidden="true">首页</span>
+                            </a>
+                        </li>
+
+                        <li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
+                            <a th:unless="${pageInfo.isFirst}"
+                               th:href="@{/queryOrder(pageNum)}+'='+${pageInfo.pageNum-1}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+
+                        <li th:each="navigatepageNum:${pageInfo.navigatepageNums}"
+                            th:class="${navigatepageNum==pageInfo.pageNum?'active':'page-item'}">
+                            <a th:href="@{/queryOrder(pageNum)}+'='+${navigatepageNum}">[[${navigatepageNum}]]</a>
+                        </li>
+
+                        <li th:class="${pageInfo.pageNum==pageInfo.pages?'disabled':'page-item'}">
+                            <a th:unless="${pageInfo.isLast}"
+                               th:href="@{/queryOrder(pageNum)}+'='+${pageInfo.pageNum+1}"
+                               aria-label="Next"><span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+
+                        <li th:class="${pageInfo.pageNum==pageInfo.pages?'page-item disabled':'page-item'}">
+                            <a th:href="@{/queryOrder(pageNum)}+'='+${pageInfo.pages}">
+                                <span aria-hidden="true">末页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
     </div>
 </div>
 <!---- middle end----->

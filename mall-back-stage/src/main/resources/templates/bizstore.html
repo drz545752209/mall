@@ -1,0 +1,25 @@
+<!DOCTYPE>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>开设商店</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/product.js"></script>
+
+</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<form id="create_store_form" action="/store/create">
+    <div class="form-group">
+        <label for="name">店铺名称</label>
+        <input type="text" class="form-control" id="name" th:name="name" placeholder="请输入店铺名称" />
+    </div>
+    <input id="bizId" th:name="bizId" type="hidden" th:value="${bizId}"/>
+    <button type="submit" class="btn btn-default">创建</button>
+</form>
+</html>

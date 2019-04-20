@@ -53,8 +53,13 @@ public class BizManageController {
     }
 
     @RequestMapping("/check_username")
-    public @ResponseBody String checkBizName(Biz biz){
+    public @ResponseBody String checkBizName(String username,String password){
         String result;
+
+        Biz biz=new Biz();
+        biz.setName(username);
+        biz.setPwd(password);
+
         Boolean hasUserName=bizService.hasBizName(biz);
         if (hasUserName){
             result="false";

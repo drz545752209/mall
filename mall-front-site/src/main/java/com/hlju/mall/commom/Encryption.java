@@ -1,6 +1,7 @@
 package com.hlju.mall.commom;
 
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 
 public class Encryption {
 
@@ -10,9 +11,13 @@ public class Encryption {
 	 * @return cipherText
 	 */
 	public static String str2MD5(String password) {
-		byte[] bytes = password.getBytes();
-		String cipherText = DigestUtils.md5DigestAsHex(bytes);
-		return cipherText;
+		if (!StringUtils.isEmpty(password)){
+			byte[] bytes = password.getBytes();
+			String cipherText = DigestUtils.md5DigestAsHex(bytes);
+			return cipherText;
+		}
+
+		return null;
 	}
 
 }

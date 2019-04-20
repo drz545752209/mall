@@ -98,9 +98,13 @@ function checkFileExt(filename) {
 }
 
 function toAddImgs(id,url) {
-    var form = $('#uploadForm')[0];
+    var imgsLength = $('#productImgs')[0].files.length;
+    var imgs=$('#productImgs')[0].files;
+    var formData = new FormData();
 
-    var formData = new FormData(form);
+    for (var i=0;i<imgsLength;i++){
+        formData.append("file[]",imgs[i]);
+    }
 
     var fileNames = document.getElementById(id).value;
 
@@ -121,10 +125,16 @@ function toAddImgs(id,url) {
         contentType : false,
         success : function(data) {
             alert("sucess");
+            var path="";
             for(var i in data){
                 alert(data[i]);
-                var path=data[i];
+                if (i==data.length-1){
+                    path+=data[i];
+                } else {
+                    path+=data[i]+",";
+                }
             }
+            $('#img').val(path);
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.textStatus);

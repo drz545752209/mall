@@ -38,9 +38,13 @@ public class ProductServiceImpl implements ProductService{
         StoreExample.Criteria storeExampleCriteria=storeExample.createCriteria();
         storeExampleCriteria.andBizIdEqualTo(bizId);
         List<Store> stores=storeDAO.selectByExample(storeExample);
-        String storeName=stores.get(0).getName();
 
-        return storeName;
+        if (stores!=null&&stores.size()!=0){
+            String storeName=stores.get(0).getName();
+            return storeName;
+        }
+
+        return null;
     }
 
     public List<Product> getProductByType(String isShow, String type, long pageNum, int pageSize, HttpServletRequest request) {
@@ -52,6 +56,9 @@ public class ProductServiceImpl implements ProductService{
             HttpSession session=request.getSession();
             String bizName= (String) session.getAttribute("loginName");
             String storeName = getStoreNameByBiz(bizName);
+            if (StringUtils.isEmpty(storeName)){
+                return null;
+            }
             criteria.andStoreNameEqualTo(storeName);
         }
 
@@ -112,7 +119,10 @@ public class ProductServiceImpl implements ProductService{
 
     public List<String> getProductTypeList() {
         List<String> typeList = productDAO.getTypeList();
-        return typeList;
+        if (typeList!=null&&typeList.size()!=0){
+            return typeList;
+        }
+        return null;
     }
 
     @Transactional

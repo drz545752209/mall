@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean hasPassword(User user) {
 		List<User> users = selectByExample(user);
-		if (users.isEmpty()) {
+		if (users==null) {
 			return false;
 		} else {
 			return true;
@@ -44,7 +44,12 @@ public class UserServiceImpl implements UserService {
 			if (StringUtils.isNotBlank(user.getPwd())) {
 				String password = Encryption.str2MD5(user.getPwd());
 				criteria.andPwdEqualTo(password);
-				return userDao.selectByExample(uExample);
+				List<User> users=userDao.selectByExample(uExample);
+				if (users!=null&&users.size()!=0){
+					return userDao.selectByExample(uExample);
+				}else {
+					return null;
+				}
 			}
 		}
 		return null;
@@ -52,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
 	public boolean hasUserName(User user) {
 		List<User> users = selectUserNameByExamle(user);
-		if (users.isEmpty()) {
+		if (users==null) {
 			return false;
 		} else {
 			return true;
@@ -66,7 +71,12 @@ public class UserServiceImpl implements UserService {
 		String userName = StringUtils.isNotEmpty(record.getName()) ?  record.getName():null;
 		if (userName!=null&&!userName.isEmpty()) {
 			criteria.andNameEqualTo(userName);
-			return userDao.selectByExample(uExample);
+			List<User> users=userDao.selectByExample(uExample);
+			if (users!=null&&users.size()!=0){
+				return  users;
+			}else {
+				return null;
+			}
 		}
 		return null;
 	}

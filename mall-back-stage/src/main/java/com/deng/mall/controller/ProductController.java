@@ -6,7 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 
+import com.deng.mall.domain.Biz;
 import com.deng.mall.domain.Product;
+import com.deng.mall.service.BizService;
 import com.deng.mall.service.ProductService;
 import com.deng.mall.utils.StrUntils;
 import com.deng.mall.utils.UpfileUtils;
@@ -25,11 +27,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductController {
     @Autowired
     ProductService productService;
+    @Autowired
+    BizService bizService;
 
     @RequestMapping(value = "upFile", method = RequestMethod.POST)
     @ResponseBody
-    public List<String> upfileProductImg(@RequestParam("productImgs") MultipartFile[] productImgs, HttpServletRequest request) {
-        String picPath = request.getServletContext().getRealPath("templates/images/");
+    public List<String> upfileProductImg(@RequestParam("file[]") MultipartFile[] productImgs, HttpServletRequest request) {
+//        String picPath = request.getServletContext().getRealPath("static/product_img/");
+        String picPath = "E:/新建文件夹/mall/mall-back-stage/src/main/resources/static/product_img";
         List<String> productImgPaths = UpfileUtils.loadFileList(productImgs, picPath);
         return productImgPaths;
     }
@@ -47,10 +52,25 @@ public class ProductController {
         productList = productService.getProductByType(isShow, type, pageNum-1, pageSize,request);
         productTypeList = productService.getProductTypeList();
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("bizproduct.html");
 
-        mv.addObject("productList", productList);
-        mv.addObject("productTypeList", productTypeList);
+        if (productList!=null&&productTypeList!=null){
+            mv.addObject("productList", productList);
+            mv.addObject("productTypeList", productTypeList);
+            mv.addObject("hasProduct",true);
+            mv.addObject("hasType",true);
+            mv.setViewName("bizproduct.html");
+        }else if (productList==null){
+            String bizName= (String) request.getSession().getAttribute("loginName");
+            Biz biz=new Biz();
+            biz.setName(bizName);
+            Integer bizId=bizService.selectBizNameByExamle(biz).get(0).getId();
+            mv.addObject("bizId",bizId);
+            mv.setViewName("bizstore");
+        }else {
+            mv.addObject("hasProduct",false);
+            mv.addObject("hasType",false);
+            mv.setViewName("bizproduct.html");
+        }
 
         return mv;
     }

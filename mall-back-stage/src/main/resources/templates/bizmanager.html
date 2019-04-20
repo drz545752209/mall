@@ -1,5 +1,5 @@
 <!DOCTYPE>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>店铺管理</title>
@@ -7,15 +7,11 @@
 <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="/js/menu.js"></script>
 <script>
-
-
 function fresh(href){
 	document.getElementById("myframe").src="http://localhost:8080/"+href;
 }
 </script>
-
 </head>
-
 <body>
 	<div class="top"></div>
 	<div id="header">
@@ -23,7 +19,7 @@ function fresh(href){
 		<div class="navigation">
 			<ul>
 				<li>欢迎您！</li>
-				<li><a href="">张山</a></li>
+				<li><a href="">$[[session.loginName]]</a></li>
 				<li><a href="">修改密码</a></li>
 				<li><a href="">设置</a></li>
 				<li><a href="">退出</a></li>

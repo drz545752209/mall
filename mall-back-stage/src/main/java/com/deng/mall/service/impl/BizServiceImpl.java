@@ -56,7 +56,7 @@ public class BizServiceImpl implements BizService {
     @Override
     public boolean hasBizName(Biz record) {
         List<Biz> users = selectBizNameByExamle(record);
-        if (users.isEmpty()) {
+        if (users==null) {
             return false;
         } else {
             return true;
@@ -68,7 +68,11 @@ public class BizServiceImpl implements BizService {
         BizExample bizExample= new BizExample();
         BizExample.Criteria criteria = bizExample.createCriteria();
         criteria.andNameEqualTo(record.getName());
-        return bizDAO.selectByExample(bizExample);
+        List<Biz> bizs=bizDAO.selectByExample(bizExample);
+        if (bizs!=null&&bizs.size()!=0){
+            return bizs;
+        }
+        return  null;
     }
 
     @Override

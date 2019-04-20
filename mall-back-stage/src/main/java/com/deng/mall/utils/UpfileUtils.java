@@ -30,7 +30,7 @@ public class UpfileUtils {
 			byte imgBytes[] = productImg.getBytes();
 			bos = new BufferedOutputStream(new FileOutputStream(file));
 			bos.write(imgBytes);
-			imgPaths.add(picPath + productImg.getOriginalFilename());
+			imgPaths.add(productImg.getOriginalFilename());
 		}
 		bos.close();
 		}catch(Exception e) {

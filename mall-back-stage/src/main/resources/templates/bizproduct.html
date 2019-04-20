@@ -24,7 +24,7 @@
                 <h4 class="modal-title" id="insertModelLabel">添加商品</h4>
             </div>
             <div class="modal-body">
-                <form class="navbar-form navbar-left" role="search" id="create_form">
+                <form class="navbar-form navbar-left" role="search" id="create_form" action="/product/create">
                     <div class="form-group">
                         <label>商品名</label><input type="text" class="form-control" th:name="name" />
                     </div>
@@ -33,13 +33,10 @@
                     </div>
                     <div class="form-group">
                        <div>
-                           <table>
-                               <tr th:each="productImg:${productImgPaths}">
-                                   <img th:src="productImg"></img>
-                               </tr>
-                           </table>
-                           <label>商品图片</label>	<input class="filePrew" type="file" size="3"
-                                                         id="productImgs"  onchange="toAddImgs('productImgs','/product/upFile')" multiple />
+                           <input type="hidden" th:name="img" id="img">
+                           <label>商品图片</label>
+                           <input class="filePrew" type="file" size="3"
+                           id="productImgs"  onchange="toAddImgs('productImgs','/product/upFile')" multiple />
                        </div>
                     </div>
                     <div class="form-group">
@@ -117,6 +114,7 @@
             <button type="button" class="btn btn-default btn-primary" th:onclick="'downShelf();'">下架</button>
             <button type="button" class="btn btn-default btn-danger" th:onclick="'batchDelete();'">删除</button>
             <button type="button" class="btn btn-default btn-danger" th:onclick="'create();'">创建</button>
+          <div id="hasProduct" th:if="${hasProduct&&hasType}">
             <div class="dropdown">
             <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
                     data-toggle="dropdown">
@@ -165,7 +163,9 @@
                             <input type="checkbox" th:id="${product.id}" name="product-name" >
                         </div>
                     </td>
-                    <td th:background="${product.img}"></td>
+                    <td>
+                        <img width="132" height="96" th:src="'/product_img/'+${product.img}">
+                    </td>
                     <td th:text="${product.name}"></td>
                     <td th:text="${product.type}"></td>
                     <td th:text="${product.price}"></td>
@@ -176,6 +176,7 @@
                 </tr>
                 </tbody>
             </table>
+          </div>
         </div>
     </div>
 </div>

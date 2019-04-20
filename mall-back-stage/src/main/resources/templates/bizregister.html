@@ -21,7 +21,7 @@ $(function() {
   //监听焦点移除时执行func
   $("#username").blur(function () {
       //正则
-      var reg = /^\w\w{7,11}$/;
+      var reg = /^[a-z0-9_-]{7,16}$/;
       //合法
       if (reg.test($("#username").val())) {
           //继续发ajax,后端校验用户名是否已被使用
@@ -119,7 +119,7 @@ $(function() {
 	<div class="form-horizontal" style="text-align: center;">
 		<form class="form-signin"  action="/bizManage/bizregister" method="post">
 		  	<div class="form-group" style="margin: 5px">
-				<label for="inputEmail3" class="col-sm-3 control-label" style="text-align: center;">用户名</label>
+				<label for="username" class="col-sm-3 control-label" style="text-align: center;">用户名</label>
 				<div class="col-sm-12">
 					<input type="text"
 						class="form-control" id="username" name="username" placeholder="请输入8到12位无符号字符" >
@@ -128,7 +128,7 @@ $(function() {
 			 </div>
 
 			<div class="form-group" style="margin: 5px">
-				<label for="inputPassword3" class="col-sm-3 control-label" style="text-align: center;">密码</label>
+				<label for="password" class="col-sm-3 control-label" style="text-align: center;">密码</label>
 				<div class="col-sm-12">
 					<input type="password"
 						class="form-control" name="password" id="password"
@@ -138,7 +138,7 @@ $(function() {
 			</div>
 
 			<div class="form-group" style="margin: 5px">
-				<label for="inputPassword3" class="col-sm-4 control-label" style="text-align: center;">确认密码</label>
+				<label for="confirm_passwd" class="col-sm-4 control-label" style="text-align: center;">确认密码</label>
 				<div class="col-sm-12">
 					<input type="password"
 						class="form-control" name="confirm_passwd" id="confirm_passwd"
@@ -148,10 +148,10 @@ $(function() {
 			</div>
 
 			<div class="form-group" style="margin: 5px">
-                <label for="inputPassword3" class="col-sm-4 control-label" style="text-align: center;">验证码</label>
+                <label for="verificationCode" class="col-sm-4 control-label" style="text-align: center;">验证码</label>
                 <div class="col-sm-12">
                     <!--添验证码的文本-->
-                    <input type="text" name="verificationCode"  placeholder="验证码" class="form-control">
+                    <input type="text" id="verificationCode" name="verificationCode"  placeholder="验证码" class="form-control">
                     <!--验证码图片-->
                     <img alt="点击更换验证码" title="点击更换验证码" onclick = "this.src='/defaultKaptcha?d='+new Date()*1"
                         src="/defaultKaptcha" />
