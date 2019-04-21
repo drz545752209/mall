@@ -15,11 +15,11 @@ public class LogisticsServiceImpl implements LogisticsService {
     LogisticsDAO logisticsDAO;
 
     @Override
-    public boolean updateLogisticeScore(Integer orderId,Integer score) {
+    public boolean updateLogisticeScore(Integer orderDetailId,Integer score) {
         LogisticsExample select=new LogisticsExample();
         LogisticsExample update=new LogisticsExample();
         LogisticsExample.Criteria selectCriteria=select.createCriteria();
-        selectCriteria.andOrderIdEqualTo(orderId);
+        selectCriteria.andOrderDetailIdEqualTo(orderDetailId);
         List<Logistics> logisticsList=logisticsDAO.selectByExample(select);
         Logistics updateLogistics=logisticsList.get(0);
 
@@ -29,5 +29,11 @@ public class LogisticsServiceImpl implements LogisticsService {
         logisticsDAO.updateByExampleSelective(updateLogistics,update);
 
         return true;
+    }
+
+    @Override
+    public boolean insertLogistice(Logistics logistics) {
+        Integer count=logisticsDAO.insertSelective(logistics);
+        return count>0;
     }
 }

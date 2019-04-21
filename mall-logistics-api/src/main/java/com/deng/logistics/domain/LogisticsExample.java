@@ -304,63 +304,63 @@ public class LogisticsExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIsNull() {
-            addCriterion("order_id is null");
+        public Criteria andOrderDetailIdIsNull() {
+            addCriterion("order_detail_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIsNotNull() {
-            addCriterion("order_id is not null");
+        public Criteria andOrderDetailIdIsNotNull() {
+            addCriterion("order_detail_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdEqualTo(Integer value) {
-            addCriterion("order_id =", value, "orderId");
+        public Criteria andOrderDetailIdEqualTo(Integer value) {
+            addCriterion("order_detail_id =", value, "orderDetailId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotEqualTo(Integer value) {
-            addCriterion("order_id <>", value, "orderId");
+        public Criteria andOrderDetailIdNotEqualTo(Integer value) {
+            addCriterion("order_detail_id <>", value, "orderDetailId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdGreaterThan(Integer value) {
-            addCriterion("order_id >", value, "orderId");
+        public Criteria andOrderDetailIdGreaterThan(Integer value) {
+            addCriterion("order_detail_id >", value, "orderDetailId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("order_id >=", value, "orderId");
+        public Criteria andOrderDetailIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("order_detail_id >=", value, "orderDetailId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdLessThan(Integer value) {
-            addCriterion("order_id <", value, "orderId");
+        public Criteria andOrderDetailIdLessThan(Integer value) {
+            addCriterion("order_detail_id <", value, "orderDetailId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdLessThanOrEqualTo(Integer value) {
-            addCriterion("order_id <=", value, "orderId");
+        public Criteria andOrderDetailIdLessThanOrEqualTo(Integer value) {
+            addCriterion("order_detail_id <=", value, "orderDetailId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIn(List<Integer> values) {
-            addCriterion("order_id in", values, "orderId");
+        public Criteria andOrderDetailIdIn(List<Integer> values) {
+            addCriterion("order_detail_id in", values, "orderDetailId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotIn(List<Integer> values) {
-            addCriterion("order_id not in", values, "orderId");
+        public Criteria andOrderDetailIdNotIn(List<Integer> values) {
+            addCriterion("order_detail_id not in", values, "orderDetailId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdBetween(Integer value1, Integer value2) {
-            addCriterion("order_id between", value1, value2, "orderId");
+        public Criteria andOrderDetailIdBetween(Integer value1, Integer value2) {
+            addCriterion("order_detail_id between", value1, value2, "orderDetailId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("order_id not between", value1, value2, "orderId");
+        public Criteria andOrderDetailIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("order_detail_id not between", value1, value2, "orderDetailId");
             return (Criteria) this;
         }
 

@@ -36,6 +36,7 @@ public class CommentServiceImpl implements CommentService {
         Integer logisticsScore= Integer.valueOf(resultMap.get("logisticsScore").toString());
         Integer storeScore= Integer.valueOf(resultMap.get("storeScore").toString());
         Integer storeId=orderService.getStoreIdByOrderId(orderId);
+        Integer orderDetailId=orderService.getOrderDetailIdById(orderId);
         String comment= resultMap.get("commentDesc").toString();
 
         Comment commentObj=new Comment();
@@ -45,7 +46,7 @@ public class CommentServiceImpl implements CommentService {
         commentObj.setStoreId(storeId);
 
 
-        boolean var1=logisticsService.updateLogisticeScore(orderId,logisticsScore);
+        boolean var1=logisticsService.updateLogisticeScore(orderDetailId,logisticsScore);
         boolean var2=bizService.updateBizScore(storeId,storeScore);
         boolean var3=productService.updateComment(productId,comment);
         boolean var4=commentDAO.insertSelective(commentObj)==0 ? false:true;

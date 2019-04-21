@@ -4,6 +4,8 @@ package com.deng.mall.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.deng.common.utils.StrUntils;
+import com.deng.logistics.domain.Logistics;
+import com.deng.logistics.service.LogisticsService;
 import com.deng.mall.dao.BizDAO;
 import com.deng.mall.dao.OrderDAO;
 import com.deng.mall.dao.OrderDetailDAO;
@@ -43,6 +45,8 @@ public class OrderServiceImpl implements OrderService {
     StoreDAO storeDAO;
     @Autowired(required = false)
     UserService userService;
+    @Autowired(required = false)
+    LogisticsService logisticsService;
 
     final static Logger LOGGER= LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -128,6 +132,22 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    private Logistics getLogistics(String userName,Integer orderDetailId,Integer storeId){
+        Logistics logistics=new Logistics();
+        logistics.setOrderDetailId(orderDetailId);
+        logistics.setStatus("待发货");
+
+        User user=new User();
+        user.setName(userName);
+        Integer userId=userService.selectUserNameByExamle(user).get(0).getId();
+        logistics.setUserId(userId);
+
+        Store store=storeDAO.selectByPrimaryKey(storeId);
+        Integer bizId=store.getBizId();
+        logistics.setBizId(bizId);
+
+        return logistics;
+    }
 
     @Override
     @Transactional
@@ -171,6 +191,10 @@ public class OrderServiceImpl implements OrderService {
 
             orderDAO.insertSelective(order);
             orderDetailDAO.insertSelective(orderDetail);
+
+
+            Logistics logistics=getLogistics(userName,orderDetailId.intValue()+1,storeId);
+            logisticsService.insertLogistice(logistics);
             }catch (Exception e){
                 e.printStackTrace();
                 //手动处理异常后aop没有办法捕获异常，手动处理回滚事务
@@ -185,6 +209,12 @@ public class OrderServiceImpl implements OrderService {
     public Integer getStoreIdByOrderId(Integer orderId) {
         Order order=orderDAO.selectByPrimaryKey(orderId);
         return order.getStoreId();
+    }
+
+    @Override
+    public Integer getOrderDetailIdById(Integer orderId) {
+        Order order=orderDAO.selectByPrimaryKey(orderId);
+        return order.getDetailId();
     }
 
 

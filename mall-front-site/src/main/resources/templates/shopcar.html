@@ -91,9 +91,9 @@
 			var box = boxs[i];
 			if (box.checked) {
 				num++;
-				var productId=$(":input[name='box']").val();
-				var buyNum=$(":input[name='number']").val();
-				var newPrice=$("#newPrice").val();
+				var productId=box.value;
+				var buyNum=box.parentNode.parentNode.children[7].firstElementChild.value;
+				var newPrice=box.parentNode.parentNode.children[6].value;
 				var var1;
                 var1 ="{productId:"+productId+","
                     +"buyNum:"+buyNum+","+"newPrice:"+newPrice+ "}";

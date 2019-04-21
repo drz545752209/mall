@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * logistics
- * @author 
+ * @author
  */
 public class Logistics implements Serializable {
     private Integer id;
@@ -13,7 +13,7 @@ public class Logistics implements Serializable {
 
     private Integer userId;
 
-    private Integer orderId;
+    private Integer orderDetailId;
 
     private String status;
 
@@ -45,12 +45,12 @@ public class Logistics implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getOrderId() {
-        return orderId;
+    public Integer getOrderDetailId() {
+        return orderDetailId;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setOrderDetailId(Integer orderDetailId) {
+        this.orderDetailId = orderDetailId;
     }
 
     public String getStatus() {
@@ -82,11 +82,11 @@ public class Logistics implements Serializable {
         }
         Logistics other = (Logistics) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getBizId() == null ? other.getBizId() == null : this.getBizId().equals(other.getBizId()))
-            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getScore() == null ? other.getScore() == null : this.getScore().equals(other.getScore()));
+                && (this.getBizId() == null ? other.getBizId() == null : this.getBizId().equals(other.getBizId()))
+                && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
+                && (this.getOrderDetailId() == null ? other.getOrderDetailId() == null : this.getOrderDetailId().equals(other.getOrderDetailId()))
+                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+                && (this.getScore() == null ? other.getScore() == null : this.getScore().equals(other.getScore()));
     }
 
     @Override
@@ -96,7 +96,7 @@ public class Logistics implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getBizId() == null) ? 0 : getBizId().hashCode());
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
-        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
+        result = prime * result + ((getOrderDetailId() == null) ? 0 : getOrderDetailId().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getScore() == null) ? 0 : getScore().hashCode());
         return result;
@@ -111,7 +111,7 @@ public class Logistics implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", bizId=").append(bizId);
         sb.append(", userId=").append(userId);
-        sb.append(", orderId=").append(orderId);
+        sb.append(", orderDetailId=").append(orderDetailId);
         sb.append(", status=").append(status);
         sb.append(", score=").append(score);
         sb.append(", serialVersionUID=").append(serialVersionUID);

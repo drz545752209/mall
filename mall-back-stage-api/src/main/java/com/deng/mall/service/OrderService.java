@@ -13,4 +13,5 @@ public interface OrderService {
      void backGoods(Integer orderId);
      boolean createOrder(String shopInfo,String userName);
      Integer getStoreIdByOrderId(Integer orderId);
+     Integer getOrderDetailIdById(Integer orderId);
 }

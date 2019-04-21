@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="biz_id" jdbcType="INTEGER" property="bizId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_detail_id" jdbcType="INTEGER" property="orderDetailId" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="score" jdbcType="INTEGER" property="score" />
   </resultMap>
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, biz_id, user_id, order_id, `status`, score
+    id, biz_id, user_id, order_detail_id, `status`, score
   </sql>
   <select id="selectByExample" parameterType="com.deng.logistics.domain.LogisticsExample" resultMap="BaseResultMap">
     select
@@ -93,7 +93,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from logistics
     where id = #{id,jdbcType=INTEGER}
@@ -109,11 +109,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.deng.logistics.domain.Logistics">
-    insert into logistics (id, biz_id, user_id, 
-      order_id, `status`, score
+    insert into logistics (id, biz_id, user_id,
+      order_detail_id, `status`, score
       )
-    values (#{id,jdbcType=INTEGER}, #{bizId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{orderId,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}
+    values (#{id,jdbcType=INTEGER}, #{bizId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+      #{orderDetailId,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.deng.logistics.domain.Logistics">
@@ -128,8 +128,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="orderId != null">
-        order_id,
+      <if test="orderDetailId != null">
+        order_detail_id,
       </if>
       <if test="status != null">
         `status`,
@@ -148,8 +148,8 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="orderId != null">
-        #{orderId,jdbcType=INTEGER},
+      <if test="orderDetailId != null">
+        #{orderDetailId,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
@@ -177,8 +177,8 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.orderId != null">
-        order_id = #{record.orderId,jdbcType=INTEGER},
+      <if test="record.orderDetailId != null">
+        order_detail_id = #{record.orderDetailId,jdbcType=INTEGER},
       </if>
       <if test="record.status != null">
         `status` = #{record.status,jdbcType=VARCHAR},
@@ -194,11 +194,11 @@
   <update id="updateByExample" parameterType="map">
     update logistics
     set id = #{record.id,jdbcType=INTEGER},
-      biz_id = #{record.bizId,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      order_id = #{record.orderId,jdbcType=INTEGER},
-      `status` = #{record.status,jdbcType=VARCHAR},
-      score = #{record.score,jdbcType=INTEGER}
+    biz_id = #{record.bizId,jdbcType=INTEGER},
+    user_id = #{record.userId,jdbcType=INTEGER},
+    order_detail_id = #{record.orderDetailId,jdbcType=INTEGER},
+    `status` = #{record.status,jdbcType=VARCHAR},
+    score = #{record.score,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -212,8 +212,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="orderId != null">
-        order_id = #{orderId,jdbcType=INTEGER},
+      <if test="orderDetailId != null">
+        order_detail_id = #{orderDetailId,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         `status` = #{status,jdbcType=VARCHAR},
@@ -228,7 +228,7 @@
     update logistics
     set biz_id = #{bizId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      order_id = #{orderId,jdbcType=INTEGER},
+      order_detail_id = #{orderDetailId,jdbcType=INTEGER},
       `status` = #{status,jdbcType=VARCHAR},
       score = #{score,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
