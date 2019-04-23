@@ -6,11 +6,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 
+import com.deng.common.utils.StrUntils;
 import com.deng.mall.domain.Biz;
 import com.deng.mall.domain.Product;
 import com.deng.mall.service.BizService;
 import com.deng.mall.service.ProductService;
-import com.deng.mall.utils.StrUntils;
 import com.deng.mall.utils.UpfileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

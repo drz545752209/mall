@@ -13,5 +13,8 @@
                    version="1.0" registry="N/A"/>
     <bean  class="com.hlju.mall.service.impl.UserServiceImpl" />
 
+    <dubbo:service interface="com.hlju.mall.service.CommentService" ref="commentService"
+                   version="1.0" registry="N/A"/>
+    <bean  class="com.hlju.mall.service.impl.CommentServiceImpl" />
 
 </beans>

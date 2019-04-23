@@ -46,6 +46,7 @@ function downShelf() {
     var idStr=getCheckBoxId();
     $.post("/product/downShelf",{"idStr":idStr})
         .success(function () {
+            alert("成功下架");
             window.location.href='http://localhost:8080/product/productList';
         });
 }
@@ -54,6 +55,7 @@ function upShelf() {
     var  idStr=getCheckBoxId();
     $.post("/product/upShelf",{"idStr":idStr})
         .success(function () {
+            alert("成功上架");
             window.location.href='http://localhost:8080/product/productList';
         });
 }

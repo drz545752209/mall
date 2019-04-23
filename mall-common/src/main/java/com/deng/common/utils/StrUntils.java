@@ -24,6 +24,9 @@ public class StrUntils {
      * @param strDate
      * */
     public static Date str2Date(String strDate) {
+        if (StringUtils.isEmpty(strDate)){
+            return null;
+        }
         String str = strDate;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date d = null;
@@ -34,6 +37,15 @@ public class StrUntils {
         }
         Date date = new Date(d.getTime());
         return date;
+    }
+
+    /**
+     * 获取当前系统时间
+     * */
+    public static Date getNow() {
+       long curTime=new java.util.Date().getTime();
+       Date date=new Date(curTime);
+       return date;
     }
 
 

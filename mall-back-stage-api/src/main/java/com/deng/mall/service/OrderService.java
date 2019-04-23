@@ -1,6 +1,7 @@
 package com.deng.mall.service;
 
 import com.deng.mall.domain.BoOrder;
+import com.deng.mall.domain.Order;
 import com.deng.mall.domain.UserBoOrder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,4 +15,5 @@ public interface OrderService {
      boolean createOrder(String shopInfo,String userName);
      Integer getStoreIdByOrderId(Integer orderId);
      Integer getOrderDetailIdById(Integer orderId);
+     Order getOrderById(Integer orderId);
 }

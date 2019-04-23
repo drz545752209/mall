@@ -14,6 +14,7 @@ import com.deng.mall.domain.*;
 import com.deng.mall.mq.SendMsg;
 import com.deng.mall.service.OrderService;
 import com.deng.mall.service.ProductService;
+import com.deng.mall.service.StockService;
 import com.hlju.mall.domain.User;
 import com.hlju.mall.service.UserService;
 import org.slf4j.Logger;
@@ -47,6 +48,8 @@ public class OrderServiceImpl implements OrderService {
     UserService userService;
     @Autowired(required = false)
     LogisticsService logisticsService;
+    @Autowired
+    StockService stockService;
 
     final static Logger LOGGER= LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -192,9 +195,16 @@ public class OrderServiceImpl implements OrderService {
             orderDAO.insertSelective(order);
             orderDetailDAO.insertSelective(orderDetail);
 
-
             Logistics logistics=getLogistics(userName,orderDetailId.intValue()+1,storeId);
             logisticsService.insertLogistice(logistics);
+
+            //消费库存
+            Stock stock=stockService.getStockByProductId(product);
+            Long updateStockNum=stock.getCount()-buyNum;
+            stock.setCount(updateStockNum);
+            stock.setOutDate(StrUntils.getNow());
+            stockService.saveStock(stock);
+
             }catch (Exception e){
                 e.printStackTrace();
                 //手动处理异常后aop没有办法捕获异常，手动处理回滚事务
@@ -215,6 +225,12 @@ public class OrderServiceImpl implements OrderService {
     public Integer getOrderDetailIdById(Integer orderId) {
         Order order=orderDAO.selectByPrimaryKey(orderId);
         return order.getDetailId();
+    }
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+         Order order=orderDAO.selectByPrimaryKey(orderId);
+        return order;
     }
 
 

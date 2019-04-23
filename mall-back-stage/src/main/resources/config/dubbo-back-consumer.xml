@@ -7,8 +7,11 @@
 
     <!-- 引用Service服务-->
     <dubbo:reference id="userService"  interface="com.hlju.mall.service.UserService"
-                     check="false" version="1.0" url="127.0.0.1:30002" protocol="dubbo" timeout="15000" init="true"/>
+                     check="false" version="1.0" url="127.0.0.1:30002" protocol="dubbo" timeout="15000"/>
 
     <dubbo:reference id="logisticsService" interface="com.deng.logistics.service.LogisticsService"
                      check="false" version="1.0" url="127.0.0.1:30003" protocol="dubbo" timeout="15000"/>
+
+    <dubbo:reference id="commentService"  interface="com.hlju.mall.service.CommentService"
+                     check="false" version="1.0" url="127.0.0.1:30002" protocol="dubbo" timeout="15000"/>
 </beans>

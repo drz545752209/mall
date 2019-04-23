@@ -13,4 +13,6 @@ public interface StockService {
    Stock getStockByProductId(Product product);
 
    void saveStock(Integer id,String count, String inDate,String outDate);
+
+   boolean saveStock(Stock stock);
 }

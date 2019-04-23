@@ -315,4 +315,8 @@
   <select id="getTypeList" resultType="java.util.Map">
     select type from product group by type
   </select>
+  <select id="getMaxId" resultType="java.lang.Long">
+    select MAX(id)
+    from product
+  </select>
 </mapper>

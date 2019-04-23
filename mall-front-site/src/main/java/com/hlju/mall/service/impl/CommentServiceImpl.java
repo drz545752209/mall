@@ -2,16 +2,25 @@ package com.hlju.mall.service.impl;
 
 import com.deng.common.utils.StrUntils;
 import com.deng.logistics.service.LogisticsService;
+import com.deng.mall.domain.Biz;
+import com.deng.mall.domain.Product;
+import com.deng.mall.domain.Store;
 import com.deng.mall.service.BizService;
 import com.deng.mall.service.OrderService;
 import com.deng.mall.service.ProductService;
+import com.deng.mall.service.StoreService;
 import com.hlju.mall.dao.CommentDAO;
+import com.hlju.mall.dao.UserDAO;
+import com.hlju.mall.domain.BoComment;
 import com.hlju.mall.domain.Comment;
+import com.hlju.mall.domain.CommentExample;
 import com.hlju.mall.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service("commentService")
@@ -26,6 +35,10 @@ public class CommentServiceImpl implements CommentService {
     OrderService orderService;
     @Autowired
     CommentDAO commentDAO;
+    @Autowired
+    StoreService storeService;
+    @Autowired
+    UserDAO userDAO;
 
     @Override
     @Transactional
@@ -57,5 +70,39 @@ public class CommentServiceImpl implements CommentService {
         }
 
         return false;
+    }
+
+    @Override
+    public List<BoComment> getCommentBoList(String bizName) {
+        Biz biz=new Biz();
+        biz.setName(bizName);
+        Integer bizId=bizService.selectBizNameByExamle(biz).get(0).getId();
+        List<Store> stores=storeService.getStoresByBizId(bizId);
+        List<Integer> storeIds=new ArrayList<>();
+        for (Store store:stores){
+            storeIds.add(store.getId());
+        }
+
+        CommentExample commentExample=new CommentExample();
+        CommentExample.Criteria criteria=commentExample.createCriteria();
+        criteria.andStoreIdIn(storeIds);
+
+        List<Comment> comments=commentDAO.selectByExample(commentExample);
+        List<BoComment> boComments=new ArrayList<>();
+        for (Comment comment : comments) {
+            BoComment boComment=new BoComment();
+            Integer userId = orderService.getOrderById(comment.getOrderId()).getUserId();
+            String userName= userDAO.selectByPrimaryKey(userId).getName();
+            Product product=productService.getProductById(comment.getProductId().toString());
+            String productName=product.getName();
+            String commentDesc=product.getComment();
+            boComment.setUserName(userName);
+            boComment.setProductName(productName);
+            boComment.setComment(commentDesc);
+
+            boComments.add(boComment);
+        }
+
+        return boComments;
     }
 }

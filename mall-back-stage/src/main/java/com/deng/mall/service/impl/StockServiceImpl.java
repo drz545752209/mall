@@ -1,12 +1,12 @@
 package com.deng.mall.service.impl;
 
+import com.deng.common.utils.StrUntils;
 import com.deng.mall.dao.BizDAO;
 import com.deng.mall.dao.ProductDAO;
 import com.deng.mall.dao.StockDAO;
 import com.deng.mall.dao.StoreDAO;
 import com.deng.mall.domain.*;
 import com.deng.mall.service.StockService;
-import com.deng.mall.utils.StrUntils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,5 +98,14 @@ public class StockServiceImpl implements StockService {
         stock.setInDate(StrUntils.str2Date(inDate));
         stock.setOutDate(StrUntils.str2Date(outDate));
         stockDAO.updateByPrimaryKeySelective(stock);
+    }
+
+    @Override
+    public boolean saveStock(Stock stock) {
+        if (stock!=null){
+            stockDAO.updateByPrimaryKeySelective(stock);
+            return true;
+        }
+        return  false;
     }
 }

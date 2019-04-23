@@ -45,7 +45,18 @@
         }
 
         var buy = function () {
-            document.getElementById("buyform").submit();
+            var stockNum=$('#stockNum').val();
+            var buyNum=$('#buyNum').val();
+            if (stockNum==0||stockNum=='0'){
+                alert("该商品无库存");
+                return;
+            }else if(stockNum-buyNum<0){
+                alert("购买数量超过库存");
+                return;
+            }
+            else {
+                document.getElementById("buyform").submit();
+            }
         };
     </script>
 </head>
@@ -124,6 +135,7 @@
                 </li>
                 <li class="sub">
                     <span class="fl">库&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;存：[[${stockInfo.count}]]</span>
+                    <input type="hidden" id="stockNum" th:value="${stockInfo.count}" />
                     <span>&nbsp;&nbsp;下单后立即发货</span>
                 </li>
                 <!--促销-->
