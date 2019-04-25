@@ -11,7 +11,7 @@ import java.util.List;
 public interface ShopcarService {
        boolean addShopcarToRedis(Integer productId, Integer buyNum,Integer oldPrice,Double newPrice, HttpServletResponse resp);
 
-       boolean delShopcarFromRedis(Integer productId,HttpServletRequest req);
+       boolean delShopcarFromRedis(Integer productId,HttpServletRequest req,HttpServletResponse resp);
 
        boolean saveShopcarFromRedis(Integer productId, Integer buyNum, HttpServletRequest req);
 

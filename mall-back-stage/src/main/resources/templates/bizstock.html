@@ -35,8 +35,8 @@
                     <td><input th:value="${stock.inDate}" /></td>
                     <td><input th:value="${stock.outDate}"/></td>
                     <td>
-                        <button type="button" class="btn btn-default btn-warning" id="mod_stock">修改</button>
-                        <button type="button" class="btn btn-default btn-danger" id="reset_stock">清空</button>
+                        <button type="button" class="btn btn-default btn-warning" onclick="modify(this)">修改</button>
+                        <button type="button" class="btn btn-default btn-danger" onclick="reset(this)">清空</button>
                     </td>
                 </tr>
                 </tbody>

@@ -27,6 +27,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -100,8 +101,6 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     public  List<UserBoOrder> getQueryOrder(Integer pageSize, Long pageNum,String userName){
-        List<UserBoOrder> boOrderList;
-        Product product;
         User user=new User();
         user.setName(userName);
         Integer userId=userService.selectUserNameByExamle(user).get(0).getId();
@@ -154,12 +153,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public boolean createOrder(String shopInfo,String userName) {
+    public ArrayList<Integer> createOrder(String shopInfo,String userName) {
         List<HashMap> productIds=StrUntils.json2MapList(shopInfo);
+        //记录创建产品id
+        ArrayList<Integer> results=new ArrayList<>();
 
         for (HashMap resultMap:productIds){
             try{
             String productId=resultMap.get("productId").toString();
+            results.add((Integer) resultMap.get("productId"));
             Integer buyNum= (Integer) resultMap.get("buyNum");
             //抹除小数
             BigDecimal var1= (BigDecimal) resultMap.get("newPrice");
@@ -209,10 +211,10 @@ public class OrderServiceImpl implements OrderService {
                 e.printStackTrace();
                 //手动处理异常后aop没有办法捕获异常，手动处理回滚事务
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return false;
+                return null;
             }
         }
-        return true;
+        return results;
     }
 
     @Override

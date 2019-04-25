@@ -84,18 +84,19 @@ public class ShopcarServiceImpl implements ShopcarService {
     }
 
     @Override
-    public boolean delShopcarFromRedis(Integer productId,HttpServletRequest req) {
+    public boolean delShopcarFromRedis(Integer productId,HttpServletRequest req,HttpServletResponse resp) {
         Cookie[] cookies=req.getCookies();
         for (Cookie cookie:cookies){
             String cookieKey=cookie.getName();
             String cookieValue=cookie.getValue();
             if (cookieKey!=null&&cookieKey.startsWith("mallShopcar")){
                 Shopcar shopcar=(Shopcar) JedisUtils.get(cookieValue,true);
-                if (shopcar.getProductId()==productId){
+                if (shopcar.getProductId().equals(productId)){
                     //删除redis
                     JedisUtils.del(cookieValue,true);
                     //删除cookie
                     cookie.setMaxAge(0);
+                    resp.addCookie(cookie);
                 }
             }
         }

@@ -13,7 +13,7 @@
 		<div id="header_div1">
 
 			官方网站：<a href="" style="margin-right: 50px">联系我们</a>
-			<th:text th:if="${session.userName}!=null">欢迎： [[${session.username}]]></th:text>
+			<a th:if="${session.userName}!=null">欢迎:[[${session.userName}]]></a>
 			<a th:if="${session.userName}!=null" href="/signout"
 				style="margin-right: 50px">注销</a> <a
 				th:if="${session.userName}==null" href="/user/login"

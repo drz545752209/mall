@@ -5,6 +5,7 @@ import com.deng.mall.domain.Order;
 import com.deng.mall.domain.UserBoOrder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface OrderService {
@@ -12,7 +13,7 @@ public interface OrderService {
      List<UserBoOrder> getQueryOrder(Integer pageSize, Long pageNum, String userName);
      void sendGoods(Integer orderId);
      void backGoods(Integer orderId);
-     boolean createOrder(String shopInfo,String userName);
+     ArrayList<Integer> createOrder(String shopInfo, String userName);
      Integer getStoreIdByOrderId(Integer orderId);
      Integer getOrderDetailIdById(Integer orderId);
      Order getOrderById(Integer orderId);

@@ -54,7 +54,7 @@ public class ShopController {
 	}
 
 	@RequestMapping(value = { "/search"}, method=RequestMethod.GET)
-	public ModelAndView search(@RequestParam()String keyword) {
+	public ModelAndView search(String keyword) {
 
 		return null;
 	}

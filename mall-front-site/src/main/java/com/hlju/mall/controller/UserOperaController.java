@@ -112,11 +112,12 @@ public class UserOperaController {
     @RequestMapping("/delFromShopcar")
     public ModelAndView delFromShopcar(
             @RequestParam(name = "shopId")Integer productId,
-            HttpServletRequest req
+            HttpServletRequest req,
+            HttpServletResponse resp
     ){
         ModelAndView mav=new ModelAndView();
 
-       boolean result=shopcarService.delShopcarFromRedis(productId,req);
+       boolean result=shopcarService.delShopcarFromRedis(productId,req,resp);
 
        mav.addObject("status",result);
        mav.addObject("productId",productId);
@@ -128,13 +129,19 @@ public class UserOperaController {
     @RequestMapping(value = "/commitOrder",method = RequestMethod.POST)
     public ModelAndView commitOrder(
             @RequestParam  String orderInfo,
-            HttpServletRequest req
+            HttpServletRequest req,
+            HttpServletResponse resp
     ) {
         ModelAndView mav=new ModelAndView();
+        String status = "false";
 
         HttpSession session = req.getSession();
         String userName = (String) session.getAttribute("userName");
-        boolean status=orderService.createOrder(orderInfo,userName);
+        List<Integer> productIds=orderService.createOrder(orderInfo,userName);
+
+        for (Integer productId:productIds){
+           status = shopcarService.delShopcarFromRedis(productId,req,resp)?"true":"false";
+        }
 
         mav.addObject("status",status);
         mav.setViewName("status");

@@ -27,19 +27,11 @@ function getCheckBoxId() {
 
 function batchDelete() {
     var idStr=getCheckBoxId();
-    $.post("/product/batchDelete",{"idStr":idStr})
-        .success(function () {
-            window.location.href='http://localhost:8080/product/productList';
-        });
+    $.post("/product/batchDelete",{"idStr":idStr});
 }
 
 function del(id) {
-    $.post("/product/delete",{"deleteId":id})
-        .success(
-            function () {
-                window.location.href='http://localhost:8080/product/productList';
-            }
-        )
+    $.post("/product/delete",{"deleteId":id});
 }
 
 function downShelf() {

@@ -89,27 +89,27 @@ public class ProductController {
     public String batchDelete(String idStr) {
         List<Integer> ids = StrUntils.getIds(idStr);
         productService.batchDeleteProduct(ids);
-        return "bizproduct.html";
+        return "redirect:/product/productList";
     }
 
     @RequestMapping(value = "/delete")
     public String delete(String deleteId) {
         productService.deleteProduct(deleteId);
-        return "bizproduct.html";
+        return "redirect:/product/productList";
     }
 
     @RequestMapping(value = "/downShelf")
-    public String downShelf(String idStr) {
+    public @ResponseBody String downShelf(String idStr) {
         List<Integer> ids = StrUntils.getIds(idStr);
         productService.batchDownShelf(ids);
-        return "bizproduct.html";
+        return "susess";
     }
 
     @RequestMapping(value = "/upShelf")
-    public String upShelf(String idStr) {
+    public @ResponseBody String upShelf(String idStr) {
         List<Integer> ids = StrUntils.getIds(idStr);
         productService.batchUpShelf(ids);
-        return "bizproduct.html";
+        return "susess";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
