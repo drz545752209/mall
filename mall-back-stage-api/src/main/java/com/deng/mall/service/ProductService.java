@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProductService {
 
-     List<Product> getProductByType(String isShow, String type, long pageNum, int pageSize, HttpServletRequest request);
+     List<Product> getProductByType(String isShow, String type, String keyword, long pageNum, int pageSize, HttpServletRequest request);
 
      Product getProductById(String id);
 

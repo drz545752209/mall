@@ -49,7 +49,7 @@ public class ProductController {
         List<Product> productList;
         List<String> productTypeList;
 
-        productList = productService.getProductByType(isShow, type, pageNum-1, pageSize,request);
+        productList = productService.getProductByType(isShow, type, null,pageNum-1, pageSize,request);
         productTypeList = productService.getProductTypeList();
         ModelAndView mv = new ModelAndView();
 

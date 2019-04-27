@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService{
         return null;
     }
 
-    public List<Product> getProductByType(String isShow, String type, long pageNum, int pageSize, HttpServletRequest request) {
+    public List<Product> getProductByType(String isShow, String type, String keyword,long pageNum, int pageSize, HttpServletRequest request) {
         List<Product> productList;
         ProductExample productExample = new ProductExample();
         ProductExample.Criteria criteria = productExample.createCriteria();
@@ -68,6 +68,10 @@ public class ProductServiceImpl implements ProductService{
         if (!StringUtils.isEmpty(type)){
             criteria.andTypeEqualTo(type);
         }
+        if (!StringUtils.isEmpty(keyword)){
+            criteria.andNameLike(keyword);
+        }
+
         criteria.andIsDelEqualTo(false);
         if ("1".equals(isShow)){
             criteria.andIsShowEqualTo(true);

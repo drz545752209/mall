@@ -81,7 +81,7 @@ function search(){
 
 			<!--分类搜索栏-->
 			<div style="margin: 10px;">
-				<form class="form-inline" action="/search" id="searchForm">
+				<form class="form-inline" action="/index" id="searchForm">
 					<div class="form-group">
 						<div class="input-group">
 							<input type="text" class="form-control" name="keyword"
@@ -153,14 +153,14 @@ function search(){
 						<nav aria-label="Page navigation">
 							<ul class="pagination">
 								<li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
-									<a th:href="@{/index(pageNum)}+'=1'"> <span
+									<a th:href="@{/index(pageNum='1',typeName=${typeName},keyword=${keyword})}"> <span
 										aria-hidden="true">首页</span>
-								</a>
+								    </a>
 								</li>
 
                                 <li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
                                     <a th:unless="${pageInfo.isFirst}"
-                                       th:href="@{/index(pageNum)}+'='+${pageInfo.pageNum-1}"
+                                       th:href="@{/index(pageNum=${pageInfo.pageNum-1},typeName=${typeName},keyword=${keyword})"
                                        aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
@@ -168,18 +168,18 @@ function search(){
 
                                 <li th:each="navigatepageNum:${pageInfo.navigatepageNums}"
                                     th:class="${navigatepageNum==pageInfo.pageNum?'active':'page-item'}">
-                                    <a th:href="@{/index(pageNum)}+'='+${navigatepageNum}">[[${navigatepageNum}]]</a>
+                                    <a th:href="@{/index(pageNum=${navigatepageNum},typeName=${typeName},keyword=${keyword})}">[[${navigatepageNum}]]</a>
                                 </li>
 
                                 <li th:class="${pageInfo.pageNum==pageInfo.pages?'disabled':'page-item'}">
                                     <a th:unless="${pageInfo.isLast}"
-                                       th:href="@{/index(pageNum)}+'='+${pageInfo.pageNum+1}"
+                                       th:href="@{/index(pageNum=${pageInfo.pageNum+1},typeName=${typeName},keyword=${keyword})}"
                                        aria-label="Next"><span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
 
                                 <li th:class="${pageInfo.pageNum==pageInfo.pages?'page-item disabled':'page-item'}">
-                                    <a th:href="@{/index(pageNum)}+'='+${pageInfo.pages}">
+                                    <a th:href="@{/index(pageNum=${pageInfo.pages},typeName=${typeName},keyword=${keyword})}">
                                         <span aria-hidden="true">末页</span>
                                     </a>
                                 </li>
