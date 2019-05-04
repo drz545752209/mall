@@ -59,6 +59,10 @@
         <a th:href="@{/shopdetail(id=${productId})}">返回</a>
     </div>
 
+    <div>
+        <input th:if="${message ne null}" th:value="${message}">
+    </div>
+
     </div>
 </div>
 
