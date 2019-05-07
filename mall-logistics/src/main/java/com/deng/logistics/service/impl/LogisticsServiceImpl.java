@@ -3,6 +3,8 @@ package com.deng.logistics.service.impl;
 import com.deng.logistics.dao.LogisticsAdminDAO;
 import com.deng.logistics.dao.LogisticsDAO;
 import com.deng.logistics.domain.Logistics;
+import com.deng.logistics.domain.LogisticsAdminExample;
+import com.deng.logistics.domain.LogisticsBo;
 import com.deng.logistics.domain.LogisticsExample;
 import com.deng.logistics.service.LogisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +43,18 @@ public class LogisticsServiceImpl implements LogisticsService {
     }
 
     @Override
-    public List<Logistics> getLogisticsList(String companyName) {
-        LogisticsExample logisticsExample = new LogisticsExample();
-        LogisticsExample.Criteria logisticsExampleCriteria = logisticsExample.createCriteria();
-        logisticsExampleCriteria.andCompanyNameEqualTo(companyName);
+    public List<LogisticsBo> getLogisticsList(String userName) {
+        LogisticsAdminExample logisticsAdminExample=new LogisticsAdminExample();
+        LogisticsAdminExample.Criteria logisticsAdminExampleCriteria=logisticsAdminExample.createCriteria();
+        logisticsAdminExampleCriteria.andNameEqualTo(userName);
+        String companyName=logisticsAdminDAO.selectByExample(logisticsAdminExample).get(0).getCompanyName();
 
-        List<Logistics> logistics = logisticsDAO.selectByExample(logisticsExample);
-        if (logistics.size() == 0) {
+        List<LogisticsBo> logisticsBos=logisticsDAO.selectBoLogistics(companyName);
+
+        if (logisticsBos.size()==0){
             return null;
         }
 
-        return logistics;
+        return logisticsBos;
     }
 }

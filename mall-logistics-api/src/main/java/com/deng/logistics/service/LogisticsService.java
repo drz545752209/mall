@@ -1,6 +1,7 @@
 package com.deng.logistics.service;
 
 import com.deng.logistics.domain.Logistics;
+import com.deng.logistics.domain.LogisticsBo;
 
 import java.util.List;
 
@@ -9,5 +10,5 @@ public interface LogisticsService {
 
     boolean insertLogistice(Logistics logistics);
 
-    List<Logistics> getLogisticsList(String companyName);
+    List<LogisticsBo> getLogisticsList(String userName);
 }

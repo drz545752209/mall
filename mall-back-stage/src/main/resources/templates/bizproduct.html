@@ -107,6 +107,52 @@
     </div><!-- /.modal -->
 </div>
 
+<!-- 商品促销模态框（Modal） -->
+<div class="modal fade" id="promotion_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="promotionModelLabel">促销商品</h4>
+            </div>
+            <div class="modal-body">
+                <form class="navbar-form navbar-left" role="search" id="promotion_form" action="/product/promotion">
+                    <input type="text" id="productId" th:name="id" hidden="true">
+                    <div class="form-group">
+                        <label>商品名</label>
+                        <input type="text" disabled="disabled"  class="form-control" th:name="name" id="productName"/>
+                    </div>
+                    <div class="form-group">
+                        <label>店铺名</label>
+                        <input type="text" disabled="disabled" class="form-control" th:name="storeName" id="storeName"/>
+                    </div>
+                    <div class="form-group">
+                        <label>商品类型</label>
+                        <input type="text" disabled="disabled" class="form-control" th:name="type" id="productType"/>
+                    </div>
+                    <div class="form-group">
+                        <label>商品价格</label>
+                        <input type="text" disabled="disabled" class="form-control"  th:name="price" id="productPrice"/>
+                    </div>
+                    <div class="form-group">
+                        <label>促销信息</label>
+                        <input type="text" class="form-control" th:name="msg" />
+                    </div>
+                    <div class="form-group">
+                        <label>折扣</label>
+                        <input type="text" class="form-control" th:name="dicount" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">促销</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">重置</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
@@ -123,7 +169,8 @@
             </button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" th:each="productType:${productTypeList}">
                 <li role="presentation">
-                    <a role="menuitem" tabindex="-1" th:href="@{'/product/productList?'+${productType.get('type')}}" th:text="${productType.get('type')}"></a>
+                    <a role="menuitem" tabindex="-1" th:href="@{'/product/productList?type='+${productType.get('type')}+'&isShow='+${isShow}}"
+                       th:text="${productType.get('type')}"></a>
                 </li>
             </ul>
             </div>
@@ -135,8 +182,8 @@
                 </button>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
                     <li role="presentation">
-                        <a role="menuitem" tabindex="-1" th:href="@{'/product/productList?isShow=1'}">显示上架</a>
-                        <a role="menuitem" tabindex="-1" th:href="@{'/product/productList?isShow=0'}">显示下架</a>
+                        <a role="menuitem" tabindex="-1" th:href="@{'/product/productList?isShow=1&type='+${typeName}}">显示上架</a>
+                        <a role="menuitem" tabindex="-1" th:href="@{'/product/productList?isShow=0&type='+${typeName}}">显示下架</a>
                     </li>
                 </ul>
             </div>
@@ -171,12 +218,53 @@
                     <td th:text="${product.price}"></td>
                     <td>
                         <button type="button" class="btn btn-default btn-warning" th:onclick="'save('+${product.id}+')'">修改</button>
-                        <button type="button" class="btn btn-default btn-danger" th:onclick="'del('${product.id}')'">删除</button>
+                        <button type="button" class="btn btn-default btn-warning" th:onclick="'promotion('+${product.id}+')'">促销</button>
+                        <button type="button" class="btn btn-default btn-danger" th:onclick="'del('+${product.id}+')'">删除</button>
                     </td>
                 </tr>
                 </tbody>
             </table>
           </div>
+
+            <!-- 分页标签 -->
+            <div class="pagebottom" id="pager" style="clear: both;">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
+                            <a th:href="@{/product/productList(pageNum='1',type=${typeName},isShow=${isShow})}"> <span
+                                    aria-hidden="true">首页</span>
+                            </a>
+                        </li>
+
+                        <li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
+                            <a th:unless="${pageInfo.isFirst}"
+                               th:href="@{/product/productList(pageNum=${pageInfo.pageNum-1},type=${typeName},isShow=${isShow})"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+
+                        <li th:each="navigatepageNum:${pageInfo.navigatepageNums}"
+                            th:class="${navigatepageNum==pageInfo.pageNum?'active':'page-item'}">
+                            <a th:href="@{/product/productList(pageNum=${navigatepageNum},type=${typeName},isShow=${isShow})}">[[${navigatepageNum}]]</a>
+                        </li>
+
+                        <li th:class="${pageInfo.pageNum==pageInfo.pages?'disabled':'page-item'}">
+                            <a th:unless="${pageInfo.isLast}"
+                               th:href="@{/product/productList(pageNum=${pageInfo.pageNum+1},type=${typeName},isShow=${isShow})}"
+                               aria-label="Next"><span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+
+                        <li th:class="${pageInfo.pageNum==pageInfo.pages?'page-item disabled':'page-item'}">
+                            <a th:href="@{/product/productList(pageNum=${pageInfo.pages},type=${typeName},isShow=${isShow})}">
+                                <span aria-hidden="true">末页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
         </div>
     </div>
 </div>

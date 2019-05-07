@@ -68,6 +68,16 @@ function save(id) {
     })
 }
 
+function promotion(id) {
+    $.get("/product/getPromotionForSave",{"promotionId":id},function (data) {
+        document.getElementById("productId").value=data.id;
+        document.getElementById("productName").value=data.name;
+        document.getElementById("storeName").value=data.storeName;
+        document.getElementById("productType").value=data.type;
+        document.getElementById("productPrice").value=data.price;
+        $('#promotion_modal').modal('show');
+    })
+}
 
 
 function checkFileExt(filename) {

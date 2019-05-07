@@ -8,6 +8,8 @@ public class LogisticsBo implements Serializable {
     private String bizName;
     private String userContantWay;
     private String bizContantWay;
+    private String address;
+    private String status;
 
     public String getUserContantWay() {
         return userContantWay;
@@ -25,8 +27,6 @@ public class LogisticsBo implements Serializable {
         this.bizContantWay = bizContantWay;
     }
 
-    private String address;
-    private String status;
 
     public String getAddress() {
         return address;

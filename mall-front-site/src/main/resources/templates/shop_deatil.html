@@ -104,18 +104,23 @@
             </div>
             <div id="preview">
                 <div id="spec-n1" class="jqzoom">
-                    <img th:src="${shopInfo.img}" th:title="${shopInfo.description}" height="280"
+                    <img th:src="'/product_img/' + ${shopInfo.img}" th:title="${shopInfo.description}" height="280"
                          width="280"/>
                 </div>
                 <ul class="extra">
                     <li>
                         <span>评分：</span>
                         <div class="con" id="star10918727">
+                            <!--
                             <div style="float: left; margin: 2px 0 0 5px; width: 64px; height: 12px; background-image: url(img/icon_clubs.gif); background-repeat: no-repeat; overflow: hidden;"></div>
-                            <a href="javascript:void(0);" class="num-comment">(已有151人评价)</a>
+                            -->
+                            <span>店铺评分:[[${storeScore}]]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <a th:href="@{/scanProductComment(productId=${productId})}" class="num-comment">(已有[[${commentCount}]]人评价)</a>
                         </div>
                     </li>
+                    <!--
                     <li class="tuangou"><a href="javascript:void(0);">该商品支持全国购买</a></li>
+                    -->
                 </ul>
             </div>
             <!--preview end-->
@@ -131,7 +136,7 @@
                 <li th:if="${promotionInfo ne null}">
                     <font color="red">疯&nbsp;&nbsp;狂&nbsp;&nbsp;价：</font>
                     <span id="priceinfo"   class="price">￥[[${shopInfo.price*promotionInfo.dicount*0.1}]]  </span>
-                    <span class="rate" id="pricediscount">[[${promotionInfo.dicount*0.1}]]折</span>
+                    <span class="rate" id="pricediscount">&nbsp;&nbsp;[[${promotionInfo.dicount}]]折</span>
                 </li>
                 <li class="sub">
                     <span class="fl">库&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;存：[[${stockInfo.count}]]</span>

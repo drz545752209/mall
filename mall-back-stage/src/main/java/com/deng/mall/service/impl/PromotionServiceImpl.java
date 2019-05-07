@@ -8,6 +8,7 @@ import com.deng.mall.service.ProductService;
 import com.deng.mall.service.PromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,5 +53,23 @@ public class PromotionServiceImpl  implements PromotionService {
             promotionMap.put(promotion.getProductId(),promotion.getDicount());
         }
         return promotionMap;
+    }
+
+
+    @Override
+    public void addPromotionProduct(Promotion promotion) {
+        Integer productId=promotion.getId();
+        PromotionExample promotionExample=new PromotionExample();
+        PromotionExample.Criteria promotionExampleCriteria=promotionExample.createCriteria();
+        promotionExampleCriteria.andProductIdEqualTo(productId);
+        boolean hasPromoting=promotionDAO.selectByExample(promotionExample).size()==0?false:true;
+
+        if (!hasPromoting){
+            promotionDAO.insertSelective(promotion);
+        }else {
+            Integer promotionId=promotionDAO.selectByExample(promotionExample).get(0).getId();
+            promotion.setId(promotionId);
+            promotionDAO.updateByPrimaryKeySelective(promotion);
+        }
     }
 }

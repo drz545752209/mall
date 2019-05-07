@@ -65,10 +65,11 @@ public class ProductServiceImpl implements ProductService{
             criteria.andStoreNameEqualTo(storeName);
         }
 
-        if (!StringUtils.isEmpty(type)){
+        if (!StringUtils.isEmpty(type)&&!type.equals("null")){
             criteria.andTypeEqualTo(type);
         }
         if (!StringUtils.isEmpty(keyword)){
+            keyword="%"+keyword+"%";
             criteria.andNameLike(keyword);
         }
 

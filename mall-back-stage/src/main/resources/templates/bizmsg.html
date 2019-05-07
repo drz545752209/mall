@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>购物商城-我的信息</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="" rel="shortcut icon" type="image/x-icon" />
+    <!-- main.css是购物商城主样式 -->
+    <link rel=stylesheet type=text/css href="/css/index.css" />
+    <link rel=stylesheet type=text/css href="/css/header.css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <script type="text/javascript">
+    </script>
+</head>
+<body>
+
+
+<!-- middle part -->
+<div style="positon: relative; width: 960px; margin: 0px auto;">
+    <p style="text-align: left;">
+				<span id="shoppingcart_dd"
+                      style="font-size: 13px; line-height: 28px;">当前位置&nbsp;&gt;&gt;&nbsp;个人信息
+				</span>
+    </p>
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <form role="form" action="">
+                    <div class="form-group">
+                        <label for="contantWay">联系方式</label>
+                        <input type="text" class="form-control" id="contantWay" th:value="${biz.contantWay}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">所在地</label>
+                        <input type="text" class="form-control" id="address" th:value="${biz.location}"/>
+                    </div>
+                    <button type="submit" class="btn btn-default">修改</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

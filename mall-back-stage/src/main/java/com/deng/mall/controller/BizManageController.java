@@ -1,11 +1,14 @@
 package com.deng.mall.controller;
 
+import com.deng.common.utils.Encryption;
 import com.deng.mall.domain.Biz;
 import com.deng.mall.service.BizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -94,6 +97,73 @@ public class BizManageController {
         }
         return mav;
     }
+
+    @RequestMapping(value = "/toModify")
+    public String toModify()
+    {
+        return "bizModify";
+    }
+
+    @RequestMapping(value = "/modifyUser")
+    public ModelAndView modifyUser(@RequestParam(value = "new_pwd")String newPwd,
+                                   @RequestParam(value = "old_pwd")String oldPwd,
+                                   HttpServletRequest req){
+        ModelAndView mav =new ModelAndView();
+        Biz biz=new Biz();
+        biz.setPwd(oldPwd);
+        String loginName = (String) req.getSession().getAttribute("loginName");
+        if (StringUtils.isEmpty(loginName)){
+            mav.addObject("msg","用户未登录");
+            mav.setViewName("status");
+            return mav;
+        }
+        biz.setName(loginName);
+        boolean hasPwd=bizService.hasBiz(biz);
+        if (hasPwd){
+            bizService.updateBizPwd(loginName, Encryption.str2MD5(newPwd));
+            mav.addObject("msg","修改成功");
+        }else {
+            mav.addObject("msg","原密码不正确");
+        }
+        mav.setViewName("status");
+
+        return mav;
+    }
+
+    @RequestMapping(value = "toModifyMsg")
+    public ModelAndView toModifyMsg(HttpServletRequest req){
+        ModelAndView mav=new ModelAndView();
+        String userName= (String) req.getSession().getAttribute("loginName");
+        Biz biz = new Biz();
+        biz.setName(userName);
+
+        if (bizService.selectBizNameByExamle(biz).size()>0){
+            biz=bizService.selectBizNameByExamle(biz).get(0);
+        }
+
+        mav.addObject("biz",biz);
+        mav.setViewName("bizmsg");
+
+        return mav;
+    }
+
+    @RequestMapping(value = "modifyMsg")
+    public ModelAndView modifyMsg(String contantWay,String address,HttpServletRequest req){
+        ModelAndView mav=new ModelAndView();
+
+        String userName= (String) req.getSession().getAttribute("loginName");
+        if (StringUtils.isEmpty(userName)){
+            mav.addObject("msg","用户未登录");
+            mav.setViewName("status");
+            return mav;
+        }
+        bizService.updateMsg(userName,contantWay,address);
+        mav.addObject("msg","修改成功");
+        mav.setViewName("status");
+
+        return mav;
+    }
+
 
     @RequestMapping(value = "/index")
     public String toManageIndex() {

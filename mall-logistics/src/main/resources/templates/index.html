@@ -19,7 +19,7 @@
     <div class="navigation">
         <ul>
             <li>欢迎您！</li>
-            <li><a href="" th:if="${session.loginName!=null}">[[${session.loginName}]]</a></li>
+            <li><a href="" th:if="${session.logisticsName!=null}">[[${session.logisticsName}]]</a></li>
             <li><a href="">修改密码</a></li>
             <li><a href="">设置</a></li>
             <li><a href="">退出</a></li>
@@ -34,7 +34,7 @@
                     <span></span>物流信息
                 </h4>
                 <div class="list-item none">
-                    <a href="javascript:fresh('/logisticsList')">物流信息列表</a>
+                    <a href="javascript:fresh('/logistics/toLogistics')">物流信息列表</a>
                 </div>
             </li>
         </ul>

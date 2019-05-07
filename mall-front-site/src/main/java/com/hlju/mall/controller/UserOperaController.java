@@ -2,14 +2,9 @@ package com.hlju.mall.controller;
 
 
 import com.deng.common.utils.PageFucker;
-import com.deng.mall.domain.Product;
-import com.deng.mall.domain.Promotion;
-import com.deng.mall.domain.Stock;
-import com.deng.mall.domain.UserBoOrder;
-import com.deng.mall.service.OrderService;
-import com.deng.mall.service.ProductService;
-import com.deng.mall.service.PromotionService;
-import com.deng.mall.service.StockService;
+import com.deng.mall.domain.*;
+import com.deng.mall.service.*;
+import com.hlju.mall.domain.BoComment;
 import com.hlju.mall.domain.Shopcar;
 import com.hlju.mall.service.CommentService;
 import com.hlju.mall.service.ShopcarService;
@@ -40,17 +35,25 @@ public class UserOperaController {
     OrderService orderService;
     @Autowired
     CommentService commentService;
+    @Autowired
+    StoreService storeService;
 
     @RequestMapping("/shopdetail")
     public ModelAndView toProductDetail(@RequestParam(name = "id")Integer productId){
          Product product=productService.getProductById(productId.toString());
          Promotion promotion= promotionService.getPromotionByProductId(product);
          Stock stock=stockService.getStockByProductId(product);
+         Integer commentCount=commentService.getCommentCount(productId);
+         Store store= storeService.getStoreByName(product.getStoreName());
 
          ModelAndView mav=new ModelAndView();
          mav.addObject("shopInfo",product);
          mav.addObject("promotionInfo",promotion);
          mav.addObject("stockInfo",stock);
+         mav.addObject("commentCount",commentCount);
+         mav.addObject("productId",productId);
+         mav.addObject("storeScore",store.getScore());
+
          mav.setViewName("shop_deatil");
 
          return mav;
@@ -192,6 +195,19 @@ public class UserOperaController {
         boolean status=commentService.addComment(sendResult);
         mav.setViewName("status");
         mav.addObject("status",status);
+
+        return mav;
+    }
+
+    @RequestMapping("/scanProductComment")
+    public  ModelAndView toScanComment(Integer productId){
+        ModelAndView mav=new ModelAndView();
+
+        List<BoComment> boComments=commentService.getProductCommentList(productId);
+
+
+        mav.addObject("commentList",boComments);
+        mav.setViewName("scan-comment");
 
         return mav;
     }

@@ -10,6 +10,15 @@
     <result column="score" jdbcType="INTEGER" property="score" />
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
   </resultMap>
+  <resultMap id="BaseBoResultMap" type="com.deng.logistics.domain.LogisticsBo">
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="biz_name" jdbcType="VARCHAR" property="bizName" />
+    <result column="user_contant_way" jdbcType="VARCHAR" property="userContantWay" />
+    <result column="biz_contant_way" jdbcType="VARCHAR" property="bizContantWay" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -71,6 +80,27 @@
   <sql id="Base_Column_List">
     id, biz_id, user_id, order_detail_id, `status`, score, company_name
   </sql>
+  <select id="selectBoLogistics" resultMap="BaseBoResultMap">
+    SELECT
+     u.address as address,
+     u.`name` as user_name,
+     b.`name` as biz_name,
+     b.location as location,
+     u.contant_way as user_contant_way,
+     b.contant_way as biz_contant_way,
+     o.`status` as `status`
+    FROM
+    (SELECT biz_id,user_id,order_detail_id
+    FROM logistics
+    WHERE company_name="${companyName}")l
+    LEFT JOIN
+    `user` as u ON l.user_id=u.id
+    LEFT JOIN
+    order_detail as o ON l.order_detail_id=o.id
+    LEFT JOIN
+    biz as b ON l.biz_id=b.id;
+  </select>
+
   <select id="selectByExample" parameterType="com.deng.logistics.domain.LogisticsExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

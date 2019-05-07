@@ -35,6 +35,20 @@ function search(){
 	});
 }
 
+$(document).ready(function(){
+    $('#typeSelect').change(function() {
+        alert($(this).children('option:selected').val());
+        var var1=$(this).children('option:selected').val();
+        var var2=$('#keyword').val();
+        if (var2==null){
+            window.location.href="http://localhost:8081/index?typeName="+var1;
+		} else {
+            window.location.href="http://localhost:8081/index?typeName="+var1+"&keyword="+var2;
+		}
+
+    })
+    })
+
 </script>
 
 </head>
@@ -83,6 +97,11 @@ function search(){
 			<div style="margin: 10px;">
 				<form class="form-inline" action="/index" id="searchForm">
 					<div class="form-group">
+						<select id="typeSelect">
+							<option th:each="productType:${productTypeList}" th:text="${productType.get('type')}"></option>
+						</select>
+					</div>
+					<div class="form-group">
 						<div class="input-group">
 							<input type="text" class="form-control" name="keyword"
 								id="keyword" placeholder="请输入商品关键字...">
@@ -100,10 +119,7 @@ function search(){
 					<!--没有选择分类时显示-->
 					<p th:unless="${productType!=null}" class="list-group-item active"
 						style="background-color: orange; margin-top: 1px; height: 55px; font-size: 30px; line-height: 35px;">
-						热门推荐</p>
-					<select>
-					   <option th:each="productType:${productTypeList}" th:text="${productType.get('type')}"></option>
-					</select>
+						热门商品</p>
 				</div>
 				<div class="sales-queue" id="tabs-1"
 					style="background-color: white; margin-top: -25px;">

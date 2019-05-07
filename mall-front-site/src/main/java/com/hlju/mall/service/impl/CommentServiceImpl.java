@@ -72,6 +72,23 @@ public class CommentServiceImpl implements CommentService {
         return false;
     }
 
+    private List<BoComment> comments2CommentBo(List<Comment> comments,List<BoComment> boComments){
+        for (Comment comment : comments) {
+            BoComment boComment=new BoComment();
+            Integer userId = orderService.getOrderById(comment.getOrderId()).getUserId();
+            String userName= userDAO.selectByPrimaryKey(userId).getName();
+            Product product=productService.getProductById(comment.getProductId().toString());
+            String productName=product.getName();
+            String commentDesc=product.getComment();
+            boComment.setUserName(userName);
+            boComment.setProductName(productName);
+            boComment.setComment(commentDesc);
+
+            boComments.add(boComment);
+        }
+        return boComments;
+    }
+
     @Override
     public List<BoComment> getCommentBoList(String bizName) {
         Biz biz=new Biz();
@@ -89,19 +106,34 @@ public class CommentServiceImpl implements CommentService {
 
         List<Comment> comments=commentDAO.selectByExample(commentExample);
         List<BoComment> boComments=new ArrayList<>();
-        for (Comment comment : comments) {
-            BoComment boComment=new BoComment();
-            Integer userId = orderService.getOrderById(comment.getOrderId()).getUserId();
-            String userName= userDAO.selectByPrimaryKey(userId).getName();
-            Product product=productService.getProductById(comment.getProductId().toString());
-            String productName=product.getName();
-            String commentDesc=product.getComment();
-            boComment.setUserName(userName);
-            boComment.setProductName(productName);
-            boComment.setComment(commentDesc);
 
-            boComments.add(boComment);
-        }
+        boComments=comments2CommentBo(comments,boComments);
+
+        return boComments;
+    }
+
+    @Override
+    public Integer getCommentCount(Integer productId) {
+        CommentExample commentExample=new CommentExample();
+
+        CommentExample.Criteria commentExampleCriteria=commentExample.createCriteria();
+        commentExampleCriteria.andProductIdEqualTo(productId);
+        Integer commentCount=commentDAO.selectByExample(commentExample).size();
+
+        return commentCount;
+    }
+
+    @Override
+    public List<BoComment> getProductCommentList(Integer productId) {
+        CommentExample commentExample=new CommentExample();
+
+        CommentExample.Criteria commentExampleCriteria=commentExample.createCriteria();
+        commentExampleCriteria.andProductIdEqualTo(productId);
+        List<Comment> comments=commentDAO.selectByExample(commentExample);
+
+        List<BoComment> boComments=new ArrayList<>();
+
+        boComments=comments2CommentBo(comments,boComments);
 
         return boComments;
     }

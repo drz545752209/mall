@@ -22,4 +22,8 @@ public interface BizService {
 
     boolean updateBizScore(Integer storeId,Integer score);
 
+    boolean updateBizPwd(String userName,String pwd);
+
+    boolean updateMsg(String userName,String contantWay,String address);
+
 }

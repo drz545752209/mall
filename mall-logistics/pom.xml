@@ -32,6 +32,13 @@
             </exclusions>
         </dependency>
 
+        <!-- 整合Kaptcha验证码模块 -->
+        <dependency>
+            <groupId>com.cuisongliu</groupId>
+            <artifactId>kaptcha-spring-boot-autoconfigure</artifactId>
+            <version>1.3</version>
+        </dependency>
+
         <dependency>
             <groupId>com.deng</groupId>
             <artifactId>mall-common</artifactId>

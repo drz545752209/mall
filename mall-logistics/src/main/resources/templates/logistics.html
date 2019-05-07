@@ -16,21 +16,25 @@
 <table class="table table-hover">
     <thead>
     <tr>
-    <th>用户地址</th>
     <th>用户名</th>
     <th>商家名</th>
+    <th>用户联系方式</th>
+    <th>商家联系方式</th>
     <th>发货地址</th>
+    <th>收货地址</th>
     <th>状态</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="logistics:${logisticsList}">
-       <td th:text="${logistics.location}"></td>
-       <td th:text="${logistics.userName}"></td>
-       <td th:text="${logistics.bizName}"></td>
-       <td th:text="${logistics.contantWay}"></td>
-       <td th:if="${logistics.status} eq '未发货'" th:text="${logistics.status}" class="danger"></td>
-       <td th:if="${logistics.status} eq '已发货'" th:text="${logistics.status}" class="success"></td>
+    <tr th:each="logistics:${logisticsBos}">
+        <td th:text="${logistics.userName}"></td>
+        <td th:text="${logistics.bizName}"></td>
+        <td th:text="${logistics.userContantWay}"></td>
+        <td th:text="${logistics.bizContantWay}"></td>
+        <td th:text="${logistics.location}"></td>
+        <td th:text="${logistics.address}"></td>
+        <td th:if="${logistics.status} eq '未发货'" th:text="${logistics.status}" class="danger"></td>
+        <td th:if="${logistics.status} ne '未发货'" th:text="${logistics.status}" class="success"></td>
     </tr>
     </tbody>
 

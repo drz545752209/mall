@@ -6,14 +6,18 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 
+import com.deng.common.utils.PageFucker;
 import com.deng.common.utils.StrUntils;
 import com.deng.mall.domain.Biz;
 import com.deng.mall.domain.Product;
+import com.deng.mall.domain.Promotion;
 import com.deng.mall.service.BizService;
 import com.deng.mall.service.ProductService;
+import com.deng.mall.service.PromotionService;
 import com.deng.mall.utils.UpfileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +33,8 @@ public class ProductController {
     ProductService productService;
     @Autowired
     BizService bizService;
+    @Autowired
+    PromotionService promotionService;
 
     @RequestMapping(value = "upFile", method = RequestMethod.POST)
     @ResponseBody
@@ -36,6 +42,9 @@ public class ProductController {
 //        String picPath = request.getServletContext().getRealPath("static/product_img/");
         String picPath = "E:/新建文件夹/mall/mall-back-stage/src/main/resources/static/product_img";
         List<String> productImgPaths = UpfileUtils.loadFileList(productImgs, picPath);
+
+        String frontPicPath = "E:/新建文件夹/mall/mall-front-site/src/main/resources/static/product_img";
+        UpfileUtils.loadFileList(productImgs, frontPicPath);
         return productImgPaths;
     }
 
@@ -71,6 +80,17 @@ public class ProductController {
             mv.addObject("hasType",false);
             mv.setViewName("bizproduct.html");
         }
+
+        PageFucker pageInfo=new PageFucker(pageSize,pageNum,productList.size());
+        pageInfo.computePage();
+
+        mv.addObject("pageInfo",pageInfo);
+        if (!StringUtils.isEmpty(type)){
+            mv.addObject("typeName",type);
+        }else {
+            mv.addObject("typeName",null);
+        }
+        mv.addObject("isShow",isShow);
 
         return mv;
     }
@@ -125,6 +145,19 @@ public class ProductController {
         return "redirect:/product/productList";
     }
 
+    @RequestMapping(value = "/getPromotionForSave")
+    public @ResponseBody
+    Product getPromotionProduct(String promotionId){
+        Product product;
+        product = productService.getProductById(promotionId);
+        return product;
+    }
 
+    @RequestMapping(value = "/promotion")
+    public String addPromotion(Promotion promotion){
+       promotionService.addPromotionProduct(promotion);
+
+       return "redirect:/product/productList";
+    }
 
 }

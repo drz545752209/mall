@@ -29,4 +29,19 @@ public class StoreServiceImpl implements StoreService {
 
         return stores;
     }
+
+    @Override
+    public Store getStoreByName(String storeName) {
+        StoreExample storeExample=new StoreExample();
+        StoreExample.Criteria storeExampleCriteria=storeExample.createCriteria();
+        storeExampleCriteria.andNameEqualTo(storeName);
+
+        List<Store> stores=storeDAO.selectByExample(storeExample);
+        if (stores.size()==0){
+            return null;
+        }else {
+            return  stores.get(0);
+        }
+
+    }
 }

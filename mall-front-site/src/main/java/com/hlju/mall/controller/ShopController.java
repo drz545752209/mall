@@ -63,12 +63,5 @@ public class ShopController {
 		return mav;
 	}
 
-	@RequestMapping(value = { "/search"}, method=RequestMethod.GET)
-	public ModelAndView search(String keyword) {
-
-
-		return null;
-	}
-	
 
 }

@@ -135,4 +135,37 @@ public class BizServiceImpl implements BizService {
         return true;
     }
 
+    @Override
+    public boolean updateBizPwd(String userName,String pwd) {
+        boolean result=false;
+        if (!StringUtils.isEmpty(pwd)){
+            Biz biz=new Biz();
+            biz.setPwd(pwd);
+
+            BizExample bizExample=new BizExample();
+            BizExample.Criteria criteria=bizExample.createCriteria();
+            criteria.andNameEqualTo(userName);
+
+            result=bizDAO.updateByExampleSelective(biz,bizExample)>0?true:false;
+        }
+        return result;
+    }
+
+    @Override
+    public boolean updateMsg(String userName, String contantWay, String address) {
+        boolean result=false;
+        if (StringUtils.isEmpty(contantWay)&&StringUtils.isEmpty(address)){
+            Biz biz=new Biz();
+            biz.setContantWay(contantWay);
+            biz.setLocation(address);
+
+            BizExample bizExample=new BizExample();
+            BizExample.Criteria criteria=bizExample.createCriteria();
+            criteria.andNameEqualTo(userName);
+
+            result=bizDAO.updateByExampleSelective(biz,bizExample)>0?true:false;
+        }
+        return result;
+    }
+
 }

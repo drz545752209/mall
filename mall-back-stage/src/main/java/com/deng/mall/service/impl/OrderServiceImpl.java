@@ -122,9 +122,9 @@ public class OrderServiceImpl implements OrderService {
         if (orderId != null && !"".equals(orderId)) {
             order=orderDAO.selectByPrimaryKey(orderId);
             orderDetail=orderDetailDAO.selectByPrimaryKey(order.getDetailId());
-            SendMsg sendMsg=new SendMsg();
-            sendMsg.sendMsg(orderMsg,"sendGoods",defaultMQProducer);
-            orderDetail.setStatus("等待发货");
+//            SendMsg sendMsg=new SendMsg();
+//            sendMsg.sendMsg(orderMsg,"sendGoods",defaultMQProducer);
+            orderDetail.setStatus("已揽件");
             orderDetailDAO.updateByPrimaryKey(orderDetail);
         }
     }

@@ -8,4 +8,6 @@ public interface StoreService {
     boolean createStore(Store store);
 
     List<Store> getStoresByBizId(Integer bizId);
+
+    Store getStoreByName(String storeName);
 }
