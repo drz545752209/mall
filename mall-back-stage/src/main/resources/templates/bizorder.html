@@ -44,12 +44,13 @@
                     <td th:text="${order.sumConsume}"></td>
                     <td th:text="${order.countConsume}"></td>
                     <td th:text="${order.userName}"></td>
-                    <td th:text="${order.status}"></td>
+                    <td th:if="${order.status} eq '申请退款'" th:text="${order.status}" class="danger"></td>
+                    <td th:if="${order.status} ne '申请退款'" th:text="${order.status}" class="success"></td>
                     <td th:text="${order.operator}"></td>
                     <td th:text="${order.date}"></td>
                     <td>
                         <button th:id="${order.orderId}" th:name="sendGoods" type="button" class="btn btn-default btn-warning">发货</button>
-                        <button th:id="${order.orderId}" th:name="backGoods" type="button" class="btn btn-default btn-danger">退货</button>
+                        <button th:id="${order.orderId}" th:name="backGoods" type="button" class="btn btn-default btn-danger">退单</button>
                     </td>
                 </tr>
                 </tbody>

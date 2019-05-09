@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -111,7 +112,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
     public void sendGoods(Integer orderId) {
         Order order;
         OrderDetail orderDetail;
@@ -129,9 +129,29 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
+    @Override
+    public boolean applyBackCash(Integer orderId) {
+        if (!StringUtils.isEmpty(orderId)){
+            Order order=orderDAO.selectByPrimaryKey(orderId);
+            OrderDetail orderDetail=orderDetailDAO.selectByPrimaryKey(order.getDetailId());
+            orderDetail.setStatus("申请退款");
+            orderDetailDAO.updateByPrimaryKey(orderDetail);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void backGoods(Integer orderId) {
-
+        Order order;
+        OrderDetail orderDetail;
+        if (orderId != null && !"".equals(orderId)) {
+            order=orderDAO.selectByPrimaryKey(orderId);
+            orderDetail=orderDetailDAO.selectByPrimaryKey(order.getDetailId());
+            orderDetail.setStatus("已退货");
+            orderDetailDAO.updateByPrimaryKey(orderDetail);
+        }
     }
 
     private Logistics getLogistics(String userName,Integer orderDetailId,Integer storeId){

@@ -99,14 +99,25 @@ public class UserController {
     	boolean status=userService.saveUserMsg(user,userName);
     	ModelAndView mav=new ModelAndView();
     	mav.setViewName("status");
-    	mav.addObject("status",status);
+		mav.addObject("status",status);
+    	if (status){
+			mav.addObject("message","修改成功");
+		}else {
+    		mav.addObject("message","修改失败");
+		}
     	return mav;
 	}
 
 	@RequestMapping(value = "/toUserMsg")
-	public ModelAndView toUserMsg(){
+	public ModelAndView toUserMsg(HttpServletRequest req){
     	ModelAndView mav=new ModelAndView();
-    	mav.setViewName("/user_msg");
+    	String userName= (String) req.getSession().getAttribute("userName");
+    	User user=new User();
+    	user.setName(userName);
+    	user=userService.selectUserNameByExamle(user).get(0);
+
+    	mav.addObject("user",user);
+    	mav.setViewName("/usermsg");
 
     	return  mav;
 	}

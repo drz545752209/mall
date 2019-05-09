@@ -113,7 +113,7 @@ public class BizManageController {
         biz.setPwd(oldPwd);
         String loginName = (String) req.getSession().getAttribute("loginName");
         if (StringUtils.isEmpty(loginName)){
-            mav.addObject("msg","用户未登录");
+            mav.addObject("message","用户未登录");
             mav.setViewName("status");
             return mav;
         }
@@ -121,9 +121,9 @@ public class BizManageController {
         boolean hasPwd=bizService.hasBiz(biz);
         if (hasPwd){
             bizService.updateBizPwd(loginName, Encryption.str2MD5(newPwd));
-            mav.addObject("msg","修改成功");
+            mav.addObject("message","修改成功");
         }else {
-            mav.addObject("msg","原密码不正确");
+            mav.addObject("message","原密码不正确");
         }
         mav.setViewName("status");
 
@@ -153,12 +153,14 @@ public class BizManageController {
 
         String userName= (String) req.getSession().getAttribute("loginName");
         if (StringUtils.isEmpty(userName)){
-            mav.addObject("msg","用户未登录");
+            mav.addObject("message","用户未登录");
+            mav.addObject("status",false);
             mav.setViewName("status");
             return mav;
         }
         bizService.updateMsg(userName,contantWay,address);
-        mav.addObject("msg","修改成功");
+        mav.addObject("message","修改成功");
+        mav.addObject("status",true);
         mav.setViewName("status");
 
         return mav;

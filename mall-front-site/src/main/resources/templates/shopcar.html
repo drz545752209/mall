@@ -147,7 +147,7 @@
                         th:href="@{/shopdetail(id)}+'='+${shopCar.productId}"
                         title="${shopCar.productDesc }">
                         <img
-                            th:src="${shopCar.img}" width="60xp"
+                            th:src="'/product_img/' + ${shopCar.img}" width="60xp"
                             height="60xp">
                     </a></li>
                     <li class="row11">

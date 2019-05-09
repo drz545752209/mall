@@ -154,7 +154,7 @@ public class BizServiceImpl implements BizService {
     @Override
     public boolean updateMsg(String userName, String contantWay, String address) {
         boolean result=false;
-        if (StringUtils.isEmpty(contantWay)&&StringUtils.isEmpty(address)){
+        if (!StringUtils.isEmpty(contantWay)&&!StringUtils.isEmpty(address)){
             Biz biz=new Biz();
             biz.setContantWay(contantWay);
             biz.setLocation(address);

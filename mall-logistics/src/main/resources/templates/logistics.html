@@ -33,8 +33,12 @@
         <td th:text="${logistics.bizContantWay}"></td>
         <td th:text="${logistics.location}"></td>
         <td th:text="${logistics.address}"></td>
-        <td th:if="${logistics.status} eq '未发货'" th:text="${logistics.status}" class="danger"></td>
-        <td th:if="${logistics.status} ne '未发货'" th:text="${logistics.status}" class="success"></td>
+        <td th:if="${logistics.status} eq '未发货'" class="danger">
+            <input id="status" th:value="${logistics.status}">
+        </td>
+        <td th:if="${logistics.status} ne '未发货'" class="success">
+            <input id="status" th:value="${logistics.status}">
+        </td>
     </tr>
     </tbody>
 

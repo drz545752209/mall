@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -29,6 +28,8 @@ public class ShopController {
 	@RequestMapping(value = { "/index", "/index.html" }, method=RequestMethod.GET)
 	public ModelAndView toIndex(String typeName,
 								String keyword,
+								String sortType,
+								@RequestParam(required = false,defaultValue = "true") String isAsc,
 								@RequestParam(required = false,defaultValue = "10")Integer pageSize,
 								@RequestParam(required = false,defaultValue = "1")Long pageNum
 								) {
@@ -37,17 +38,41 @@ public class ShopController {
 		List<String> productTypeList=productService.getProductTypeList();
 		HashMap<Integer,Integer> promotionDiscountMap=null;
 
-		if (productList.size()>0){
-			List<Promotion> promotions =promotionService.getPromotionByProductIds(productList);
-			promotionDiscountMap=promotionService.getPromotionDiscount(promotions,productList);
-		}
-
 		if (!StringUtils.isEmpty(typeName)){
 			mav.addObject("typeName",typeName);
 		}
 
 		if (!StringUtils.isEmpty(keyword)){
 			mav.addObject("keyword",keyword);
+		}
+
+		if (!StringUtils.isEmpty(sortType)){
+			switch (sortType){
+				case "销量":
+					if ("false".equals(isAsc)){
+						productList=productService.sortBySumConsume(false,typeName,keyword,pageSize,pageNum);
+					}
+					else {
+						productList=productService.sortBySumConsume(true,typeName,keyword,pageSize,pageNum);
+					}
+					break;
+				case "价格":
+					Comparator<Product> priceComparator=(o1, o2) -> o1.getPrice()-o2.getPrice();
+					productList.sort(priceComparator);
+					if ("false".equals(isAsc)){
+						Collections.reverse(productList);
+					}
+					break;
+				default:
+					System.out.println("未知");
+			}
+			mav.addObject("sortType",sortType);
+			mav.addObject("isAsc",isAsc);
+		}
+
+		if (productList.size()>0){
+			List<Promotion> promotions =promotionService.getPromotionByProductIds(productList);
+			promotionDiscountMap=promotionService.getPromotionDiscount(promotions,productList);
 		}
 
 		//分页

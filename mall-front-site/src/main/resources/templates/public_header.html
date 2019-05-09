@@ -13,7 +13,7 @@
 		<div id="header_div1">
 
 			官方网站：<a href="" style="margin-right: 50px">联系我们</a>
-			<a th:if="${session.userName}!=null">欢迎:[[${session.userName}]]></a>
+			<a th:if="${session.userName}!=null" href="/user/toUserMsg">欢迎:[[${session.userName}]]></a>
 			<a th:if="${session.userName}!=null" href="/signout"
 				style="margin-right: 50px">注销</a> <a
 				th:if="${session.userName}==null" href="/user/login"
@@ -33,19 +33,19 @@
 		<div id="header_id2">
 			<ul class="nav nav-tabs" role="tablist" style="margin-left: 200px;">
 				<li role="presentation"><a class="header_a" href="/index">首页</a></li>
-				<li role="presentation"><a class="header_a" href="/index/1">数码相机</a></li>
-				<li role="presentation"><a class="header_a" href="/index/2">平板电脑</a></li>
-				<li role="presentation"><a class="header_a" href="/index/3">笔记本电脑</a></li>
-				<li role="presentation"><a class="header_a" href="/index/4">智能手表</a></li>
-				<li role="presentation"><a class="header_a" href="/index/5">智能冰箱</a></li>
-				<li role="presentation"><a class="header_a" href="/index/6">智能空调</a></li>
-				<li role="presentation"><a class="header_a" href="/index/7">智能电视</a></li>
-				<li role="presentation"><a class="header_a" href="/index/8">鼠标</a></li>
-				<li role="presentation"><a class="header_a" href="/index/1">显示器</a></li>
-				<li role="presentation"><a class="header_a" href="/index/2">键盘</a></li>
-				<li role="presentation"><a class="header_a" href="/index/3">主机</a></li>
-				<li role="presentation"><a class="header_a" href="/index/4">显卡</a></li>
-				<li role="presentation"><a class="header_a" href="/index/5">主板</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=数码相机">数码相机</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=平板电脑">平板电脑</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=笔记本电脑">笔记本电脑</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=智能手表">智能手表</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=智能冰箱">智能冰箱</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=智能空调">智能空调</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=智能电视">智能电视</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=鼠标">鼠标</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=显示器">显示器</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=键盘">键盘</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=主机">主机</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=显卡">显卡</a></li>
+				<li role="presentation"><a class="header_a" href="/index?typeName=主板">主板</a></li>
 			</ul>
 		</div>
 

@@ -28,4 +28,6 @@ public interface ProductService {
      void create(Product product);
 
      boolean updateComment(Integer productId,String comment);
+
+     List<Product> sortBySumConsume(boolean isAsc,String typeName,String keyWord,Integer limit,Long offset);
 }

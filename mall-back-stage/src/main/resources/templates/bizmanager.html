@@ -19,8 +19,8 @@ function fresh(href){
 		<div class="navigation">
 			<ul>
 				<li>欢迎您！</li>
-				<li><a href="/bizManage/toModifyMsg" th:if="${session.loginName!=null}">[[${session.loginName}]]</a></li>
-				<li><a href="/bizManage/toModify">修改密码</a></li>
+				<li><a href="javascript:fresh('/bizManage/toModifyMsg')" th:if="${session.loginName!=null}">[[${session.loginName}]]</a></li>
+				<li><a href="javascript:fresh('/bizManage/toModify')">修改密码</a></li>
 				<li><a href="">设置</a></li>
 				<li><a href="">退出</a></li>
 			</ul>
@@ -36,26 +36,21 @@ function fresh(href){
 					<div class="list-item none">
 						<a href="javascript:fresh('product/productList')">商品</a>
 					</div>
-					<div class="list-item none">
-						<a href="javascript:fresh('product/promotion')">商品促销</a>
-					</div>
 				</li>
 				<li>
 					<h4 class="M2">
 						<span></span>订单管理
 					</h4>
 					<div class="list-item none">
-						<a href="javascript:fresh('order/orderList')">订单查看</a> <a href=''>订单处理</a>
+						<a href="javascript:fresh('order/orderList')">订单处理</a>
 					</div>
 				</li>
 				<li>
 					<h4 class="M6">
-						<span></span>经营情况
+						<span></span>库存管理
 					</h4>
 					<div class="list-item none">
 						<a href="javascript:fresh('stock/stockList')">库存管理</a>
-						<a href=''>收入情况</a>
-						<a href=''>流水分析</a>
 					</div>
 				</li>
 				<li>
@@ -63,7 +58,23 @@ function fresh(href){
 						<span></span>评论管理
 					</h4>
 					<div class="list-item none">
-						<a href=''>评论分类汇总</a> <a href='/comment/scanComment'>评论查看</a>
+						<a href='/comment/scanComment'>评论查看</a>
+					</div>
+				</li>
+				<li>
+					<h4 class="M7">
+						<span></span>经营情况
+					</h4>
+					<div class="list-item none">
+						<a href='/comment/scanComment'>流水分析</a>
+					</div>
+				</li>
+				<li>
+					<h4 class="M5">
+						<span></span>商城主页
+					</h4>
+					<div class="list-item none">
+						<a href='http://localhost:8081/index'>跳转商城主页</a>
 					</div>
 				</li>
 			</ul>

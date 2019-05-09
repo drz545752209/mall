@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
 		UserExample userExample=new UserExample();
 		UserExample.Criteria userExampleCriteria=userExample.createCriteria();
 		userExampleCriteria.andNameEqualTo(userName);
-		int var=userDao.updateByExample(user,userExample);
+		int var=userDao.updateByExampleSelective(user,userExample);
 		if (var==1){
 			return true;
 		}

@@ -42,7 +42,7 @@
                                      th:href="@{/orderdetail(shopId)}+'='+${order.productId}"
                                      title="${order.productDesc }">
                     <img
-                            th:src="${order.productImg}" width="60xp"
+                            th:src="'/product_img/' +${order.productImg}" width="60xp"
                             height="60xp">
                 </a></li>
                 <li class="row11">

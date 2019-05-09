@@ -45,7 +45,6 @@ $(document).ready(function(){
 		} else {
             window.location.href="http://localhost:8081/index?typeName="+var1+"&keyword="+var2;
 		}
-
     })
     })
 
@@ -65,39 +64,31 @@ $(document).ready(function(){
 
 	<!-- middle part -->
 	<div style="positon: relative; width: 960px; margin: 0px auto;">
-		<!-- 左边物品类型列表 -->
-		<div id="booksort" style="float: left; width: 180px;">
-			<div class="list-group">
-				<p class="list-group-item active"
-					style="margin-top: 55px; height: 55px;">物品分类</p>
-				<a href="/index/1" class="list-group-item">数码相机</a> <a href="/index/2"
-					class="list-group-item">平板电脑</a> <a href="/index/3"
-					class="list-group-item">笔记本电脑</a> <a href="/index/4"
-					class="list-group-item">智能手表</a> <a href="/index/5"
-					class="list-group-item">智能冰箱</a> <a href="/index/6"
-					class="list-group-item">智能空调</a> <a href="/index/7"
-					class="list-group-item">智能电视</a> <a href="/index/8"
-					class="list-group-item">鼠标</a> <a href="/index/1"
-					class="list-group-item">显示器</a> <a href="/index/2"
-					class="list-group-item">键盘</a> <a href="/index/3"
-					class="list-group-item">主机</a> <a href="/index/4"
-					class="list-group-item">显卡</a> <a href="/index/5"
-					class="list-group-item">主板</a> <a href="/index/6"
-					class="list-group-item">游戏机</a> <a href="/index/7"
-					class="list-group-item">智能音箱</a> <a href="/index/8"
-					class="list-group-item"></a>
-			</div>
-		</div>
 
 
 		<!-- 右边对应物品列表 -->
-		<div style="float: left; width: 750px; text-align: center;">
+		<div style="float: left; width: 100%; text-align: center;">
 
 			<!--分类搜索栏-->
 			<div style="margin: 10px;">
 				<form class="form-inline" action="/index" id="searchForm">
 					<div class="form-group">
-						<select id="typeSelect">
+						<label>商品排序类型：</label>
+						<select name="sortType">
+							<option value="价格">价格</option>
+							<option value="销量">销量</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>商品排序规则：</label>
+						<select name="isAsc">
+							<option value="true">升序</option>
+							<option value="false">降序</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>商品分类：</label>
+						<select name="typeName">
 							<option th:each="productType:${productTypeList}" th:text="${productType.get('type')}"></option>
 						</select>
 					</div>
@@ -112,7 +103,7 @@ $(document).ready(function(){
 			</div>
 
 			<!-- 显示所有商品 -->
-			<div id="tabs" style="Width: 750px; background-color: white;">
+			<div id="tabs" style="Width: 100%; background-color: white;">
 
 				<!--显示当前分类-->
 				<div class="list-group">

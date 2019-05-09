@@ -151,6 +151,23 @@ public class UserOperaController {
         return mav;
     }
 
+    @RequestMapping("/cancelShopping")
+    public ModelAndView cancelShopping(Integer orderId){
+        ModelAndView mav=new ModelAndView();
+        boolean status=orderService.applyBackCash(orderId);
+
+        mav.addObject("status",status);
+        if (status){
+            mav.addObject("message","退款成功");
+        }else {
+            mav.addObject("message","退款失败");
+        }
+
+        mav.setViewName("status");
+
+        return mav;
+    }
+
     @RequestMapping("/queryOrder")
     public ModelAndView queryOrder(
             @RequestParam(name = "pageNum", required = false, defaultValue = "1")Long pageNum,

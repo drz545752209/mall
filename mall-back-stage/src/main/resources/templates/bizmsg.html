@@ -27,14 +27,14 @@
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
-                <form role="form" action="">
+                <form role="form" action="/bizManage/modifyMsg">
                     <div class="form-group">
                         <label for="contantWay">联系方式</label>
-                        <input type="text" class="form-control" id="contantWay" th:value="${biz.contantWay}"/>
+                        <input type="text" class="form-control" name="contantWay" id="contantWay" th:value="${biz.contantWay}"/>
                     </div>
                     <div class="form-group">
                         <label for="address">所在地</label>
-                        <input type="text" class="form-control" id="address" th:value="${biz.location}"/>
+                        <input type="text" class="form-control" name="address" id="address" th:value="${biz.location}"/>
                     </div>
                     <button type="submit" class="btn btn-default">修改</button>
                 </form>

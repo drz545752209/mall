@@ -17,4 +17,5 @@ public interface OrderService {
      Integer getStoreIdByOrderId(Integer orderId);
      Integer getOrderDetailIdById(Integer orderId);
      Order getOrderById(Integer orderId);
+     boolean applyBackCash(Integer orderId);
 }

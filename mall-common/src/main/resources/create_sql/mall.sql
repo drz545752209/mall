@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2019-04-19 15:00:53
+Date: 2019-05-09 11:41:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,7 +27,7 @@ CREATE TABLE `biz` (
   `contant_way` varchar(32) DEFAULT NULL COMMENT '联系方式',
   `location` varchar(32) DEFAULT NULL COMMENT '所在地',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for comment
@@ -47,14 +47,27 @@ CREATE TABLE `comment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `logistics`;
 CREATE TABLE `logistics` (
-  `id` int(8) NOT NULL,
-  `biz_id` int(8) NOT NULL,
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `biz_id` int(8) DEFAULT NULL,
   `user_id` int(8) NOT NULL,
-  `order_id` int(8) NOT NULL,
-  `status` varchar(8) NOT NULL,
+  `order_detail_id` int(8) NOT NULL,
+  `status` varchar(8) NOT NULL COMMENT '物流详细信息',
   `score` int(2) DEFAULT NULL,
+  `company_name` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for logistics_admin
+-- ----------------------------
+DROP TABLE IF EXISTS `logistics_admin`;
+CREATE TABLE `logistics_admin` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `pwd` varchar(32) NOT NULL,
+  `company_name` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for order
@@ -68,7 +81,7 @@ CREATE TABLE `order` (
   `operator` varchar(16) DEFAULT NULL,
   `operate_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for order_detail
@@ -81,7 +94,7 @@ CREATE TABLE `order_detail` (
   `status` varchar(8) NOT NULL,
   `count_consume` bigint(16) unsigned NOT NULL DEFAULT '0' COMMENT '购买数量',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for product
@@ -97,10 +110,10 @@ CREATE TABLE `product` (
   `price` int(8) NOT NULL,
   `description` varchar(32) DEFAULT NULL,
   `comment` varchar(64) DEFAULT NULL,
-  `is_show` tinyint(1) NOT NULL DEFAULT '1',
+  `is_show` tinyint(1) NOT NULL DEFAULT '0',
   `is_del` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1000002 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for promotion
@@ -108,11 +121,11 @@ CREATE TABLE `product` (
 DROP TABLE IF EXISTS `promotion`;
 CREATE TABLE `promotion` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
-  `msg` varchar(32) NOT NULL COMMENT '促销信息',
-  `dicount` int(2) NOT NULL COMMENT '折扣',
+  `msg` varchar(32) DEFAULT NULL COMMENT '促销信息',
+  `dicount` int(2) NOT NULL DEFAULT '10' COMMENT '折扣',
   `product_id` int(8) NOT NULL COMMENT '商品id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for stock
@@ -122,10 +135,10 @@ CREATE TABLE `stock` (
   `id` int(8) NOT NULL AUTO_INCREMENT,
   `product_id` int(8) NOT NULL,
   `count` bigint(16) NOT NULL DEFAULT '0',
-  `in_date` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `out_date` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `in_date` datetime DEFAULT NULL,
+  `out_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for store
@@ -149,11 +162,11 @@ CREATE TABLE `user` (
   `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   `pwd` varchar(32) NOT NULL,
-  `credit` int(1) unsigned DEFAULT '4' COMMENT '用户信誉度',
+  `credit` int(16) unsigned DEFAULT '0' COMMENT '废弃字段当余额使用',
   `contant_way` varchar(32) DEFAULT NULL COMMENT '联系方式',
   `address` varchar(32) DEFAULT NULL COMMENT '收货地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Procedure structure for 插入100条数据

@@ -99,6 +99,18 @@
       </if>
     </if>
   </select>
+  <select id="orderByComsume" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List" />
+      FROM product as p
+      LEFT JOIN
+      (SELECT product_id as pid,SUM(count_consume) as count_consume
+      FROM order_detail
+      GROUP BY product_id)o
+      ON p.id=o.pid
+      WHERE is_del=0 AND is_show=1 AND type=#{type} AND name like concat(concat('%',#{name}),'%')
+      limit ${offset},${limit}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -28,14 +28,16 @@
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-12 column">
-                <form role="form" action="">
+                <form role="form" action="/user/saveUserMsg">
                     <div class="form-group">
-                        <label for="contantWay">联系方式</label><input type="email" class="form-control" id="contantWay" />
+                        <label for="contantWay">联系方式</label>
+                        <input type="text" class="form-control" id="contantWay" name="contantWay" th:value="${user.contantWay}"/>
                     </div>
                     <div class="form-group">
-                        <label for="address">收货地址</label><input type="password" class="form-control" id="address" />
+                        <label for="address">收货地址</label>
+                        <input type="text" class="form-control" id="address" name="address" th:value="${user.address}"/>
                     </div>
-                    <button type="submit" class="btn btn-default">完成</button>
+                    <button type="submit" class="btn btn-default">修改</button>
                 </form>
             </div>
         </div>

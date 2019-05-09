@@ -12,7 +12,9 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service("productService")
@@ -194,5 +196,14 @@ public class ProductServiceImpl implements ProductService{
         productDAO.updateByPrimaryKeySelective(product);
 
         return true;
+    }
+
+    @Override
+    public List<Product> sortBySumConsume(boolean isAsc,String typeName,String keyWord,Integer limit,Long offset) {
+        List<Product> products=productDAO.orderByComsume(typeName,keyWord,limit,offset);
+        if (isAsc){
+            Collections.reverse(products);
+        }
+        return products;
     }
 }

@@ -1,8 +1,31 @@
-<!DOCTYPE>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>提交状态页</title>
-</head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns:th="http://www.thymeleaf.org">
-
+<head>
+    <title>状态页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+        <div id="sucessDiv" th:if="${status}" align="center">
+            <h1>
+                <span th:if="${message ne null}" class="label label-success">[[${message}]]</span>
+            </h1>
+            <h1>
+                <span th:if="${message eq null}" class="label label-success">操作成功</span>
+            </h1>
+            <a th:href="@{/index}">继续购物</a>
+            <a th:href="@{/scanShopcar}">查看购物车</a>
+        </div>
+        <div id="faildDiv" th:unless="${status}" align="center">
+            <h1>
+                <span th:if="${message ne null}" class="label label-danger">[[${message}]]</span>
+            </h1>
+            <h1>
+                <span th:if="${message eq null}" class="label label-danger">操作失败</span>
+            </h1>
+            <a th:href="@{/shopdetail(id=${productId})}">返回</a>
+        </div>
+</body>
 </html>
