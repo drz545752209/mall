@@ -53,28 +53,42 @@
 	//为全选绑定单击事件
 	function checkAll(obj) {
 		var boxs = document.getElementsByName("box");
+        var totalPrice=0,buySum=0;
 
 		for (var i = 0; i < boxs.length; i++) {
 			//全选事件点击，其他复选框和全选框状态相同
 			var box = boxs[i];
 			box.checked = obj.checked;
+            var buyNum=box.parentNode.parentNode.children[7].firstElementChild.value;
+            var newPrice=box.parentNode.parentNode.children[6].value;
+            buySum=(buySum-0)+(buyNum-0);
+            totalPrice=totalPrice+newPrice*buyNum;
 		}
+
+        $('#totalPrice').text(totalPrice);
+        $("#shopNum").text(buySum);
 	}
 
 	//复选框绑定事件
 	function checkboxFun(val) {
 		var boxs = document.getElementsByName("box");
-		var num = 0;
+		var totalPrice=0,buySum=0;
+		var num=0;
 
 		//在Js中foreach并不会遍历每个元素,而是遍历Key,即所有属性
 		for (var i = 0; i < boxs.length; i++) {
 			//全选事件点击，其他复选框和全选框状态相同
 			var box = boxs[i];
 			if (box.checked) {
-				num++;
+                var buyNum=box.parentNode.parentNode.children[7].firstElementChild.value;
+                var newPrice=box.parentNode.parentNode.children[6].value;
+                buySum=(buySum-0)+(buyNum-0);
+                totalPrice=totalPrice+newPrice*buyNum;
+                num++;
 			}
 		}
-
+        $('#totalPrice').text(totalPrice);
+		$("#shopNum").text(buySum);
 		document.getElementById("checkAll").checked = (num == boxs.length);
 	}
 
@@ -84,6 +98,14 @@
 		var orderInfo = document.getElementById("orderInfo");
 
 		var num = 0;
+
+        var balance=$('#balance').val();
+        var sumComsume=$('#totalPrice')[0].innerText;
+
+        if (balance-sumComsume<0){
+            alert('账户余额不足,你当前的余额：'+balance+'   当前交易金额:'+sumComsume+'，交易失败!');
+            return false;
+        }
 
 		//在Js中foreach并不会遍历每个元素,而是遍历Key,即所有属性
 		for (var i = 0; i < boxs.length; i++) {
@@ -166,9 +188,9 @@
 
                     <li class="row55" style="width: 92px;height: 75px;">
                         <input type="text"  name="number" th:value="${shopCar.buyNum}" >
-                        <a th:href="@{//saveShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=1'" id="add"
+                        <a th:href="@{/saveShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=1'" id="add"
                             title="数量加一" class="add" name="add">+</a>
-                        <a th:href="@{//saveShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=-1'"
+                        <a th:href="@{/saveShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=-1'"
                             title="数量减一" class="cut" name="cut" th:if="${shopCar.buyNum}>1">-</a>
                     </li>
                     <li class="row66" style="width: 84px;height:75px;">
@@ -193,11 +215,12 @@
 
 			<div align="right" id="div_total"
 				style="display: block; clear: both;" th:if="${shopcarList!=null}">
+				<input id="balance" type="hidden" th:if="${balance} ne null" th:value="${balance}"/>
 				<p style="font-size: 14px; font-weight: bold; line-height: 31px;">
 					数量总计： <span id="shopNum" style="color: red; font-size: 16px; font-weight: bold;">[[${shopNum}]]</span>&nbsp;&nbsp;(件)
 				</p>
 				<p style="font-size: 14px; font-weight: bold; line-height: 31px;">
-					金额总计： <span>￥</span> <span
+					金额总计： <span>￥</span> <span id="totalPrice"
 						style="color: red; font-size: 16px; font-weight: bold;">[[${totalPrice}]]
 					</span>&nbsp;&nbsp;(折后价)
 				</p>

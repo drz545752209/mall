@@ -30,4 +30,12 @@ public interface ProductService {
      boolean updateComment(Integer productId,String comment);
 
      List<Product> sortBySumConsume(boolean isAsc,String typeName,String keyWord,Integer limit,Long offset);
+
+     /**
+      * 商品列表名过滤(为保证开闭原则)
+      * @param productName
+      * @param products
+      * @return
+      */
+     List<Product> productNameFilter(String productName,List<Product> products);
 }

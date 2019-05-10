@@ -104,5 +104,18 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+	@Override
+	public Integer showUserBalance(String userName) {
+		UserExample userExample=new UserExample();
+		UserExample.Criteria userExampleCriteria=userExample.createCriteria();
+		userExampleCriteria.andNameEqualTo(userName);
+
+		List<User> users=userDao.selectByExample(userExample);
+
+		Integer balance=users.get(0).getCredit();
+
+		return balance;
+	}
+
 
 }

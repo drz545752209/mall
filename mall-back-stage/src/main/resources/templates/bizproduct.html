@@ -161,14 +161,20 @@
             <button type="button" class="btn btn-default btn-danger" th:onclick="'batchDelete();'">删除</button>
             <button type="button" class="btn btn-default btn-danger" th:onclick="'create();'">创建</button>
           <div id="hasProduct" th:if="${hasProduct&&hasType}">
+            <form action="/product/productList">
+                <input type="text"  name="keyword" id="keyword" placeholder="请输入商品关键字..." />
+                <input type="hidden" th:if="${typeName ne null}" name="type" id="type" th:value="${typeName}"/>
+                <input type="hidden" name="isShow" id="isShow" th:value="${isShow}"/>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
             <div class="dropdown">
             <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
                     data-toggle="dropdown">
                 商品类型
                 <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" th:each="productType:${productTypeList}">
-                <li role="presentation">
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation" th:each="productType:${productTypeList}">
                     <a role="menuitem" tabindex="-1" th:href="@{'/product/productList?type='+${productType.get('type')}+'&isShow='+${isShow}}"
                        th:text="${productType.get('type')}"></a>
                 </li>

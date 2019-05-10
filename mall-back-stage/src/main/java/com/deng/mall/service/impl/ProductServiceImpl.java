@@ -12,10 +12,7 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service("productService")
 public class ProductServiceImpl implements ProductService{
@@ -205,5 +202,16 @@ public class ProductServiceImpl implements ProductService{
             Collections.reverse(products);
         }
         return products;
+    }
+
+    @Override
+    public List<Product> productNameFilter(String productName, List<Product> products) {
+        List<Product> result = new ArrayList<>();
+        for (Product product : products) {
+            if (product.getName()!=null&&product.getName().contains(productName)) {
+              result.add(product);
+            }
+        }
+        return result;
     }
 }

@@ -8,8 +8,10 @@ import com.hlju.mall.domain.BoComment;
 import com.hlju.mall.domain.Shopcar;
 import com.hlju.mall.service.CommentService;
 import com.hlju.mall.service.ShopcarService;
+import com.hlju.mall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +39,8 @@ public class UserOperaController {
     CommentService commentService;
     @Autowired
     StoreService storeService;
+    @Autowired
+    UserService userService;
 
     @RequestMapping("/shopdetail")
     public ModelAndView toProductDetail(@RequestParam(name = "id")Integer productId){
@@ -99,9 +103,16 @@ public class UserOperaController {
     public ModelAndView scanShopcar(
             HttpServletRequest req
     ){
+         ModelAndView mav=new ModelAndView();
+
          List<Shopcar> shopcarList=shopcarService.getShopcarList(req);
          HashMap<String,Object> sumMap=shopcarService.computeSum(shopcarList);
-         ModelAndView mav=new ModelAndView();
+         String userName= (String) req.getSession().getAttribute("userName");
+         if (!StringUtils.isEmpty(userName)){
+             Integer balance=userService.showUserBalance(userName);
+             mav.addObject("balance",balance);
+         }
+
          if (shopcarList.size()>0){
              mav.addObject("shopcarList",shopcarList);
              mav.addObject("shopNum",sumMap.get("shopNum"));

@@ -49,6 +49,9 @@ public class ShopcarServiceImpl implements ShopcarService {
         Cookie[] cookies=req.getCookies();
         List<Shopcar> shopcars=new ArrayList<>();
         HashMap<String,Shopcar> carMap=new HashMap<>();
+        if (cookies==null){
+            return shopcars;
+        }
         for (Cookie cookie:cookies){
             String cookieKey=cookie.getName();
             String cookieValue=cookie.getValue();
