@@ -9,6 +9,7 @@ import com.deng.logistics.domain.LogisticsExample;
 import com.deng.logistics.service.LogisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -56,5 +57,36 @@ public class LogisticsServiceImpl implements LogisticsService {
         }
 
         return logisticsBos;
+    }
+
+    @Override
+    public boolean updateLogisticeStatus(Integer id,String status) {
+        boolean result=false;
+        if (!StringUtils.isEmpty(id)&&!StringUtils.isEmpty(status)){
+            Logistics logistics=new Logistics();
+            logistics.setId(id);
+            logistics.setStatus(status);
+            result=logisticsDAO.updateByPrimaryKeySelective(logistics)>0?true:false;
+        }
+        return result;
+    }
+
+    @Override
+    public Logistics getLogisticsByDetailOrderId(Integer detailOrderId) {
+        LogisticsExample logisticsExample=new LogisticsExample();
+        LogisticsExample.Criteria logisticsExampleCriteria=logisticsExample.createCriteria();
+        logisticsExampleCriteria.andOrderDetailIdEqualTo(detailOrderId);
+        List<Logistics> logistics=logisticsDAO.selectByExample(logisticsExample);
+        if (logistics.size()!=0){
+            return logistics.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateLogistics(Logistics logistics) {
+        boolean result=logisticsDAO.updateByPrimaryKeySelective(logistics)==0?false:true;
+
+        return result;
     }
 }

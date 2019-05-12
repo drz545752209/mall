@@ -182,6 +182,29 @@
          limit ${offset}, ${limit}
     </select>
 
+    <select id="getUserBoOrderCount" resultType="Integer">
+    SELECT
+      count(`order`.id)
+    FROM
+     `order`
+    LEFT JOIN (
+    SELECT
+     product.id AS 'product_id',
+     product.img AS 'product_img',
+     product.description AS 'product_description',
+     order_detail.id AS 'order_detail_id',
+     order_detail.`status` AS 'status',
+     order_detail.count_consume AS 'buy_num',
+     order_detail.sum_consume AS 'total_price'
+    FROM
+     order_detail
+    LEFT JOIN product ON order_detail.product_id = product.id
+    ) pd ON `order`.detail_id = pd.order_detail_id
+    LEFT JOIN store ON `order`.store_id = store.id
+    WHERE
+      `order`.user_id = ${userId}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from `order`
     where id = #{id,jdbcType=INTEGER}

@@ -1,7 +1,7 @@
 package com.deng.common.utils;
 
-public class ListUtils<E,T> {
 
+public class ListUtils {
 
 
 }

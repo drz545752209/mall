@@ -11,4 +11,10 @@ public interface LogisticsService {
     boolean insertLogistice(Logistics logistics);
 
     List<LogisticsBo> getLogisticsList(String userName);
+
+    boolean updateLogisticeStatus(Integer id,String status);
+
+    Logistics getLogisticsByDetailOrderId(Integer detailOrderId);
+
+    boolean updateLogistics(Logistics logistics);
 }

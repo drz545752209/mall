@@ -96,6 +96,14 @@
     from logistics_admin
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectCompanyName" resultType="string">
+    SELECT
+	  company_name
+    FROM
+	  `logistics_admin`
+    GROUP BY
+  company_name
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from logistics_admin
     where id = #{id,jdbcType=INTEGER}

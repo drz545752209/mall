@@ -14,6 +14,10 @@
 </head>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
+<label>选择快递公司：</label>
+<select name="companyName" id="companyName" >
+    <option th:each="company:${companyList}" th:text="${company}"></option>
+</select>
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">

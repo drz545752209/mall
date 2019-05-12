@@ -49,9 +49,10 @@ public class ProductServiceImpl implements ProductService{
         return null;
     }
 
-    public List<Product> getProductByType(String isShow, String type, String keyword,long pageNum, int pageSize, HttpServletRequest request) {
+    public HashMap<String,Object> getProductByType(String isShow, String type, String keyword,long pageNum, int pageSize, HttpServletRequest request) {
         List<Product> productList;
         ProductExample productExample = new ProductExample();
+        HashMap<String,Object> resultMap=new HashMap<>();
         ProductExample.Criteria criteria = productExample.createCriteria();
 
         if (request!=null){
@@ -79,10 +80,15 @@ public class ProductServiceImpl implements ProductService{
             criteria.andIsShowEqualTo(false);
         }
 
+        Integer dataNum=productDAO.selectByExample(productExample).size();
+        resultMap.put("dataNum",dataNum);
+
         productExample.setOffset(pageNum*pageSize);
         productExample.setLimit(pageSize);
         productList = productDAO.selectByExample(productExample);
-        return productList;
+        resultMap.put("productList",productList);
+
+        return resultMap;
     }
 
     public Product getProductById(String id) {
@@ -204,14 +210,4 @@ public class ProductServiceImpl implements ProductService{
         return products;
     }
 
-    @Override
-    public List<Product> productNameFilter(String productName, List<Product> products) {
-        List<Product> result = new ArrayList<>();
-        for (Product product : products) {
-            if (product.getName()!=null&&product.getName().contains(productName)) {
-              result.add(product);
-            }
-        }
-        return result;
-    }
 }

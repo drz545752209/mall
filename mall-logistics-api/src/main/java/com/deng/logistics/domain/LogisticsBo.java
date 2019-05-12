@@ -3,6 +3,7 @@ package com.deng.logistics.domain;
 import java.io.Serializable;
 
 public class LogisticsBo implements Serializable {
+    private Integer id;
     private String location;
     private String userName;
     private String bizName;
@@ -10,6 +11,15 @@ public class LogisticsBo implements Serializable {
     private String bizContantWay;
     private String address;
     private String status;
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getUserContantWay() {
         return userContantWay;

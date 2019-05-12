@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Service("logisticsAdminService")
 public class LogisticsAdminServiceImpl implements LogisticsAdminService {
@@ -68,5 +69,11 @@ public class LogisticsAdminServiceImpl implements LogisticsAdminService {
             resp.addCookie(cookie);
         }
         return false;
+    }
+
+    @Override
+    public List<String> getCompanyNames() {
+        List<String> companyNames=logisticsAdminDAO.selectCompanyName();
+        return companyNames;
     }
 }

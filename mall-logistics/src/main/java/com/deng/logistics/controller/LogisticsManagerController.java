@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +39,14 @@ public class LogisticsManagerController {
 
         mav.setViewName("login");
         return mav;
+    }
+
+    @RequestMapping(value = "/saveStatus")
+    public String saveStatus(@RequestParam(value = "id")Integer id,
+                                   @RequestParam(value = "status")String status
+                                   ){
+       logisticsService.updateLogisticeStatus(id,status);
+       return "logistics";
     }
 
 

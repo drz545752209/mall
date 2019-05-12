@@ -24,7 +24,7 @@ public class ShopcarServiceImpl implements ShopcarService {
         String cookieKey=String.format("mallShopcar%s",uuidStr);
         Cookie cookie=new Cookie(cookieKey,uuidStr);
         cookie.setMaxAge(3600*24*7);
-        resp.addCookie(cookie);
+
 
         Product product=productService.getProductById(productId.toString());
 
@@ -38,9 +38,13 @@ public class ShopcarServiceImpl implements ShopcarService {
         if (newPrice!=null){
             shopcar.setNewPrice(newPrice);
         }
-
         //在redis中保存7天
-        return JedisUtils.set(uuidStr,shopcar,3600*24*7);
+        if (JedisUtils.set(uuidStr,shopcar,3600*24*7)){
+            resp.addCookie(cookie);
+            return true;
+        }else {
+            return false;
+        }
     }
 
 

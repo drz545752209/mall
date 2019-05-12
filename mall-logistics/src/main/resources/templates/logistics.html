@@ -10,6 +10,21 @@
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="/js/bootstrap.min.js"></script>
+    <script>
+        function modify(tr){
+            var id=$(tr).parent().parent().children()[0].value;
+            var status=$(tr).parent().parent().children('td')[6].children[0].value;
+            alert(id);
+            alert(status);
+            $.get("/logistics/saveStatus",{"id":id,"status":status})
+                .success(
+                    function () {
+                        alert("修改成功");
+                        window.location.href="http://localhost:8080/logistics/toLogistics";
+                    }
+                )
+        }
+    </script>
 </head>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
@@ -23,21 +38,26 @@
     <th>发货地址</th>
     <th>收货地址</th>
     <th>状态</th>
+    <th>操作</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="logistics:${logisticsBos}">
+    <tr th:each="logistics:${logisticsBos}" th:if="${logistics.status} ne '申请退款'">
+        <input type="hidden" id="logisticsId" th:value="${logistics.id}">
         <td th:text="${logistics.userName}"></td>
         <td th:text="${logistics.bizName}"></td>
         <td th:text="${logistics.userContantWay}"></td>
         <td th:text="${logistics.bizContantWay}"></td>
         <td th:text="${logistics.location}"></td>
         <td th:text="${logistics.address}"></td>
-        <td th:if="${logistics.status} eq '未发货'" class="danger">
+        <td th:if="${logistics.status} eq '已揽件,等待发货'" class="danger">
             <input id="status" th:value="${logistics.status}">
         </td>
-        <td th:if="${logistics.status} ne '未发货'" class="success">
+        <td th:if="${logistics.status} ne '已揽件,等待发货'" class="success">
             <input id="status" th:value="${logistics.status}">
+        </td>
+        <td>
+            <button type="button" class="btn btn-default btn-warning" onclick="modify(this)">修改</button>
         </td>
     </tr>
     </tbody>

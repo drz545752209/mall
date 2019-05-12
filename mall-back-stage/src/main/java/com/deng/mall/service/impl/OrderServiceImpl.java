@@ -112,21 +112,37 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void sendGoods(Integer orderId) {
+    public Integer getQueryOrderCount(String userName) {
+        User user=new User();
+        user.setName(userName);
+        Integer userId=userService.selectUserNameByExamle(user).get(0).getId();
+        Integer result=orderDAO.getUserBoOrderCount(userId);
+
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public boolean sendGoods(Integer orderId,String companyName) {
         Order order;
         OrderDetail orderDetail;
-        HashMap<String,Object> jsonMap=new HashMap<>();
-        jsonMap.put("orderId",orderId);
-        jsonMap.put("status","发货");
-        String orderMsg=JSONObject.toJSONString(jsonMap);
         if (orderId != null && !"".equals(orderId)) {
             order=orderDAO.selectByPrimaryKey(orderId);
             orderDetail=orderDetailDAO.selectByPrimaryKey(order.getDetailId());
-//            SendMsg sendMsg=new SendMsg();
-//            sendMsg.sendMsg(orderMsg,"sendGoods",defaultMQProducer);
-            orderDetail.setStatus("已揽件");
-            orderDetailDAO.updateByPrimaryKey(orderDetail);
+            orderDetail.setStatus("已揽件,等待发货");
+            boolean var1=orderDetailDAO.updateByPrimaryKey(orderDetail)==0?false:true;
+            Logistics logistics=logisticsService.getLogisticsByDetailOrderId(order.getDetailId());
+            logistics.setStatus("已揽件,等待发货");
+            logistics.setCompanyName(companyName);
+            boolean var2=logisticsService.updateLogistics(logistics);
+            if (!var2||StringUtils.isEmpty(companyName)){
+                throw new RuntimeException("物流更新失败");
+            }
+            if (var1&&var2){
+                return true;
+            }
         }
+        return false;
     }
 
 
@@ -143,15 +159,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void backGoods(Integer orderId) {
+    public boolean backGoods(Integer orderId) {
         Order order;
         OrderDetail orderDetail;
-        if (orderId != null && !"".equals(orderId)) {
+        if (!StringUtils.isEmpty(orderId)) {
             order=orderDAO.selectByPrimaryKey(orderId);
             orderDetail=orderDetailDAO.selectByPrimaryKey(order.getDetailId());
             orderDetail.setStatus("已退货");
             orderDetailDAO.updateByPrimaryKey(orderDetail);
         }
+        return false;
     }
 
     private Logistics getLogistics(String userName,Integer orderDetailId,Integer storeId){

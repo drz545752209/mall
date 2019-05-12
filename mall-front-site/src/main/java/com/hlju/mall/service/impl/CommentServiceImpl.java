@@ -79,7 +79,7 @@ public class CommentServiceImpl implements CommentService {
             String userName= userDAO.selectByPrimaryKey(userId).getName();
             Product product=productService.getProductById(comment.getProductId().toString());
             String productName=product.getName();
-            String commentDesc=product.getComment();
+            String commentDesc=comment.getComment();
             boComment.setUserName(userName);
             boComment.setProductName(productName);
             boComment.setComment(commentDesc);

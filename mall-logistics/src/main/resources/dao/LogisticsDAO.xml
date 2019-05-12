@@ -11,6 +11,7 @@
     <result column="company_name" jdbcType="VARCHAR" property="companyName" />
   </resultMap>
   <resultMap id="BaseBoResultMap" type="com.deng.logistics.domain.LogisticsBo">
+    <result column="id" jdbcType="INTEGER" property="id" />
     <result column="location" jdbcType="VARCHAR" property="location" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="biz_name" jdbcType="VARCHAR" property="bizName" />
@@ -82,15 +83,16 @@
   </sql>
   <select id="selectBoLogistics" resultMap="BaseBoResultMap">
     SELECT
+     l.id as id,
      u.address as address,
      u.`name` as user_name,
      b.`name` as biz_name,
      b.location as location,
      u.contant_way as user_contant_way,
      b.contant_way as biz_contant_way,
-     o.`status` as `status`
+     l.`status` as `status`
     FROM
-    (SELECT biz_id,user_id,order_detail_id
+    (SELECT id,biz_id,user_id,order_detail_id,status
     FROM logistics
     WHERE company_name="${companyName}")l
     LEFT JOIN

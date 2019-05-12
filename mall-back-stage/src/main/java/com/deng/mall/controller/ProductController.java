@@ -1,6 +1,7 @@
 package com.deng.mall.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,10 +60,11 @@ public class ProductController {
         List<Product> productList;
         List<String> productTypeList;
 
-        productList = productService.getProductByType(isShow, type, null,pageNum-1, pageSize,request);
-        if (!StringUtils.isEmpty(keyword)){
-            productList=productService.productNameFilter(keyword,productList);
-        }
+        HashMap<String,Object> resultMap =productService.getProductByType(isShow, type, keyword,pageNum-1, pageSize,request);
+
+        productList= (List<Product>) resultMap.get("productList");
+        Integer dataNum= (Integer) resultMap.get("dataNum");
+
         productTypeList = productService.getProductTypeList();
         ModelAndView mv = new ModelAndView();
 
@@ -85,7 +87,7 @@ public class ProductController {
             mv.setViewName("bizproduct.html");
         }
 
-        PageFucker pageInfo=new PageFucker(pageSize,pageNum,productList.size());
+        PageFucker pageInfo=new PageFucker(pageSize,pageNum,dataNum);
         pageInfo.computePage();
 
         mv.addObject("pageInfo",pageInfo);

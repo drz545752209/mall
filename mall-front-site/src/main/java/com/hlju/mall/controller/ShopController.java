@@ -34,7 +34,12 @@ public class ShopController {
 								@RequestParam(required = false,defaultValue = "1")Long pageNum
 								) {
 		ModelAndView mav=new ModelAndView();
-		List<Product> productList=productService.getProductByType("1",typeName,keyword,pageNum-1,pageSize,null);
+		List<Product> productList;
+		HashMap<String,Object> resultMap=productService.getProductByType("1",typeName,keyword,pageNum-1,pageSize,null);
+
+		productList= (List<Product>) resultMap.get("productList");
+		Integer dataNum= (Integer) resultMap.get("dataNum");
+
 		List<String> productTypeList=productService.getProductTypeList();
 		HashMap<Integer,Integer> promotionDiscountMap=null;
 
@@ -70,13 +75,13 @@ public class ShopController {
 			mav.addObject("isAsc",isAsc);
 		}
 
-		if (productList.size()>0){
+		if (productList!=null&&productList.size()>0){
 			List<Promotion> promotions =promotionService.getPromotionByProductIds(productList);
 			promotionDiscountMap=promotionService.getPromotionDiscount(promotions,productList);
 		}
 
 		//分页
-		PageFucker pageInfo=new PageFucker(pageSize,pageNum,productList.size());
+		PageFucker pageInfo=new PageFucker(pageSize,pageNum,dataNum);
 		pageInfo.computePage();
 
 		mav.addObject("productList",productList);

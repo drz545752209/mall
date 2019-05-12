@@ -3,9 +3,11 @@ $(document).ready(
             $("button[name='sendGoods']").click(
                 function () {
                     var id=$(this).attr("id");
+                    var options=$('#companyName option:selected');
+                    var company=options.val();
                     $.post(
                         "sendGoods",
-                        {orderId:id},
+                        {orderId:id,company:company},
                         function (data) {
                             alert("发货成功");
                             window.location.href='http://localhost:8080/order/orderList';

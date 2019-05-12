@@ -3,11 +3,12 @@ package com.deng.mall.service;
 import com.deng.mall.domain.Product;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
 public interface ProductService {
 
-     List<Product> getProductByType(String isShow, String type, String keyword, long pageNum, int pageSize, HttpServletRequest request);
+     HashMap<String,Object> getProductByType(String isShow, String type, String keyword, long pageNum, int pageSize, HttpServletRequest request);
 
      Product getProductById(String id);
 
@@ -31,11 +32,4 @@ public interface ProductService {
 
      List<Product> sortBySumConsume(boolean isAsc,String typeName,String keyWord,Integer limit,Long offset);
 
-     /**
-      * 商品列表名过滤(为保证开闭原则)
-      * @param productName
-      * @param products
-      * @return
-      */
-     List<Product> productNameFilter(String productName,List<Product> products);
 }

@@ -17,4 +17,6 @@ public interface OrderDAO extends MyBatisBaseDao<Order, Integer, OrderExample> {
     List<BoOrder> selectOrderBo(@Param("limit") Integer limit, @Param("offset") Long offset,@Param("storeId")Integer storeId);
 
     List<UserBoOrder> selectUserBoOrder(@Param("limit") Integer limit, @Param("offset") Long offset, @Param("userId")Integer userId);
+
+    Integer getUserBoOrderCount(@Param("userId")Integer userId);
 }

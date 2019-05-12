@@ -158,6 +158,12 @@ public class UserOperaController {
         }
 
         mav.addObject("status",status);
+        if ("true".equals(status)){
+            mav.addObject("message","交易成功");
+        }else {
+            mav.addObject("message","交易失败");
+        }
+
         mav.setViewName("status");
         return mav;
     }
@@ -193,7 +199,9 @@ public class UserOperaController {
         //HttpServletRequest没有序列化，不支持dubbo
         List<UserBoOrder> userBoOrders=orderService.getQueryOrder(pageSize,pageNum-1,userName);
 
-        PageFucker pageInfo=new PageFucker(pageSize,pageNum,userBoOrders.size());
+        Integer dataNum=orderService.getQueryOrderCount(userName);
+
+        PageFucker pageInfo=new PageFucker(pageSize,pageNum,dataNum);
         pageInfo.computePage();
 
         mav.addObject("orderList",userBoOrders);
