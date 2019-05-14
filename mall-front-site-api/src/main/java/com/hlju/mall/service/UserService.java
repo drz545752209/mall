@@ -21,4 +21,8 @@ public interface UserService {
     boolean saveUserMsg(User user,String userName);
 
     Integer showUserBalance(String userName);
+
+    boolean incrUserCash(User user,Integer totalPrice);
+
+    boolean backUserCash(Integer userId,Integer cash);
 }

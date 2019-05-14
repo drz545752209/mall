@@ -7,10 +7,10 @@
     <!-- main.css是购物商城主样式 -->
     <link rel=stylesheet type=text/css href="/css/index.css"/>
     <link rel=stylesheet type=text/css href="/css/header.css"/>
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         //购买数量，失去焦点
         function blurFn() {
@@ -80,10 +80,31 @@
                 <h1>[[${shopInfo.description}]]<font style="color: #ff0000" id="advertiseWord"></font></h1>
             </div>
             <div id="preview">
-                <div id="spec-n1" class="jqzoom">
-                    <img th:src="'/product_img/' + ${shopInfo.img}" th:title="${shopInfo.description}" height="280"
+                    <img th:if="${imgs eq null}" th:src="'/product_img/' + ${shopInfo.img}" th:title="${shopInfo.description}" height="280"
                          width="280"/>
-                </div>
+                    <div style="height: 250px; width: 280px" th:if="${imgs ne null}">
+                        <div id="myCarousel" class="carousel slide">
+                            <!-- 轮播（Carousel）指标 -->
+                            <ol class="carousel-indicators">
+                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#myCarousel" th:each="num:${nums}" th:data-slide-to="${num}"></li>
+                            </ol>
+                            <!-- 轮播（Carousel）项目 -->
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img th:src="'/product_img/'+${firstPicture}" alt="图片缺失" />
+                                </div>
+                                <div class="item" th:each="img:${imgs}">
+                                    <img th:src="'/product_img/'+${img}" alt="图片缺失">
+                                </div>
+                            </div>
+                            <!-- 轮播（Carousel）导航 -->
+                            <a class="carousel-control left" href="#myCarousel"
+                               data-slide="prev"> <span _ngcontent-c3="" aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span></a>
+                            <a class="carousel-control right" href="#myCarousel"
+                               data-slide="next">&rsaquo;</a>
+                        </div>
+                    </div>
                 <ul class="extra">
                     <li>
                         <span>评分：</span>
@@ -95,6 +116,7 @@
                             <a th:href="@{/scanProductComment(productId=${productId})}" class="num-comment">(已有[[${commentCount}]]人评价)</a>
                         </div>
                     </li>
+                    <li class="tuangou"><a th:href="@{/lookingMorePicture(imageName=${shopInfo.img})}">查看更多图片</a></li>
                     <!--
                     <li class="tuangou"><a href="javascript:void(0);">该商品支持全国购买</a></li>
                     -->

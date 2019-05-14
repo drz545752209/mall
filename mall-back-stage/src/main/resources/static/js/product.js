@@ -31,7 +31,10 @@ function batchDelete() {
 }
 
 function del(id) {
-    $.post("/product/delete",{"deleteId":id});
+    $.post("/product/delete",{"deleteId":id}) .success(function () {
+        alert("删除成功");
+        window.location.href='http://localhost:8080/product/productList';
+    });
 }
 
 function downShelf() {
@@ -138,7 +141,7 @@ function toAddImgs(id,url) {
                     path+=data[i]+",";
                 }
             }
-            $('#img').val(path);
+            $('#img').val(data[0]);
         },
         error : function(XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest.textStatus);

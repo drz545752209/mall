@@ -40,8 +40,8 @@ public class OrderServiceImpl implements OrderService {
     ProductService productService;
     @Autowired
     OrderDetailDAO orderDetailDAO;
-    @Autowired
-    DefaultMQProducer defaultMQProducer;
+//    @Autowired
+//    DefaultMQProducer defaultMQProducer;
     @Autowired
     BizDAO bizDAO;
     @Autowired
@@ -159,6 +159,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public boolean backGoods(Integer orderId) {
         Order order;
         OrderDetail orderDetail;
@@ -167,8 +168,19 @@ public class OrderServiceImpl implements OrderService {
             orderDetail=orderDetailDAO.selectByPrimaryKey(order.getDetailId());
             orderDetail.setStatus("已退货");
             orderDetailDAO.updateByPrimaryKey(orderDetail);
+            Integer logisticsId=logisticsService.getLogisticsByDetailOrderId(orderDetail.getId()).getId();
+            boolean var1=logisticsService.updateLogisticeStatus(logisticsId,"已退货");
+
+            //退款
+            Integer userId=order.getUserId();
+            Integer cash=orderDetail.getSumConsume().intValue();
+            boolean var2=userService.backUserCash(userId,cash);
+
+            if (!var1||!var2){
+                throw new RuntimeException("退款失败!");
+            }
         }
-        return false;
+        return true;
     }
 
     private Logistics getLogistics(String userName,Integer orderDetailId,Integer storeId){
@@ -195,6 +207,10 @@ public class OrderServiceImpl implements OrderService {
         //记录创建产品id
         ArrayList<Integer> results=new ArrayList<>();
 
+        if (StringUtils.isEmpty(shopInfo)||StringUtils.isEmpty(userName)){
+            return  null;
+        }
+
         for (HashMap resultMap:productIds){
             try{
             String productId=resultMap.get("productId").toString();
@@ -215,7 +231,8 @@ public class OrderServiceImpl implements OrderService {
 
             User user=new User();
             user.setName(userName);
-            Integer userId=userService.selectUserNameByExamle(user).get(0).getId();
+            user=userService.selectUserNameByExamle(user).get(0);
+            Integer userId=user.getId();
             Order order=new Order();
             order.setUserId(userId);
             order.setStoreId(storeId);
@@ -244,6 +261,12 @@ public class OrderServiceImpl implements OrderService {
             stock.setOutDate(StrUntils.getNow());
             stockService.saveStock(stock);
 
+            //消费账户
+            boolean userUpdateStatus=userService.incrUserCash(user,totalPrice);
+
+            if (!userUpdateStatus){
+                throw new RuntimeException("扣款失败，请联系管理员");
+            }
             }catch (Exception e){
                 e.printStackTrace();
                 //手动处理异常后aop没有办法捕获异常，手动处理回滚事务

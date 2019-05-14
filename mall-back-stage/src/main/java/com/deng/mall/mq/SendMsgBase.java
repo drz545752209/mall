@@ -11,7 +11,7 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.StringUtils;
 
-@SpringBootConfiguration
+//@SpringBootConfiguration
 public class SendMsgBase {
     public static final Logger LOGGER = LoggerFactory.getLogger(SendMsgBase.class);
     /**

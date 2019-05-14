@@ -117,5 +117,28 @@ public class UserServiceImpl implements UserService {
 		return balance;
 	}
 
+	@Override
+	public boolean incrUserCash(User user,Integer totalPrice) {
+		if (totalPrice!=null&&user.getId()!=null){
+			Integer balance=user.getCredit()-totalPrice;
+			user.setCredit(balance);
+			userDao.updateByPrimaryKeySelective(user);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean backUserCash(Integer userId, Integer cash) {
+		if (cash!=null&&userId!=null){
+			User user=userDao.selectByPrimaryKey(userId);
+			Integer curCash=user.getCredit()+cash;
+			user.setCredit(curCash);
+			userDao.updateByPrimaryKeySelective(user);
+			return true;
+		}
+		return false;
+	}
+
 
 }

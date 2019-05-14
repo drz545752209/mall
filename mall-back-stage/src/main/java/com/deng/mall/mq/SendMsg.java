@@ -15,12 +15,12 @@ public class SendMsg {
     final static Logger logger= LoggerFactory.getLogger(SendMsg.class);
 
 
-    public void sendMsg(String msg,String tags,DefaultMQProducer orderMQProduct){
+    public void sendMsg(String msg,String tags,DefaultMQProducer defaultMQProducer){
         Message message = new Message(backStageTopicName, tags, msg.getBytes());
         System.out.println("111");
         try {
             try {
-                SendResult sendResult = orderMQProduct.send(message);
+                SendResult sendResult = defaultMQProducer.send(message);
                 logger.info("发送消息:[]",sendResult.toString());
             } catch (MQClientException e) {
                 e.printStackTrace();

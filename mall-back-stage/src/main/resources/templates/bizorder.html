@@ -53,8 +53,10 @@
                     <td th:text="${order.operator}"></td>
                     <td th:text="${order.date}"></td>
                     <td>
-                        <button th:id="${order.orderId}" th:name="sendGoods" type="button" class="btn btn-default btn-warning">发货</button>
-                        <button th:id="${order.orderId}" th:name="backGoods" type="button" class="btn btn-default btn-danger">退单</button>
+                        <button th:if="${order.status} ne '已揽件,等待发货' and ${order.status} ne '已退货'"
+                                th:id="${order.orderId}" th:name="sendGoods" type="button" class="btn btn-default btn-warning">发货</button>
+                        <button th:if="${order.status} ne '已退货'" th:id="${order.orderId}" th:name="backGoods"
+                                type="button" class="btn btn-default btn-danger">退单</button>
                     </td>
                 </tr>
                 </tbody>

@@ -154,8 +154,8 @@
 					onclick="checkAll(this)" />全选</li>
 				<li class="row1">商品名称</li>
 				<li class="row2">积分</li>
-				<li class="row3">疯狂价</li>
-				<li class="row4"><span title="在疯狂价基础上再优惠">&nbsp;&nbsp;&nbsp;小计&nbsp;&nbsp;&nbsp;</span></li>
+				<li class="row3">原价</li>
+				<li class="row4"><span title="在疯狂价基础上再优惠">&nbsp;&nbsp;&nbsp;疯狂价&nbsp;&nbsp;&nbsp;</span></li>
 				<li class="row5">数量</li>
 				<li class="row6">操作</li>
 			</ul>
@@ -188,9 +188,9 @@
 
                     <li class="row55" style="width: 92px;height: 75px;">
                         <input type="text"  name="number" th:value="${shopCar.buyNum}" >
-                        <a th:href="@{/saveShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=1'" id="add"
+                        <a th:href="@{/saveShopcar(shopId=${shopCar.productId},buyNum='1')}" id="add"
                             title="数量加一" class="add" name="add">+</a>
-                        <a th:href="@{/saveShopcar(shopId)}+'='+${shopCar.productId}+'&buyNum=-1'"
+                        <a th:href="@{/saveShopcar(shopId=${shopCar.productId},buyNum='-1')}"
                             title="数量减一" class="cut" name="cut" th:if="${shopCar.buyNum}>1">-</a>
                     </li>
                     <li class="row66" style="width: 84px;height:75px;">

@@ -4,6 +4,7 @@ package com.hlju.mall.controller;
 import com.deng.common.utils.PageFucker;
 import com.deng.mall.domain.*;
 import com.deng.mall.service.*;
+import com.hlju.mall.config.JedisUtils;
 import com.hlju.mall.domain.BoComment;
 import com.hlju.mall.domain.Shopcar;
 import com.hlju.mall.service.CommentService;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,24 +45,57 @@ public class UserOperaController {
     UserService userService;
 
     @RequestMapping("/shopdetail")
-    public ModelAndView toProductDetail(@RequestParam(name = "id")Integer productId){
-         Product product=productService.getProductById(productId.toString());
-         Promotion promotion= promotionService.getPromotionByProductId(product);
-         Stock stock=stockService.getStockByProductId(product);
-         Integer commentCount=commentService.getCommentCount(productId);
-         Store store= storeService.getStoreByName(product.getStoreName());
+    public ModelAndView toProductDetail(@RequestParam(name = "id") Integer productId) {
+        Product product = productService.getProductById(productId.toString());
+        Promotion promotion = promotionService.getPromotionByProductId(product);
+        Stock stock = stockService.getStockByProductId(product);
+        Integer commentCount = commentService.getCommentCount(productId);
+        Store store = storeService.getStoreByName(product.getStoreName());
 
-         ModelAndView mav=new ModelAndView();
-         mav.addObject("shopInfo",product);
-         mav.addObject("promotionInfo",promotion);
-         mav.addObject("stockInfo",stock);
-         mav.addObject("commentCount",commentCount);
-         mav.addObject("productId",productId);
-         mav.addObject("storeScore",store.getScore());
+        List<String> imgs = JedisUtils.LRANGE(product.getImg(), 0, -1);
+        List<String> nums = new ArrayList<>();
+        int imgNum = imgs.size();
 
-         mav.setViewName("shop_deatil");
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("shopInfo", product);
+        mav.addObject("promotionInfo", promotion);
+        mav.addObject("stockInfo", stock);
+        mav.addObject("commentCount", commentCount);
+        mav.addObject("productId", productId);
+        mav.addObject("storeScore", store.getScore());
 
-         return mav;
+        if (imgNum > 0) {
+            mav.addObject("imgs", imgs.subList(1, imgNum));
+            mav.addObject("firstPicture", imgs.get(0));
+            for (int var = 1; var < imgNum; var++) {
+                nums.add(String.valueOf(var));
+            }
+            mav.addObject("nums", nums);
+        }
+
+        mav.setViewName("shop_deatil");
+
+        return mav;
+    }
+
+    @RequestMapping("/lookingMorePicture")
+    public ModelAndView lookingMorePicture(String imageName){
+        ModelAndView mav=new ModelAndView();
+        List<String> imgs= JedisUtils.LRANGE(imageName,0,-1);
+        List<String> nums=new ArrayList<>();
+        int imgNum=imgs.size();
+        if (imgNum>0){
+            mav.addObject("imgs",imgs.subList(1,imgNum));
+        }
+        mav.addObject("firstPicture",imgs.get(0));
+
+        for (int var=1;var<imgNum;var++){
+            nums.add(String.valueOf(var));
+        }
+        mav.addObject("nums",nums);
+
+        mav.setViewName("show-picture");
+        return mav;
     }
 
     @RequestMapping("/addToShopcar")
@@ -89,7 +124,7 @@ public class UserOperaController {
         boolean status=shopcarService.saveShopcarFromRedis(productId,buyNum,req);
 
         if (status){
-            mav.setViewName("redirect: /scanShopcar");
+            mav.setViewName("redirect:/scanShopcar");
         }else {
             mav.setViewName("status");
             mav.addObject("productId",productId);

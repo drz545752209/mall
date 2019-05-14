@@ -42,10 +42,10 @@ public class ProductController {
     public List<String> upfileProductImg(@RequestParam("file[]") MultipartFile[] productImgs, HttpServletRequest request) {
 //        String picPath = request.getServletContext().getRealPath("static/product_img/");
         String picPath = "E:/新建文件夹/mall/mall-back-stage/src/main/resources/static/product_img";
-        List<String> productImgPaths = UpfileUtils.loadFileList(productImgs, picPath);
+        List<String> productImgPaths = UpfileUtils.loadFileList(productImgs, picPath,true);
 
         String frontPicPath = "E:/新建文件夹/mall/mall-front-site/src/main/resources/static/product_img";
-        UpfileUtils.loadFileList(productImgs, frontPicPath);
+        UpfileUtils.loadFileList(productImgs, frontPicPath,false);
         return productImgPaths;
     }
 
@@ -122,9 +122,9 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/delete")
-    public String delete(String deleteId) {
+    public @ResponseBody String delete(String deleteId) {
         productService.deleteProduct(deleteId);
-        return "redirect:/product/productList";
+        return "susess";
     }
 
     @RequestMapping(value = "/downShelf")

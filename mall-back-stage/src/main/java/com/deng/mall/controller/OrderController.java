@@ -36,18 +36,21 @@ public class OrderController {
     }
 
     @RequestMapping(value = "sendGoods")
-    public ModelAndView sendGoods(Integer orderId,
-                                  String company,
-                                  @RequestParam(required = false, defaultValue = "1") Long offset,
-                                  @RequestParam(required = false, defaultValue = "10") Integer limit,
-                                  HttpServletRequest request){
-        List<BoOrder> orderList;
+    public ModelAndView sendGoods(Integer orderId, String company){
         ModelAndView mav = new ModelAndView();
 
-        orderList = orderService.getBoOrderList(limit, offset-1,request);
         orderService.sendGoods(orderId,company);
         mav.setViewName("bizorder.html");
-        mav.addObject("orderList", orderList);
+
+        return null;
+    }
+
+    @RequestMapping(value = "backGoods")
+    public ModelAndView backGoods(Integer orderId){
+        ModelAndView mav = new ModelAndView();
+
+        orderService.backGoods(orderId);
+        mav.setViewName("bizorder.html");
 
         return null;
     }

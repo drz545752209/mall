@@ -9,6 +9,8 @@ import org.springframework.context.ApplicationContextAware;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.util.List;
+
 public class JedisUtils implements ApplicationContextAware {
     private static ApplicationContext applicationContext = null;
 
@@ -177,5 +179,17 @@ public class JedisUtils implements ApplicationContextAware {
         }else {
             getJedis().del(key);
         }
+    }
+
+
+    /**
+     * LRANGE key start stop
+     * 返回列表 key 中指定区间内的元素，区间以偏移量 start 和 stop 指定。
+     * 下标(index)参数 start 和 stop 都以 0 为底，也就是说，以 0 表示列表的第一个元素，以 1 表示列表的第二个元素，以此类推。
+     * 你也可以使用负数下标，以 -1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素，以此类推。
+     */
+    public static List<String> LRANGE(String key, Integer start, Integer end) {
+        jedis=getJedis();
+        return jedis.lrange(key, start, end);
     }
 }

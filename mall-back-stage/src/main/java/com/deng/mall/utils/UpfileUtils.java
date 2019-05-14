@@ -8,13 +8,15 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UpfileUtils {
 	final static Logger logger= LoggerFactory.getLogger(UpfileUtils.class);
 
-	public static List<String> loadFileList(MultipartFile[] productImgs, String picPath) {
-		List<String> imgPaths = new ArrayList<String>();
+	public static List<String> loadFileList(MultipartFile[] productImgs, String picPath,boolean saveRedis) {
+		List<String> imgPaths = new ArrayList<>();
+		String redisKey=null;
 		BufferedOutputStream bos=null;
 		File file=new File(picPath);
 		if(!file.exists()) {
@@ -31,6 +33,15 @@ public class UpfileUtils {
 			bos = new BufferedOutputStream(new FileOutputStream(file));
 			bos.write(imgBytes);
 			imgPaths.add(productImg.getOriginalFilename());
+			if (saveRedis){
+				if (StringUtils.isEmpty(redisKey)){
+					redisKey=productImg.getOriginalFilename();
+					if (JedisUtils.LRANGE(redisKey,0,-1).size()>0){
+						JedisUtils.LTRIM(redisKey,0,-1);
+					}
+				}
+				JedisUtils.LPUSH(redisKey,productImg.getOriginalFilename());
+			}
 		}
 		bos.close();
 		}catch(Exception e) {
