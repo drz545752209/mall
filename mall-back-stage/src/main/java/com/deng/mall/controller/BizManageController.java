@@ -2,7 +2,9 @@ package com.deng.mall.controller;
 
 import com.deng.common.utils.Encryption;
 import com.deng.mall.domain.Biz;
+import com.deng.mall.domain.Store;
 import com.deng.mall.service.BizService;
+import com.deng.mall.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -23,6 +25,8 @@ public class BizManageController {
 
     @Autowired
     BizService bizService;
+    @Autowired
+    StoreService storeService;
 
     //跳转注册页
     @RequestMapping(method = RequestMethod.GET,value = {"/bizregister","bizregister.html"})
@@ -31,7 +35,9 @@ public class BizManageController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = { "/bizregister", "/bizregister.html" })
-    public ModelAndView register(String username,String password, HttpServletRequest httpServletRequest) {
+    public ModelAndView register(String username,String password,
+            @RequestParam(value = "store_name")String storeName,
+                                 HttpServletRequest httpServletRequest) {
         ModelAndView mav = new ModelAndView();
         Biz biz=new Biz();
         biz.setName(username);
@@ -49,6 +55,13 @@ public class BizManageController {
             mav.setViewName("bizregister");
         } else {
             bizService.insertSelective(biz);
+
+            biz=bizService.selectBizNameByExamle(biz).get(0);
+            Store store=new Store();
+            store.setBizId(biz.getId());
+            store.setName(storeName);
+            storeService.createStore(store);
+
             mav.setViewName("/bizlogin");
         }
 

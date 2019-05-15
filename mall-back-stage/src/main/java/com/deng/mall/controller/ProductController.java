@@ -74,13 +74,6 @@ public class ProductController {
             mv.addObject("hasProduct",true);
             mv.addObject("hasType",true);
             mv.setViewName("bizproduct.html");
-        }else if (productList==null){
-            String bizName= (String) request.getSession().getAttribute("loginName");
-            Biz biz=new Biz();
-            biz.setName(bizName);
-            Integer bizId=bizService.selectBizNameByExamle(biz).get(0).getId();
-            mv.addObject("bizId",bizId);
-            mv.setViewName("bizstore");
         }else {
             mv.addObject("hasProduct",false);
             mv.addObject("hasType",false);
