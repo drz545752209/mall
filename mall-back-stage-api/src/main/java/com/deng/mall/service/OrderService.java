@@ -11,6 +11,7 @@ import java.util.List;
 public interface OrderService {
      List<BoOrder> getBoOrderList(Integer limit, Long offset, HttpServletRequest request);
      List<UserBoOrder> getQueryOrder(Integer pageSize, Long pageNum, String userName);
+     Integer getBoOrderCount(HttpServletRequest request);
      Integer getQueryOrderCount(String userName);
      boolean sendGoods(Integer orderId,String companyName);
      boolean backGoods(Integer orderId);

@@ -15,4 +15,6 @@ public interface StockService {
    void saveStock(Integer id,String count, String inDate,String outDate);
 
    boolean saveStock(Stock stock);
+
+   Integer getStockListCount(HttpServletRequest request);
 }

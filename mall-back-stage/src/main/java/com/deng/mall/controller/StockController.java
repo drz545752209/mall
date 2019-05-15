@@ -1,5 +1,6 @@
 package com.deng.mall.controller;
 
+import com.deng.common.utils.PageFucker;
 import com.deng.mall.domain.BoStock;
 import com.deng.mall.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,15 @@ public class StockController {
                                      HttpServletRequest request) {
 
         List<BoStock> boStockList = stockService.getStockList(limit, offset-1,request);
+        Integer dateNum = stockService.getStockListCount(request);
+
         ModelAndView modelAndView = new ModelAndView();
+
+        PageFucker pageInfo=new PageFucker(limit,offset,dateNum);
+        pageInfo.computePage();
+
         modelAndView.addObject("boStockList", boStockList);
+        modelAndView.addObject("pageInfo",pageInfo);
         modelAndView.setViewName("bizstock.html");
 
         return modelAndView;

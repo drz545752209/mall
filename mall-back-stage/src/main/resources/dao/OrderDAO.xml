@@ -151,6 +151,18 @@
         limit ${offset}, ${limit}
     </select>
 
+    <select id="selectOrderBoCount" resultType="Integer">
+        select
+        count(*)
+        FROM
+        `order`
+        LEFT JOIN
+        order_detail ON `order`.detail_id=order_detail.id
+        LEFT JOIN
+        `user` ON `user`.id=`order`.user_id
+        where store_id=${storeId}
+    </select>
+
     <select id="selectUserBoOrder" resultMap="userBoOrderMap">
            SELECT
              `order`.id AS 'order_id',

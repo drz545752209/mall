@@ -90,7 +90,32 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<BoComment> getCommentBoList(String bizName) {
+    public List<BoComment> getCommentBoList(String bizName,Integer limit, Long offset) {
+        Biz biz=new Biz();
+        biz.setName(bizName);
+        Integer bizId=bizService.selectBizNameByExamle(biz).get(0).getId();
+        List<Store> stores=storeService.getStoresByBizId(bizId);
+        List<Integer> storeIds=new ArrayList<>();
+        for (Store store:stores){
+            storeIds.add(store.getId());
+        }
+
+        CommentExample commentExample=new CommentExample();
+        commentExample.setLimit(limit);
+        commentExample.setOffset(offset);
+        CommentExample.Criteria criteria=commentExample.createCriteria();
+        criteria.andStoreIdIn(storeIds);
+
+        List<Comment> comments=commentDAO.selectByExample(commentExample);
+        List<BoComment> boComments=new ArrayList<>();
+
+        boComments=comments2CommentBo(comments,boComments);
+
+        return boComments;
+    }
+
+    @Override
+    public Integer getCommentCountByBizName(String bizName) {
         Biz biz=new Biz();
         biz.setName(bizName);
         Integer bizId=bizService.selectBizNameByExamle(biz).get(0).getId();
@@ -104,12 +129,9 @@ public class CommentServiceImpl implements CommentService {
         CommentExample.Criteria criteria=commentExample.createCriteria();
         criteria.andStoreIdIn(storeIds);
 
-        List<Comment> comments=commentDAO.selectByExample(commentExample);
-        List<BoComment> boComments=new ArrayList<>();
+        Integer dateNum=commentDAO.selectByExample(commentExample).size();
 
-        boComments=comments2CommentBo(comments,boComments);
-
-        return boComments;
+        return  dateNum;
     }
 
     @Override

@@ -44,8 +44,10 @@ public class StockServiceImpl implements StockService {
         ProductExample productExample=new ProductExample();
         ProductExample.Criteria productExampleCriteria=productExample.createCriteria();
         productExampleCriteria.andStoreNameEqualTo(storeName);
-        productExample.setLimit(pageSize);
-        productExample.setOffset(pageSize*pageNum);
+        if (pageNum!=null&&pageSize!=null){
+            productExample.setLimit(pageSize);
+            productExample.setOffset(pageSize*pageNum);
+        }
         List<Product> products=productDAO.selectByExample(productExample);
         List<Integer> productIds=new ArrayList<>();
         for (Product product:products){
@@ -71,6 +73,15 @@ public class StockServiceImpl implements StockService {
         List<Integer> stockIds=getStockIdByBiz(pageSize,pageSize*pageNum,bizName);
         boStockList=stockDAO.selectStockList(pageSize,pageSize*pageNum,stockIds);
         return boStockList;
+    }
+
+    @Override
+    public Integer getStockListCount(HttpServletRequest request) {
+        HttpSession httpSession=request.getSession();
+        String bizName= (String) httpSession.getAttribute("loginName");
+        List<Integer> stockIds=getStockIdByBiz(null,null,bizName);
+        Integer dataNum=stockDAO.selectStockCount(stockIds);
+        return dataNum;
     }
 
     @Override

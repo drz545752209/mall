@@ -1,5 +1,6 @@
 package com.deng.mall.controller;
 
+import com.deng.common.utils.PageFucker;
 import com.deng.logistics.service.LogisticsAdminService;
 import com.deng.mall.domain.BoOrder;
 import com.deng.mall.service.OrderService;
@@ -28,10 +29,17 @@ public class OrderController {
         List<BoOrder> orderList;
         ModelAndView mav = new ModelAndView();
         orderList = orderService.getBoOrderList(limit, offset-1,request);
+        Integer dateNum=orderService.getBoOrderCount(request);
         List<String> companyList=logisticsAdminService.getCompanyNames();
+
+        PageFucker pageInfo=new PageFucker(limit,offset,dateNum);
+        pageInfo.computePage();
+
         mav.setViewName("bizorder.html");
         mav.addObject("companyList",companyList);
         mav.addObject("orderList", orderList);
+        mav.addObject("pageInfo",pageInfo);
+
         return mav;
     }
 

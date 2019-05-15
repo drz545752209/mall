@@ -112,6 +112,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Integer getBoOrderCount(HttpServletRequest request) {
+        List<BoOrder> boOrderList;
+        Product product;
+        HttpSession session=request.getSession();
+        String bizName= (String) session.getAttribute("loginName");
+        Integer storeId=getStoreIdByBiz(bizName);
+        Integer dateNum = orderDAO.selectOrderBoCount(storeId);
+
+        return dateNum;
+    }
+
+    @Override
     public Integer getQueryOrderCount(String userName) {
         User user=new User();
         user.setName(userName);

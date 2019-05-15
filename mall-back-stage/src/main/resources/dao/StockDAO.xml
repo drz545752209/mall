@@ -102,6 +102,20 @@
     limit ${offset}, ${limit}
   </select>
 
+  <select id="selectStockCount" resultType="Integer">
+    select
+    count(*)
+    from stock
+    left join
+    product
+    on
+    stock.product_id=product.id
+    where stock.product_id in
+    <foreach collection="stockIds" item="stockId" open="(" separator="," close=")">
+      #{stockId}
+    </foreach>
+  </select>
+
   <select id="selectByExample" parameterType="com.deng.mall.domain.StockExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
