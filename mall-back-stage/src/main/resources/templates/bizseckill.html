@@ -1,0 +1,99 @@
+<!DOCTYPE>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>商品秒杀管理</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/product.js"></script>
+
+    <script type="text/javascript">
+        function addSeckill() {
+            $('#insert_modal').modal('show');
+        }
+    </script>
+
+</head>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- 添加秒杀商品模态框（Modal） -->
+<div class="modal fade" id="insert_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="insertModelLabel">添加秒杀商品</h4>
+            </div>
+            <div class="modal-body">
+                <form class="navbar-form navbar-left" role="search" id="create_form" action="/bizseckill/addSeckill">
+                    <div class="form-group">
+                        <label>商品名</label><input type="text" class="form-control" th:name="goodsName" />
+                    </div>
+                    <div class="form-group">
+                        <label>秒杀价</label><input type="text" class="form-control" th:name="seckillPrice" />
+                    </div>
+                    <div class="form-group">
+                        <label>秒杀数</label><input type="text" class="form-control" th:name="stockCount" />
+                    </div>
+                    <div class="form-group">
+                        <label>开始时间</label><input type="date" class="form-control"  th:name="startDate"/>
+                    </div>
+                    <div class="form-group">
+                        <label>结束时间</label><input type="date" class="form-control" th:name="endDate" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">开始秒杀</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">重置</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <button type="button" class="btn btn-default btn-danger" th:onclick="'addSeckill();'">添加秒杀商品</button>
+                <table class="table table-bordered" id="product-table" th:if="${goodsBoList} ne null">
+                    <thead>
+                    <tr>
+                        <th>商品图片</th>
+                        <th>商品名称</th>
+                        <th>商品价格</th>
+                        <th>商品秒杀价格</th>
+                        <th>秒杀商品数量</th>
+                        <th>商品秒杀开始时间</th>
+                        <th>商品秒杀结束时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="goodsBo: ${goodsBoList}" >
+                        <td>
+                            <img width="132" height="96" th:src="'/product_img/'+${goodsBo.goodsImg}">
+                        </td>
+                        <td th:text="${goodsBo.goodsName}"></td>
+                        <td th:text="${goodsBo.goodsPrice}"></td>
+                        <td th:text="${goodsBo.seckillPrice}"></td>
+                        <td th:text="${goodsBo.stockCount}"></td>
+                        <td th:text="${goodsBo.startDate}"></td>
+                        <td th:text="${goodsBo.endDate}"></td>
+                        <td>
+                            <button type="button" class="btn btn-default btn-danger" th:onclick="'del('+${goodsBo.id}+')'">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+</html>

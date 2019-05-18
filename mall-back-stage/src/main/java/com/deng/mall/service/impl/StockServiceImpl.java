@@ -70,7 +70,7 @@ public class StockServiceImpl implements StockService {
         List<BoStock> boStockList;
         HttpSession httpSession=request.getSession();
         String bizName= (String) httpSession.getAttribute("loginName");
-        List<Integer> stockIds=getStockIdByBiz(pageSize,pageSize*pageNum,bizName);
+        List<Integer> stockIds=getStockIdByBiz(pageSize,pageNum,bizName);
         boStockList=stockDAO.selectStockList(pageSize,pageSize*pageNum,stockIds);
         return boStockList;
     }

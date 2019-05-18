@@ -1,0 +1,11 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>秒杀失败</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+秒杀失败：<p th:text="${errmsg}"></p>
+<a th:if="${errmsg} eq '不能重复秒杀'" th:href="@{/seckill/toPay(goodsId=${goodsId})}"></a>
+</body>
+</html>

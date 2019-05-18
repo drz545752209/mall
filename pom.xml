@@ -11,6 +11,8 @@
         <module>mall-common</module>
         <module>mall-logistics</module>
         <module>mall-logistics-api</module>
+        <module>mall-seckill</module>
+        <module>mall-seckill-api</module>
     </modules>
 
     <parent>

@@ -155,7 +155,9 @@ public class JedisUtils implements ApplicationContextAware {
             jedis = getJedis();
             if (valueIsObj){
                 byte[] keyBytes = SerializeUtil.serialize(key);
-                result = SerializeUtil.unserialize(jedis.get(keyBytes));
+                if (jedis.get(keyBytes)!=null){
+                    result = SerializeUtil.unserialize(jedis.get(keyBytes));
+                }
             }else{
                 result = jedis.get(key);
             }

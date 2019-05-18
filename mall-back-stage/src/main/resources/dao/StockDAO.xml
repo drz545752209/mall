@@ -95,7 +95,7 @@
     product
     on
     stock.product_id=product.id
-    where stock.product_id in
+    and stock.product_id in
     <foreach collection="stockIds" item="stockId" open="(" separator="," close=")">
       #{stockId}
     </foreach>

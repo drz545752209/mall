@@ -5,10 +5,7 @@ import org.springframework.util.StringUtils;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class StrUntils {
     public static List<Integer> getIds(String idStr){
@@ -31,7 +28,11 @@ public class StrUntils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date d = null;
         try {
-            d = format.parse(str);
+        d = format.parse(str);
+        Calendar calendar =new GregorianCalendar();
+        calendar.setTime(d);
+        calendar.add(calendar.DATE, 1);
+        d = calendar.getTime();
         } catch (Exception e) {
             e.printStackTrace();
         }

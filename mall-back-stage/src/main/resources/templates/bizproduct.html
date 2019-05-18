@@ -244,7 +244,7 @@
 
                         <li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
                             <a th:unless="${pageInfo.isFirst}"
-                               th:href="@{/product/productList(pageNum=${pageInfo.pageNum-1},type=${typeName},isShow=${isShow})"
+                               th:href="@{/product/productList(pageNum=${pageInfo.pageNum-1},type=${typeName},isShow=${isShow})}"
                                aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>

@@ -12,6 +12,8 @@ public interface ProductService {
 
      Product getProductById(String id);
 
+     Product getProductByName(String productName);
+
      List<Product> getProductListById(List<Integer> ids) ;
 
      void batchDeleteProduct(List<Integer> ids);

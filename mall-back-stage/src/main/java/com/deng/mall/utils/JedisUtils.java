@@ -215,5 +215,13 @@ public class JedisUtils implements ApplicationContextAware {
         jedis=getJedis();
         return jedis.lrange(key, start, end);
     }
+    /**
+     * Redis基本（键）操作
+     * 删除
+     * @return 被删除 key 的数量
+     */
+    public static Long delete(String... keys){
+        return jedis.del(keys);
+    }
 
 }

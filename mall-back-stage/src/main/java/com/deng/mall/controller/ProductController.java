@@ -46,6 +46,10 @@ public class ProductController {
 
         String frontPicPath = "E:/新建文件夹/mall/mall-front-site/src/main/resources/static/product_img";
         UpfileUtils.loadFileList(productImgs, frontPicPath,false);
+
+
+        String seckillPath = "E:/新建文件夹/mall/mall-seckill/src/main/resources/static/product_img";
+        UpfileUtils.loadFileList(productImgs, seckillPath,false);
         return productImgPaths;
     }
 

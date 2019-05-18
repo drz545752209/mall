@@ -93,6 +93,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public User selectUserById(Integer userId) {
+		return userDao.selectByPrimaryKey(userId);
+	}
+
+	@Override
 	public boolean saveUserMsg(User user,String userName) {
 		UserExample userExample=new UserExample();
 		UserExample.Criteria userExampleCriteria=userExample.createCriteria();

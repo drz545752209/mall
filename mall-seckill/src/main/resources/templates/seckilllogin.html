@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>店铺管理-登录页面</title>
+    <!-- login.css作用于登录的CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/login.css"/>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<form name="loginform" method="post" action="/user/user/login" id="loginform" >
+    <br />
+    <div class="login_main" style="background: url(/img/login_bg.jpg) no-repeat center 0;">
+        <div class="login_panel">
+            <!--登录框开始-->
+            <div class="right_panel">
+                <div class="login_frame_border">
+                    <div class="login_frame">
+                        <br>
+
+                        <p th:if="${msg!=null}" style="color: red;text-align: center;">
+                            [[${msg}]]
+                        </p>
+
+
+                        <div class="login_frist clearfix" id="user_div_name">
+                            <label>登录名</label>
+                            <span class="login_input">
+									<input name="username" placeholder="请输入邮箱地址"
+                                           type="text" maxlength="40" id="loginName" class="tip"/>
+								</span>
+                        </div>
+                        <div class="clearfix" id="password_div">
+                            <label>密&nbsp;&nbsp;码</label>
+                            <span class="login_input" >
+									<input name="password" placeholder="请输入6-16位密码" class="focus"
+                                           type="password" maxlength="20" id="password" />
+								</span>
+                        </div>
+
+                        <div class="login_btn" id="submit_signin_div">
+                            <button id="btnSignCheck"
+                                    class="btn btn-lg btn-primary btn-block"
+
+                                    type="submit" style="width: 80px; height: 40px; float: left;">登录</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!--登录框结束-->
+<script src="/js/login.js"></script>
+
+</body>
+</html>

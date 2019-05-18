@@ -167,7 +167,7 @@ $(document).ready(function(){
 
                                 <li th:class="${pageInfo.pageNum==1?'disabled':'page-item'}">
                                     <a th:unless="${pageInfo.isFirst}"
-                                       th:href="@{/index(pageNum=${pageInfo.pageNum-1},typeName=${typeName},keyword=${keyword})"
+                                       th:href="@{/index(pageNum=${pageInfo.pageNum-1},typeName=${typeName},keyword=${keyword})}"
                                        aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>

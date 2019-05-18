@@ -19,7 +19,7 @@ public class StockController {
     StockService stockService;
 
     @RequestMapping("/stockList")
-    public ModelAndView getStockList(@RequestParam(required = false, defaultValue = "1") Long offset,
+    public ModelAndView getStockList(@RequestParam(value = "pageNum",required = false, defaultValue = "1") Long offset,
                                      @RequestParam(required = false, defaultValue = "10") Integer limit,
                                      HttpServletRequest request) {
 
@@ -45,8 +45,7 @@ public class StockController {
                                   @RequestParam(value = "stockOutDate")String stockOutDate
                                   )
     {
-
         stockService.saveStock(id,count,stockInDate,stockOutDate);
-        return  "bizstock.html";
+        return "redirect:/stock/stockList";
     }
 }

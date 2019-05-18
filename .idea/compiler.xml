@@ -6,26 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="logistics-api" />
         <module name="mall-back-stage" />
+        <module name="mall-back-stage-api" />
         <module name="mall-common" />
+        <module name="mall-front-site" />
+        <module name="mall-front-site-api" />
         <module name="mall-logistics" />
-        <module name="mall-logistics-api" />
-        <module name="mallbackstageapi" />
-        <module name="mallfrontsite" />
-        <module name="mallfrontsiteapi" />
-        <module name="malllogistics" />
+        <module name="mallseckill" />
+        <module name="mallseckillapi" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="mall" target="1.8" />
-      <module name="mall-back-stage" target="1.8" />
-      <module name="mall-common" target="1.8" />
-      <module name="mall-logistics" target="1.8" />
-      <module name="mall-logistics-api" target="1.8" />
-      <module name="mallbackstageapi" target="1.8" />
-      <module name="mallfrontsite" target="1.8" />
-      <module name="mallfrontsiteapi" target="1.8" />
-      <module name="malllogistics" target="1.8" />
+      <module name="seckill" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

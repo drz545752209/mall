@@ -18,6 +18,8 @@ public interface UserService {
 
     List<User> selectUserListByIds(List<Integer> ids);
 
+    User selectUserById(Integer userId);
+
     boolean saveUserMsg(User user,String userName);
 
     Integer showUserBalance(String userName);

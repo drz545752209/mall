@@ -3,6 +3,7 @@ package com.deng.mall.service.impl;
 import com.deng.mall.dao.*;
 import com.deng.mall.domain.*;
 import com.deng.mall.service.ProductService;
+import com.deng.mall.utils.JedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,15 @@ public class ProductServiceImpl implements ProductService{
                 return null;
             }
             criteria.andStoreNameEqualTo(storeName);
+            if (!StringUtils.isEmpty(bizName)){
+
+            List<Product> products = productDAO.selectByExample(productExample);
+            JedisUtils.delete(bizName);
+            for (Product product : products) {
+                JedisUtils.LPUSH(bizName, product.getId().toString());
+            }
+
+            }
         }
 
         if (!StringUtils.isEmpty(type)&&!type.equals("null")){
@@ -101,6 +111,20 @@ public class ProductServiceImpl implements ProductService{
         } else {
             return product;
         }
+    }
+
+    @Override
+    public Product getProductByName(String productName) {
+        ProductExample productExample=new ProductExample();
+        ProductExample.Criteria criteria=productExample.createCriteria();
+        criteria.andNameEqualTo(productName);
+        List<Product> products= productDAO.selectByExample(productExample);
+        if (products.size()>0)
+        {
+            return products.get(0);
+        }
+
+        return null;
     }
 
     public List<Product> getProductListById(List<Integer> ids) {

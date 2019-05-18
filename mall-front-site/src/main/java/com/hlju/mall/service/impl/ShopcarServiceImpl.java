@@ -61,12 +61,13 @@ public class ShopcarServiceImpl implements ShopcarService {
             String cookieValue=cookie.getValue();
             if (cookieKey!=null&&cookieKey.startsWith("mallShopcar")){
                 Shopcar shopcar=(Shopcar) JedisUtils.get(cookieValue,true);
-                if (carMap.containsKey(shopcar.getProductName())){
+                if (shopcar!=null&&carMap.containsKey(shopcar.getProductName())){
                     Shopcar sc=carMap.get(shopcar.getProductName());
                     Integer buyNum=shopcar.getBuyNum()+sc.getBuyNum();
                     shopcar.setBuyNum(buyNum);
+                }else if (shopcar!=null){
+                    carMap.put(shopcar.getProductName(),shopcar);
                 }
-                carMap.put(shopcar.getProductName(),shopcar);
             }
         }
         for (String key:carMap.keySet()){
@@ -98,7 +99,7 @@ public class ShopcarServiceImpl implements ShopcarService {
             String cookieValue=cookie.getValue();
             if (cookieKey!=null&&cookieKey.startsWith("mallShopcar")){
                 Shopcar shopcar=(Shopcar) JedisUtils.get(cookieValue,true);
-                if (shopcar.getProductId().equals(productId)){
+                if (shopcar!=null&&shopcar.getProductId().equals(productId)){
                     //删除redis
                     JedisUtils.del(cookieValue,true);
                     //删除cookie

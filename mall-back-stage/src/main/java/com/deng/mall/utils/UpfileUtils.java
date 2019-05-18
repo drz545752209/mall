@@ -37,7 +37,7 @@ public class UpfileUtils {
 				if (StringUtils.isEmpty(redisKey)){
 					redisKey=productImg.getOriginalFilename();
 					if (JedisUtils.LRANGE(redisKey,0,-1).size()>0){
-						JedisUtils.LTRIM(redisKey,0,-1);
+						JedisUtils.delete(redisKey);
 					}
 				}
 				JedisUtils.LPUSH(redisKey,productImg.getOriginalFilename());
