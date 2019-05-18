@@ -69,23 +69,24 @@ public class SeckillController {
     public ModelAndView addSeckill(GoodsBo goodsBo){
         ModelAndView mav=new ModelAndView();
         Product product=productService.getProductByName(goodsBo.getGoodsName());
+        Stock stock=stockService.getStockByProductId(product);
+        long productStockNum=stock.getCount();
         if (product==null){
             mav.addObject("message","商品不存在");
             mav.addObject("status",false);
             mav.setViewName("status");
             return mav;
         }
-        if (goodsBo.getGoodsStock()-goodsBo.getStockCount()<0){
+        if (productStockNum-goodsBo.getStockCount()<0){
             mav.addObject("message","添加失败，库存数不足");
             mav.addObject("status",false);
             mav.setViewName("status");
             return mav;
         }
         boolean var1=seckillGoodsService.insertSeckillGoods(product.getId().toString(),
-                goodsBo.getSeckillPrice(),goodsBo.getStartDate(),goodsBo.getEndDate());
+                goodsBo.getSeckillPrice(),goodsBo.getStockCount(),goodsBo.getStartDate(),goodsBo.getEndDate());
         if (var1){
-            Stock stock=new Stock();
-            stock.setCount((long) (goodsBo.getGoodsStock()-goodsBo.getStockCount()));
+            stock.setCount((long) (productStockNum-goodsBo.getStockCount()));
             stockService.saveStock(stock);
         }
         mav.setViewName("redirect:/bizseckill/seckillList");

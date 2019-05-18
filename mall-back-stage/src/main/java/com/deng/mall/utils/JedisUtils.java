@@ -224,4 +224,7 @@ public class JedisUtils implements ApplicationContextAware {
         return jedis.del(keys);
     }
 
+    public static boolean hasKey(String key){
+        return jedis.exists(key);
+    }
 }

@@ -119,7 +119,7 @@ public class ShopcarServiceImpl implements ShopcarService {
             String cookieValue=cookie.getValue();
             if (cookieKey!=null&&cookieKey.startsWith("mallShopcar")){
                 Shopcar shopcar=(Shopcar) JedisUtils.get(cookieValue,true);
-                if (productId.equals(shopcar.getProductId())){
+                if (shopcar!=null&&productId.equals(shopcar.getProductId())){
                     Integer var1=shopcar.getBuyNum()+buyNum;
                     shopcar.setBuyNum(var1);
                     JedisUtils.set(cookieValue,shopcar);

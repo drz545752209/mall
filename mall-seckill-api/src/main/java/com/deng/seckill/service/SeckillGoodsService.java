@@ -14,5 +14,5 @@ public interface SeckillGoodsService {
 
     int reduceStock(Long goodsId);
 
-    boolean insertSeckillGoods(String productId, Integer price, Date startTime, Date endTime);
+    boolean insertSeckillGoods(String productId, Integer price, Integer seckillCount, Date startTime, Date endTime);
 }

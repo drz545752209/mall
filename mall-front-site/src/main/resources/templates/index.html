@@ -17,24 +17,6 @@
 <script
 	src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script>
-function search(){
-	$.ajax({
-		cache:true,
-		type: "GET",
-		url: "/search",
-		data: $('#searchForm'),
-		error:function(request){
-			alert("Connection error!");
-		},
-		success:function(result){
-			console.log(result)
-			if(result.resultCode==200){
-				alert("request Success!");
-			}
-		}
-	});
-}
-
 $(document).ready(function(){
     $('#typeSelect').change(function() {
         alert($(this).children('option:selected').val());

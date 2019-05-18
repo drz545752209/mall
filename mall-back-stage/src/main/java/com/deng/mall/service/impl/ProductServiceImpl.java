@@ -70,7 +70,11 @@ public class ProductServiceImpl implements ProductService{
             if (!StringUtils.isEmpty(bizName)){
 
             List<Product> products = productDAO.selectByExample(productExample);
-            JedisUtils.delete(bizName);
+
+            //刷缓存
+            if (!JedisUtils.hasKey(bizName)){
+                JedisUtils.delete(bizName);
+            }
             for (Product product : products) {
                 JedisUtils.LPUSH(bizName, product.getId().toString());
             }

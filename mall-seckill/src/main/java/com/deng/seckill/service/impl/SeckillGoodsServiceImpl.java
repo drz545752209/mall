@@ -107,9 +107,8 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
     }
 
     @Override
-    public boolean insertSeckillGoods(String productId, Integer price, Date startTime, Date endTime) {
+    public boolean insertSeckillGoods(String productId, Integer price,Integer seckillCount, Date startTime, Date endTime) {
         Product product=productService.getProductById(productId);
-        Stock stock=stockService.getStockByProductId(product);
 
         SeckillProduct seckillProduct=new SeckillProduct();
 
@@ -117,7 +116,7 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
         seckillProduct.setEndDate(endTime);
         seckillProduct.setGoodsId(product.getId());
         seckillProduct.setSeckilPrice(price);
-        seckillProduct.setStockCount(stock.getCount().intValue());
+        seckillProduct.setStockCount(seckillCount);
 
         boolean result= seckillProductDAO.insertSelective(seckillProduct)>0?true:false;
 
